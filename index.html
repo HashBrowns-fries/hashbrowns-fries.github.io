@@ -133,8 +133,8 @@
     }
 
     .hero-avatar img {
-      width: 180px;
-      height: 180px;
+      width: 240px;
+      height: 240px;
       border-radius: 50%;
       border: 1px solid var(--border);
       object-fit: cover;
@@ -146,7 +146,7 @@
     .hero-avatar::after {
       content: '';
       position: absolute;
-      inset: -8px;
+      inset: -10px;
       border-radius: 50%;
       border: 1px solid var(--border);
       opacity: 0;
@@ -155,13 +155,13 @@
 
     .hero-avatar-caption {
       font-family: var(--font-mono);
-      font-size: 0.5rem;
+      font-size: 0.58rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--dim);
       text-align: center;
-      margin-top: 1.2rem;
-      line-height: 1.8;
+      margin-top: 1.4rem;
+      line-height: 1.9;
       opacity: 0;
       animation: fadeIn 1s ease forwards 1s;
     }
@@ -814,9 +814,9 @@
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 1200px) {
-      .hero { grid-template-columns: 1fr 260px; }
+      .hero { grid-template-columns: 1fr 300px; }
       .hero-right { padding: 6rem 2rem 6rem 0; }
-      .hero-avatar img { width: 140px; height: 140px; }
+      .hero-avatar img { width: 180px; height: 180px; }
     }
     @media (max-width: 1024px) {
       .hero-stats { gap: 2rem; }

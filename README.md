@@ -4,36 +4,7 @@ Personal website for [Chenhao Meng](https://hashbrowns-fries.github.io), AI / NL
 
 ## Stack
 
-Pure HTML + CSS + vanilla JS, deployed on GitHub Pages. No build step.
-
-## Structure
-
-```
-/
-├── index.html          # Homepage
-├── avatar.png         # Avatar image
-├── life/
-│   └── index.html     # Life / Notes page
-├── blog/
-│   ├── index.html     # Blog listing
-│   ├── template.html  # Post template
-│   ├── gong-etymology.html
-│   ├── tubo-etymology.html
-│   ├── fu-etymology.html
-│   ├── luan.html
-│   ├── wu-jingzhi-zhuangzhang.html
-│   └── wu-profanities.html
-└── projects/
-    └── index.html     # Projects listing
-```
-
-## Deployment
-
-Push to `main`, GitHub Pages serves automatically.
-
-```sh
-git push
-```
+Pure HTML + CSS + vanilla JS, deployed on GitHub Pages.
 
 ## Notes
 

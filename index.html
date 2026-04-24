@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chenhao — AI / NLP Research</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ===== DESIGN TOKENS ===== */
+    :root {
+      --bg:       #080808;
+      --bg-2:     #0f0f0f;
+      --bg-3:     #161616;
+      --surface:  #1a1a1a;
+      --border:   rgba(255,255,255,0.07);
+      --border-2: rgba(255,255,255,0.14);
+      --text:     #f0ede6;
+      --muted:    #6e6a64;
+      --dim:      #3a3830;
+      --red:      #c0392b;
+      --red-dim:  rgba(192,57,43,0.15);
+      --amber:    #c8a96e;
+      --amber-dim:rgba(200,169,110,0.12);
+      --green:    #4caf7d;
+
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body:    'Crimson Pro', Georgia, serif;
+      --font-mono:    'Space Mono', 'Courier New', monospace;
+    }
+
+    /* ===== RESET ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 1.125rem;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 2px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--red); }
+
+    ::selection { background: var(--red); color: white; }
+
+    /* ===== SCROLL REVEAL ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+    .reveal-d4 { transition-delay: 0.4s; }
+
+    /* ===== MARQUEE BANNER ===== */
+    .marquee-bar {
+      background: var(--red);
+      color: white;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.55rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      z-index: 10;
+    }
+    .marquee-inner {
+      display: inline-block;
+      animation: marquee 28s linear infinite;
+      padding-left: 100%;
+    }
+    @keyframes marquee {
+      to { transform: translateX(-100%); }
+    }
+
+    /* ===== NAV ===== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 3.5rem;
+      background: rgba(8,8,8,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-brand {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+    .nav-brand span { color: var(--red); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--muted);
+      transition: color 0.25s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 1px;
+      background: var(--red);
+      transition: width 0.3s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 480px;
+      padding-top: 5rem;
+      position: relative;
+    }
+
+    /* Background grid lines */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 4rem 3.5rem 4rem 3.5rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Vertical text */
+    .vertical-label {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      position: absolute;
+      left: 1.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      display: none;
+    }
+
+    .hero-index {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.2s;
+    }
+    .hero-index::before {
+      content: '';
+      width: 32px; height: 1px;
+      background: var(--red);
+    }
+
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(5rem, 8.5vw, 9.5rem);
+      font-weight: 700;
+      line-height: 0.88;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.35s;
+    }
+    .hero-name em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--amber);
+      display: block;
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.55s;
+    }
+
+    .hero-divider {
+      width: 60px; height: 2px;
+      background: var(--red);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.65s;
+    }
+
+    .hero-desc {
+      font-family: var(--font-body);
+      font-size: 1.15rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s ease forwards 0.75s;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.9s;
+    }
+
+    .btn {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.85rem 2rem;
+      border: 1px solid;
+      transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary {
+      background: var(--red);
+      border-color: var(--red);
+      color: white;
+    }
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--red);
+    }
+    .btn-outline {
+      background: transparent;
+      border-color: var(--border-2);
+      color: var(--muted);
+    }
+    .btn-outline:hover {
+      border-color: var(--text);
+      color: var(--text);
+    }
+
+    /* Hero right panel */
+    .hero-right {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 3rem 2rem;
+      border-left: 1px solid var(--border);
+      background: var(--bg-2);
+    }
+
+    .hero-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+    .hero-stat {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2.5rem;
+    }
+    .hero-stat:last-child { border-bottom: none; padding-bottom: 0; }
+    .hero-stat-num {
+      font-family: var(--font-display);
+      font-size: 4.5rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--text);
+    }
+    .hero-stat-num em {
+      font-style: italic;
+      font-weight: 400;
+      font-size: 2.5rem;
+      color: var(--amber);
+      vertical-align: super;
+    }
+    .hero-stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.5rem;
+    }
+    .hero-stat-bar {
+      height: 1px;
+      background: linear-gradient(90deg, var(--red) 0%, transparent 100%);
+      margin-top: 0.75rem;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .hero-tag {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.75rem;
+      border: 1px solid var(--border-2);
+      color: var(--muted);
+    }
+
+    /* Red accent line */
+    .red-accent-line {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--red);
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== SECTION COMMON ===== */
+    section { padding: 7rem 3.5rem; position: relative; }
+    .section-index {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .section-index::before { content: '—'; color: var(--dim); }
+    .section-heading {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 5vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      margin-bottom: 4rem;
+      max-width: 700px;
+    }
+    .section-heading em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--amber);
+    }
+
+    /* ===== ABOUT ===== */
+    .about { background: var(--bg-2); }
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 5rem;
+      align-items: start;
+    }
+    .about-bio p {
+      font-size: 1.15rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.85;
+      margin-bottom: 1.5rem;
+    }
+    .about-bio p:first-child {
+      font-family: var(--font-display);
+      font-size: 1.55rem;
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .about-sidebar {
+      border-left: 1px solid var(--border);
+      padding-left: 3rem;
+    }
+    .about-sidebar-title {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .about-sidebar-item {
+      margin-bottom: 1.5rem;
+    }
+    .about-sidebar-item .label {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.3rem;
+    }
+    .about-sidebar-item .value {
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    /* ===== RESEARCH ===== */
+    .research-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .research-card {
+      background: var(--bg);
+      padding: 2.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+    .research-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 2px;
+      background: var(--red);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    .research-card:hover { background: var(--bg-2); }
+    .research-card:hover::before { transform: scaleX(1); }
+    .research-card-icon {
+      font-size: 2rem;
+      margin-bottom: 1.25rem;
+      display: block;
+    }
+    .research-card-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 400;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+    .research-card-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 1.25rem;
+    }
+    .research-card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .research-card-tag {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border: 1px solid var(--border-2);
+      color: var(--muted);
+    }
+
+    /* ===== PUBLICATIONS ===== */
+    .pubs { background: var(--bg-2); }
+    .pub-list { display: flex; flex-direction: column; gap: 0; max-width: 900px; }
+    .pub-item {
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 2rem;
+      align-items: start;
+      transition: background 0.25s;
+    }
+    .pub-item:first-child { border-top: 1px solid var(--border); }
+    .pub-year {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--red);
+      padding-top: 0.2rem;
+    }
+    .pub-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+      transition: color 0.25s;
+    }
+    .pub-item:hover .pub-title { color: var(--amber); }
+    .pub-meta {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+    .pub-badge {
+      display: inline-block;
+      background: var(--red-dim);
+      color: var(--red);
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.15rem 0.5rem;
+      margin-left: 0.75rem;
+    }
+
+    /* ===== TABS ===== */
+    .tab-bar {
+      display: flex;
+      gap: 0;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .tab-btn {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.75rem 1.5rem;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: color 0.25s, border-color 0.25s;
+      margin-bottom: -1px;
+    }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { color: var(--text); border-bottom-color: var(--red); }
+    .tab-count {
+      display: inline-block;
+      font-size: 0.5rem;
+      background: var(--border);
+      color: var(--muted);
+      padding: 0.1rem 0.35rem;
+      margin-left: 0.4rem;
+      border-radius: 2px;
+    }
+    .tab-btn.active .tab-count { background: var(--red-dim); color: var(--red); }
+
+    /* ===== PROJECTS ===== */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.35s, transform 0.35s;
+    }
+    .project-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--amber);
+      transition: width 0.5s cubic-bezier(0.16,1,0.3,1);
+    }
+    .project-card:hover { border-color: var(--border-2); transform: translateY(-4px); }
+    .project-card:hover::after { width: 100%; }
+    .project-number {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--dim);
+      margin-bottom: 1rem;
+    }
+    .project-title {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 400;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .project-tech { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
+    .project-tech span {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.08em;
+      padding: 0.2rem 0.5rem;
+      background: var(--amber-dim);
+      color: var(--amber);
+    }
+    .project-link {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.25s;
+    }
+    .project-link:hover { color: var(--red); }
+
+    /* Tab filtering — hidden state */
+    .project-card[data-visible="false"] { display: none; }
+    .project-card[data-visible="true"] { animation: tabReveal 0.4s cubic-bezier(0.16,1,0.3,1) forwards; }
+    @keyframes tabReveal {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* ===== BLOG ===== */
+    .blog { background: var(--bg-2); }
+    .blog-layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 4rem;
+      align-items: start;
+    }
+    .blog-post {
+      padding: 2.5rem 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: padding-left 0.3s;
+    }
+    .blog-post:first-child { border-top: 1px solid var(--border); }
+    .blog-post:hover { padding-left: 1rem; }
+    .blog-post:hover .blog-post-title { color: var(--amber); }
+    .blog-post-meta {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.6rem;
+    }
+    .blog-post-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+      line-height: 1.3;
+      transition: color 0.25s;
+    }
+    .blog-post-excerpt {
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+    .blog-post-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .blog-post-tag {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border: 1px solid var(--border-2);
+      color: var(--muted);
+    }
+    .blog-sidebar {
+      position: sticky;
+      top: 6rem;
+    }
+    .blog-sidebar-title {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .blog-sidebar-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: padding-left 0.25s;
+    }
+    .blog-sidebar-item:hover { padding-left: 0.5rem; }
+    .blog-sidebar-item:hover .blog-sidebar-name { color: var(--amber); }
+    .blog-sidebar-name {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.25s;
+    }
+    .blog-sidebar-count {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      color: var(--dim);
+    }
+
+    /* ===== EXPERIENCE / TIMELINE ===== */
+    .experience { background: var(--bg-2); }
+    .timeline { position: relative; max-width: 800px; padding-left: 3rem; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(180deg, var(--red), var(--border));
+    }
+    .timeline-item {
+      position: relative;
+      padding-bottom: 3rem;
+    }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -4px; top: 6px;
+      width: 9px; height: 9px;
+      background: var(--bg-2);
+      border: 2px solid var(--red);
+      border-radius: 0;
+    }
+    .timeline-date {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .timeline-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 400;
+      margin-bottom: 0.25rem;
+      color: var(--text);
+    }
+    .timeline-org {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    .timeline-desc {
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ===== CONTACT ===== */
+    .contact { background: var(--bg); border-top: 1px solid var(--border); }
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+    }
+    .contact-info { display: flex; flex-direction: column; gap: 2rem; }
+    .contact-item { display: flex; gap: 1.25rem; align-items: flex-start; }
+    .contact-icon {
+      width: 44px; height: 44px;
+      border: 1px solid var(--border-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+      color: var(--red);
+    }
+    .contact-label {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+    .contact-value {
+      font-size: 0.95rem;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.25s;
+    }
+    .contact-value:hover { color: var(--amber); }
+
+    .contact-form { display: flex; flex-direction: column; gap: 1.25rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .form-group input, .form-group textarea {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      padding: 0.85rem 1rem;
+      outline: none;
+      transition: border-color 0.3s;
+      resize: none;
+    }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--red); }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: var(--dim); }
+
+    /* ===== FOOTER ===== */
+    footer {
+      padding: 2.5rem 3.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-2);
+    }
+    .footer-copy {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      color: var(--dim);
+    }
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dim);
+      text-decoration: none;
+      transition: color 0.25s;
+    }
+    .footer-links a:hover { color: var(--red); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1100px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .about-inner, .contact-inner { grid-template-columns: 1fr; }
+      .about-sidebar { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 2.5rem; margin-top: 0; }
+      .research-grid { grid-template-columns: 1fr 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 700px) {
+      nav { padding: 1.2rem 1.5rem; }
+      nav .nav-links { gap: 1.5rem; }
+      section { padding: 4rem 1.5rem; }
+      .hero-name { font-size: 4rem; }
+      .section-heading { font-size: 2.8rem; }
+      .research-grid { grid-template-columns: 1fr; }
+      .contact-inner { gap: 3rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MARQUEE -->
+  <div class="marquee-bar">
+    <div class="marquee-inner">
+      NLP RESEARCH &nbsp;&nbsp;—&nbsp;&nbsp; LARGE LANGUAGE MODELS &nbsp;&nbsp;—&nbsp;&nbsp; SEMANTIC ANALYSIS &nbsp;&nbsp;—&nbsp;&nbsp; COGNITIVE COMPUTING &nbsp;&nbsp;—&nbsp;&nbsp; COMPUTATIONAL POETICS &nbsp;&nbsp;—&nbsp;&nbsp; ARXIV:2401.00000 &nbsp;&nbsp;—&nbsp;&nbsp; COLING 2025 &nbsp;&nbsp;—&nbsp;&nbsp; EMNLP 2024 &nbsp;&nbsp;—&nbsp;&nbsp; ACL 2024 &nbsp;&nbsp;—&nbsp;&nbsp;
+      NLP RESEARCH &nbsp;&nbsp;—&nbsp;&nbsp; LARGE LANGUAGE MODELS &nbsp;&nbsp;—&nbsp;&nbsp; SEMANTIC ANALYSIS &nbsp;&nbsp;—&nbsp;&nbsp; COGNITIVE COMPUTING &nbsp;&nbsp;—&nbsp;&nbsp; COMPUTATIONAL POETICS &nbsp;&nbsp;—&nbsp;&nbsp; ARXIV:2401.00000 &nbsp;&nbsp;—&nbsp;&nbsp; COLING 2025 &nbsp;&nbsp;—&nbsp;&nbsp; EMNLP 2024 &nbsp;&nbsp;—&nbsp;&nbsp; ACL 2024 &nbsp;&nbsp;—&nbsp;&nbsp;
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-brand">Chen<span>.</span>hao</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#blog">Blog</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-index">AI / NLP Researcher · Beijing</div>
+      <h1 class="hero-name">
+        Chen<em>hao</em>
+      </h1>
+      <p class="hero-subtitle">Large Language Models &nbsp;/&nbsp; Semantic Cognition &nbsp;/&nbsp; Computational Poetics</p>
+      <div class="hero-divider"></div>
+      <p class="hero-desc">
+        探索大模型与人类语言的边界。研究方向涵盖 LLM 评估与推理优化、语言障碍的计算建模，以及诗歌语义空间的量化分析。曾在 COLING、EMNLP、ACL 等国际会议发表论文。
+      </p>
+      <div class="hero-ctas">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="#contact" class="btn btn-outline">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="red-accent-line"></div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">5<em>+</em></div>
+          <div class="hero-stat-label">Years Research</div>
+          <div class="hero-stat-bar"></div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">12</div>
+          <div class="hero-stat-label">Publications</div>
+          <div class="hero-stat-bar"></div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">8</div>
+          <div class="hero-stat-label">Open Source Projects</div>
+          <div class="hero-stat-bar"></div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">3</div>
+          <div class="hero-stat-label">Conferences</div>
+          <div class="hero-stat-bar"></div>
+        </div>
+      </div>
+      <div class="hero-tags">
+        <span class="hero-tag">PyTorch</span>
+        <span class="hero-tag">Transformers</span>
+        <span class="hero-tag">LLM</span>
+        <span class="hero-tag">NLP</span>
+        <span class="hero-tag">BERT</span>
+        <span class="hero-tag">CUDA</span>
+        <span class="hero-tag">Docker</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="section-index reveal">001 — About</div>
+    <div class="about-inner">
+      <div class="about-bio">
+        <p class="reveal">我是一名 AI / NLP 方向的研究者，热衷于用计算方法理解语言与认知。</p>
+        <p class="reveal reveal-d1">当前专注于大语言模型（LLM）的评估与推理能力优化，以及语言障碍（如失语症）的计算建模研究。研究方法融合深度学习、认知科学与社会计算。</p>
+        <p class="reveal reveal-d2">业余时间探索诗歌语义空间与计算诗学的交叉领域，试图用向量几何重新理解古典文本的演化脉络。曾参与多项国家级 NLP 课题，在国际会议发表论文 12 篇。</p>
+        <p class="reveal reveal-d3">我相信：好的语言模型不仅要理解字面语义，更要捕捉语言背后的人类认知结构。</p>
+      </div>
+      <aside class="about-sidebar">
+        <div class="about-sidebar-title reveal">Quick Facts</div>
+        <div class="about-sidebar-item reveal reveal-d1">
+          <div class="label">Affiliation</div>
+          <div class="value">NLP Lab, Beijing</div>
+        </div>
+        <div class="about-sidebar-item reveal reveal-d2">
+          <div class="label">Education</div>
+          <div class="value">M.S. Computer Science</div>
+        </div>
+        <div class="about-sidebar-item reveal reveal-d3">
+          <div class="label">Focus Areas</div>
+          <div class="value">LLM · NLP · Cognitive Computing</div>
+        </div>
+        <div class="about-sidebar-item reveal reveal-d4">
+          <div class="label">Languages</div>
+          <div class="value">Python · R · C++ · LaTeX</div>
+        </div>
+        <div class="about-sidebar-item reveal">
+          <div class="label">Status</div>
+          <div class="value" style="color: var(--green);">● Available for collaboration</div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- RESEARCH INTERESTS -->
+  <section id="research">
+    <div class="section-index reveal">002 — Research</div>
+    <h2 class="section-heading reveal">Research <em>Interests</em></h2>
+    <div class="research-grid reveal">
+      <div class="research-card">
+        <span class="research-card-icon">🧠</span>
+        <h3 class="research-card-title">LLM Reasoning</h3>
+        <p class="research-card-desc">大语言模型的推理能力评估与 Chain-of-Thought 提示优化，探索模型"思考"过程中的认知层次。</p>
+        <div class="research-card-tags">
+          <span class="research-card-tag">Chain-of-Thought</span>
+          <span class="research-card-tag">Evaluation</span>
+          <span class="research-card-tag">Benchmark</span>
+        </div>
+      </div>
+      <div class="research-card">
+        <span class="research-card-icon">💬</span>
+        <h3 class="research-card-title">Language Disorders</h3>
+        <p class="research-card-desc">失语症语义表征变化的计算建模，利用 Word2Vec / BERT 空间量化语言障碍严重程度。</p>
+        <div class="research-card-tags">
+          <span class="research-card-tag">Aphasia</span>
+          <span class="research-card-tag">Clinical NLP</span>
+          <span class="research-card-tag">Semantic Space</span>
+        </div>
+      </div>
+      <div class="research-card">
+        <span class="research-card-icon">📜</span>
+        <h3 class="research-card-title">Computational Poetics</h3>
+        <p class="research-card-desc">诗歌语义空间的量化分析，重建古典文本演化树，探索风格迁移与文化传承的计算规律。</p>
+        <div class="research-card-tags">
+          <span class="research-card-tag">Poetry</span>
+          <span class="research-card-tag">Cultural Evolution</span>
+          <span class="research-card-tag">Embedding</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section class="pubs" id="publications">
+    <div class="section-index reveal">003 — Publications</div>
+    <h2 class="section-heading reveal">Selected <em>Papers</em></h2>
+    <div class="pub-list">
+      <div class="pub-placeholder" style="padding:3rem 0; font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);">
+        // Papers — 待填入真实论文
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-index reveal">004 — Projects</div>
+    <h2 class="section-heading reveal">Open Source <em>Work</em></h2>
+
+    <!-- TABS -->
+    <div class="tab-bar reveal" id="projectsTabBar">
+      <button class="tab-btn active" data-tab="all">All <span class="tab-count" id="count-all">0</span></button>
+      <button class="tab-btn" data-tab="projects">Projects <span class="tab-count" id="count-projects">0</span></button>
+      <button class="tab-btn" data-tab="papers">Papers <span class="tab-count" id="count-papers">0</span></button>
+      <button class="tab-btn" data-tab="code">Code <span class="tab-count" id="count-code">0</span></button>
+    </div>
+
+    <div class="projects-grid" id="projectsGrid">
+      <!-- 项目内容请在下方替换为真实信息 -->
+      <div class="project-placeholder" style="grid-column:1/-1; padding:4rem 0; text-align:center;">
+        <div style="font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--dim);">
+          // Projects — 待填入真实项目
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOG -->
+  <section class="blog" id="blog">
+    <div class="section-index reveal">005 — Blog</div>
+    <h2 class="section-heading reveal">Writing &amp; <em>Notes</em></h2>
+    <div class="blog-layout">
+      <div class="blog-list">
+        <div class="blog-placeholder" style="padding:3rem 0; font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);">
+          // Blog posts — 待填入真实文章
+        </div>
+      </div>
+      <aside class="blog-sidebar reveal">
+        <div class="blog-sidebar-title">Topics</div>
+        <div class="blog-sidebar-item">
+          <span class="blog-sidebar-name">LLM</span>
+          <span class="blog-sidebar-count">—</span>
+        </div>
+        <div class="blog-sidebar-item">
+          <span class="blog-sidebar-name">NLP</span>
+          <span class="blog-sidebar-count">—</span>
+        </div>
+        <div class="blog-sidebar-item">
+          <span class="blog-sidebar-name">Research</span>
+          <span class="blog-sidebar-count">—</span>
+        </div>
+        <div class="blog-sidebar-item">
+          <span class="blog-sidebar-name">Tools</span>
+          <span class="blog-sidebar-count">—</span>
+        </div>
+        <div class="blog-sidebar-item">
+          <span class="blog-sidebar-name">Reading</span>
+          <span class="blog-sidebar-count">—</span>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="experience" id="experience">
+    <div class="section-index reveal">006 — Experience</div>
+    <h2 class="section-heading reveal">Career <em>Path</em></h2>
+    <div class="timeline">
+      <div class="timeline-placeholder" style="padding:2rem 0; font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);">
+        // Experience — 待填入真实经历
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="section-index reveal">006 — Contact</div>
+    <h2 class="section-heading reveal">Let's <em>Talk</em></h2>
+    <div class="contact-inner">
+      <div class="contact-info reveal">
+        <div class="contact-item">
+          <div class="contact-icon">✉</div>
+          <div>
+            <div class="contact-label">Email</div>
+            <a href="mailto:chenhao@example.com" class="contact-value">chenhao@example.com</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">⌂</div>
+          <div>
+            <div class="contact-label">Location</div>
+            <span class="contact-value">北京，中国</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">◎</div>
+          <div>
+            <div class="contact-label">GitHub</div>
+            <a href="#" class="contact-value">github.com/chenhao</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">◉</div>
+          <div>
+            <div class="contact-label">Google Scholar</div>
+            <a href="#" class="contact-value">scholar.google.com</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">▲</div>
+          <div>
+            <div class="contact-label">ArXiv</div>
+            <a href="#" class="contact-value">arxiv.org/abs/2401.00000</a>
+          </div>
+        </div>
+      </div>
+      <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" placeholder="Your name" required>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="your@email.com" required>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea placeholder="Say something..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:fit-content;">Send Message ↗</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-copy">© 2025 Chenhao · Built with pure HTML & CSS · Deployed on GitHub Pages</div>
+    <div class="footer-links">
+      <a href="#">GitHub</a>
+      <a href="#">Scholar</a>
+      <a href="#">ArXiv</a>
+      <a href="#">Twitter</a>
+    </div>
+  </footer>
+
+  <script>
+    // ── Scroll reveal ────────────────────────────────────────────
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => io.observe(el));
+
+    // ── Tab switching ─────────────────────────────────────────────
+    // Logic: each .project-card has data-category="projects|papers|code"
+    //        .tab-btn has data-tab="all|projects|papers|code"
+    //        clicking a tab sets data-visible="true|false" on cards
+    const tabBar = document.getElementById('projectsTabBar');
+    const tabBtns = tabBar ? tabBar.querySelectorAll('.tab-btn') : [];
+    const cards = document.querySelectorAll('.project-card[data-category]');
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update active button
+        tabBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const selected = btn.dataset.tab;
+
+        cards.forEach(card => {
+          if (selected === 'all' || card.dataset.category === selected) {
+            card.dataset.visible = 'true';
+          } else {
+            card.dataset.visible = 'false';
+          }
+        });
+      });
+    });
+
+    // ── Contact form feedback ────────────────────────────────────
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('button');
+      btn.textContent = 'Sent ✓';
+      setTimeout(() => { btn.textContent = 'Send Message ↗'; }, 2800);
+    }
+  </script>
+</body>
+</html>

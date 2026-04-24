@@ -44,6 +44,64 @@
 
     ::selection { background: var(--text); color: var(--bg); }
 
+    /* ===== CUSTOM CURSOR ===== */
+    body { cursor: none; }
+    a, button { cursor: none; }
+    .cursor {
+      position: fixed;
+      width: 6px;
+      height: 6px;
+      background: var(--text);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+      mix-blend-mode: difference;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border: 1px solid var(--text);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      opacity: 0.5;
+      transition: width 0.3s, height 0.3s, opacity 0.3s;
+      mix-blend-mode: difference;
+    }
+    body:has(a:hover) .cursor-ring,
+    body:has(button:hover) .cursor-ring {
+      width: 36px;
+      height: 36px;
+      opacity: 0.8;
+    }
+
+    /* ===== READING PROGRESS BAR ===== */
+    #reading-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: var(--text);
+      width: 0%;
+      z-index: 200;
+      transition: width 0.1s linear;
+      opacity: 0.3;
+    }
+
+    /* ===== NOISE GRAIN OVERLAY ===== */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9997;
+    }
+
     /* ===== REVEAL ===== */
     .reveal {
       opacity: 0;
@@ -140,6 +198,11 @@
       display: block;
       opacity: 0;
       animation: fadeIn 1.2s ease forwards 0.6s;
+      transition: transform 0.4s ease, border-color 0.4s ease;
+    }
+    .hero-avatar img:hover {
+      transform: scale(1.04);
+      border-color: var(--accent-2);
     }
 
     .hero-avatar::after {
@@ -838,6 +901,9 @@
   </style>
 </head>
 <body>
+  <div id="reading-progress"></div>
+  <div class="cursor"></div>
+  <div class="cursor-ring"></div>
 
   <!-- NAV -->
   <nav>
@@ -1114,6 +1180,33 @@
   </footer>
 
   <script>
+    // ── Custom cursor ───────────────────────────────────────
+    const cursor = document.querySelector('.cursor');
+    const cursorRing = document.querySelector('.cursor-ring');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+      cursorRing.style.left = e.clientX + 'px';
+      cursorRing.style.top = e.clientY + 'px';
+    });
+    document.addEventListener('mouseleave', () => {
+      cursor.style.opacity = '0';
+      cursorRing.style.opacity = '0';
+    });
+    document.addEventListener('mouseenter', () => {
+      cursor.style.opacity = '1';
+      cursorRing.style.opacity = '0.5';
+    });
+
+    // ── Reading progress bar ────────────────────────────────
+    const progressBar = document.getElementById('reading-progress');
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      progressBar.style.width = progress + '%';
+    });
+
     // ── Scroll reveal ──────────────────────────────────────
     const reveals = document.querySelectorAll('.reveal');
     const io = new IntersectionObserver(entries => {

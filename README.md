@@ -1,6 +1,4 @@
-# Chenhao Meng — Personal Homepage
-
-Personal website for [Chenhao Meng](https://hashbrowns-fries.github.io), AI / NLP researcher at Shanghai Jiao Tong University.
+# Homepage
 
 ## Stack
 

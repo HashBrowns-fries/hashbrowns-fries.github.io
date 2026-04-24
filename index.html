@@ -296,6 +296,16 @@
       border-bottom: 1px solid var(--border);
     }
     .about-aside-item:first-child { padding-top: 0; }
+    .about-avatar {
+      margin-bottom: 2rem;
+    }
+    .about-avatar img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      object-fit: cover;
+    }
     .about-aside-item:last-child { border-bottom: none; }
     .about-aside-label {
       font-family: var(--font-mono);
@@ -834,6 +844,9 @@
         <p class="reveal reveal-d2">欢迎学术合作与项目交流。</p>
       </div>
       <aside class="about-aside">
+        <div class="about-avatar reveal">
+          <img src="avatar.png" alt="Chenhao Meng" width="80" height="80">
+        </div>
         <div class="about-aside-item reveal">
           <div class="about-aside-label">Affiliation</div>
           <div class="about-aside-value">Shanghai Jiao Tong University</div>

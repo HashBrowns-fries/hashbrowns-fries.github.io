@@ -27,10 +27,6 @@ Pure HTML + CSS + vanilla JS, deployed on GitHub Pages. No build step.
     └── index.html     # Projects listing
 ```
 
-## Development
-
-No dependencies. Open `index.html` directly in a browser.
-
 ## Deployment
 
 Push to `main`, GitHub Pages serves automatically.

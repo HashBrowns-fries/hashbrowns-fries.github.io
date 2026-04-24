@@ -49,34 +49,38 @@
     a, button { cursor: none; }
     .cursor {
       position: fixed;
-      width: 6px;
-      height: 6px;
+      width: 4px;
+      height: 4px;
       background: var(--text);
       border-radius: 50%;
       pointer-events: none;
-      z-index: 9999;
+      z-index: 10001;
       transform: translate(-50%, -50%);
-      transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
-      mix-blend-mode: difference;
     }
     .cursor-ring {
       position: fixed;
-      width: 20px;
-      height: 20px;
+      width: 28px;
+      height: 28px;
       border: 1px solid var(--text);
       border-radius: 50%;
       pointer-events: none;
-      z-index: 9998;
+      z-index: 10000;
       transform: translate(-50%, -50%);
-      opacity: 0.5;
-      transition: width 0.3s, height 0.3s, opacity 0.3s;
-      mix-blend-mode: difference;
+      transition: width 0.35s cubic-bezier(0.23,1,0.32,1),
+                  height 0.35s cubic-bezier(0.23,1,0.32,1),
+                  opacity 0.35s,
+                  border-color 0.35s;
+      opacity: 0.35;
     }
     body:has(a:hover) .cursor-ring,
     body:has(button:hover) .cursor-ring {
-      width: 36px;
-      height: 36px;
-      opacity: 0.8;
+      width: 44px;
+      height: 44px;
+      opacity: 0.6;
+    }
+    body:has(a:hover) .cursor,
+    body:has(button:hover) .cursor {
+      transform: translate(-50%, -50%) scale(1.8);
     }
 
     @media (hover: none) {
@@ -258,6 +262,27 @@
       margin-top: 0.3rem;
     }
 
+    .now-reading {
+      margin-top: 1.8rem;
+      padding: 1.2rem 1.5rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .now-reading-label {
+      font-family: var(--font-mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 0.6rem;
+    }
+    .now-reading-text {
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
     .hero-rule {
       width: 32px; height: 1px;
       background: var(--text);
@@ -292,6 +317,15 @@
       font-style: italic;
       font-weight: 300;
       color: var(--muted);
+    }
+    .hero-ipa {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--dim);
+      letter-spacing: 0.05em;
+      margin-top: 0.5rem;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 0.65s;
     }
 
     .hero-desc {
@@ -978,6 +1012,7 @@
       .hero-name { font-size: 4rem; }
       .section-heading { font-size: 2.5rem; }
       footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+      .now-reading { padding: 1rem 1.2rem; }
     }
   </style>
 </head>
@@ -1006,6 +1041,7 @@
       <div class="hero-rule"></div>
       <div class="hero-index">AI / NLP Researcher · Shanghai</div>
       <h1 class="hero-name">Chenhao<br><em>Meng</em></h1>
+      <div class="hero-ipa">/ mɤ̽ŋ̚  t͡ʂ̺ʰə̟n̚  χɑ̟ʊ̯/</div>
       <p class="hero-desc">
         研究方向涵盖 NLP、LLM · 汉语音韵学、文字学、训诂学；跨喜马拉雅语系
       </p>
@@ -1025,6 +1061,14 @@
         <div class="hero-stat-item">
           <div class="hero-stat-num">6</div>
           <div class="hero-stat-label">Blog</div>
+        </div>
+      </div>
+      <div class="now-reading">
+        <div class="now-reading-label">Now Reading</div>
+        <div class="now-reading-text">
+          秋谷裕幸、野原将挥《闽语与上古汉语》<br>
+          汪民安《福柯的界线》<br>
+          学习德语中
         </div>
       </div>
     </div>
@@ -1290,23 +1334,38 @@
   </footer>
 
   <script>
-    // ── Custom cursor ───────────────────────────────────────
-    const cursor = document.querySelector('.cursor');
+    // ── Custom cursor (ring follows with smooth lag) ─────────
+    const cursor    = document.querySelector('.cursor');
     const cursorRing = document.querySelector('.cursor-ring');
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    let mouseX = -100, mouseY = -100;
+    let ringX = -100, ringY = -100;
+
     document.addEventListener('mousemove', e => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
-      cursorRing.style.left = e.clientX + 'px';
-      cursorRing.style.top = e.clientY + 'px';
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursor.style.left = mouseX + 'px';
+      cursor.style.top  = mouseY + 'px';
     });
+
     document.addEventListener('mouseleave', () => {
       cursor.style.opacity = '0';
       cursorRing.style.opacity = '0';
     });
     document.addEventListener('mouseenter', () => {
       cursor.style.opacity = '1';
-      cursorRing.style.opacity = '0.5';
+      cursorRing.style.opacity = '0.35';
     });
+
+    function animateRing() {
+      ringX = lerp(ringX, mouseX, 0.12);
+      ringY = lerp(ringY, mouseY, 0.12);
+      cursorRing.style.left = ringX + 'px';
+      cursorRing.style.top  = ringY + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
 
     // ── Reading progress bar ────────────────────────────────
     const progressBar = document.getElementById('reading-progress');

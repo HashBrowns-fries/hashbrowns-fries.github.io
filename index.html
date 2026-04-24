@@ -49,42 +49,28 @@
     a, button { cursor: none; }
     .cursor {
       position: fixed;
-      width: 4px;
-      height: 4px;
-      background: var(--text);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 10001;
-      transform: translate(-50%, -50%);
-    }
-    .cursor-ring {
-      position: fixed;
-      width: 28px;
-      height: 28px;
+      width: 22px;
+      height: 22px;
       border: 1px solid var(--text);
       border-radius: 50%;
       pointer-events: none;
       z-index: 10000;
       transform: translate(-50%, -50%);
+      opacity: 0.45;
       transition: width 0.35s cubic-bezier(0.23,1,0.32,1),
                   height 0.35s cubic-bezier(0.23,1,0.32,1),
                   opacity 0.35s,
                   border-color 0.35s;
-      opacity: 0.35;
-    }
-    body:has(a:hover) .cursor-ring,
-    body:has(button:hover) .cursor-ring {
-      width: 44px;
-      height: 44px;
-      opacity: 0.6;
     }
     body:has(a:hover) .cursor,
     body:has(button:hover) .cursor {
-      transform: translate(-50%, -50%) scale(1.8);
+      width: 38px;
+      height: 38px;
+      opacity: 0.75;
     }
 
     @media (hover: none) {
-      .cursor, .cursor-ring { display: none; }
+      .cursor { display: none; }
       body { cursor: auto; }
       a, button { cursor: pointer; }
     }
@@ -102,14 +88,15 @@
       opacity: 0.3;
     }
 
-    /* ===== NOISE GRAIN OVERLAY ===== */
-    body::after {
+    /* ===== BACKGROUND TEXTURE — fine dot grid ===== */
+    body::before {
       content: '';
       position: fixed;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      background-image: radial-gradient(circle, rgba(28,28,24,0.07) 1px, transparent 1px);
+      background-size: 32px 32px;
       pointer-events: none;
-      z-index: 9997;
+      z-index: -1;
     }
 
     /* ===== REVEAL ===== */
@@ -1019,7 +1006,6 @@
 <body>
   <div id="reading-progress"></div>
   <div class="cursor"></div>
-  <div class="cursor-ring"></div>
 
   <!-- NAV -->
   <nav>
@@ -1041,7 +1027,7 @@
       <div class="hero-rule"></div>
       <div class="hero-index">AI / NLP Researcher · Shanghai</div>
       <h1 class="hero-name">Chenhao<br><em>Meng</em></h1>
-      <div class="hero-ipa">/ mɤ̽ŋ̚  t͡ʂ̺ʰə̟n̚  χɑ̟ʊ̯/</div>
+      <div class="hero-ipa">/mɤ̽ŋ̚ t͡ʂ̺ʰə̟n̚ χɑ̟ʊ̯/</div>
       <p class="hero-desc">
         研究方向涵盖 NLP、LLM · 汉语音韵学、文字学、训诂学；跨喜马拉雅语系
       </p>
@@ -1333,38 +1319,27 @@
   </footer>
 
   <script>
-    // ── Custom cursor (ring follows with smooth lag) ─────────
-    const cursor    = document.querySelector('.cursor');
-    const cursorRing = document.querySelector('.cursor-ring');
+    // ── Custom cursor (ring only, smooth follow) ─────────────
+    const cursor = document.querySelector('.cursor');
     const lerp = (a, b, t) => a + (b - a) * t;
-
     let mouseX = -100, mouseY = -100;
-    let ringX = -100, ringY = -100;
+    let curX = -100, curY = -100;
 
     document.addEventListener('mousemove', e => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      cursor.style.left = mouseX + 'px';
-      cursor.style.top  = mouseY + 'px';
     });
+    document.addEventListener('mouseleave', () => { cursor.style.opacity = '0'; });
+    document.addEventListener('mouseenter', () => { cursor.style.opacity = '0.45'; });
 
-    document.addEventListener('mouseleave', () => {
-      cursor.style.opacity = '0';
-      cursorRing.style.opacity = '0';
-    });
-    document.addEventListener('mouseenter', () => {
-      cursor.style.opacity = '1';
-      cursorRing.style.opacity = '0.35';
-    });
-
-    function animateRing() {
-      ringX = lerp(ringX, mouseX, 0.12);
-      ringY = lerp(ringY, mouseY, 0.12);
-      cursorRing.style.left = ringX + 'px';
-      cursorRing.style.top  = ringY + 'px';
-      requestAnimationFrame(animateRing);
+    function animateCursor() {
+      curX = lerp(curX, mouseX, 0.14);
+      curY = lerp(curY, mouseY, 0.14);
+      cursor.style.left = curX + 'px';
+      cursor.style.top  = curY + 'px';
+      requestAnimationFrame(animateCursor);
     }
-    animateRing();
+    animateCursor();
 
     // ── Reading progress bar ────────────────────────────────
     const progressBar = document.getElementById('reading-progress');

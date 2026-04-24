@@ -79,6 +79,12 @@
       opacity: 0.8;
     }
 
+    @media (hover: none) {
+      .cursor, .cursor-ring { display: none; }
+      body { cursor: auto; }
+      a, button { cursor: pointer; }
+    }
+
     /* ===== READING PROGRESS BAR ===== */
     #reading-progress {
       position: fixed;
@@ -632,6 +638,81 @@
       to   { opacity: 1; transform: none; }
     }
 
+    /* ===== HOMEPAGE PROJECT CARDS ===== */
+    .projects-grid-home {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .project-card-home {
+      padding: 2rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      position: relative;
+      transition: all 0.35s ease;
+    }
+    .project-card-home:hover {
+      border-color: var(--text);
+      transform: translateY(-3px);
+    }
+    .project-card-home::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--text);
+      transition: width 0.4s ease;
+    }
+    .project-card-home:hover::after { width: 100%; }
+    .project-num-home {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      color: var(--dim);
+      margin-bottom: 1rem;
+    }
+    .project-title-home {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 0.8rem;
+      line-height: 1.3;
+    }
+    .project-desc-home {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 1.2rem;
+    }
+    .project-tech-home { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1.2rem; }
+    .project-tech-home span {
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.18rem 0.45rem;
+      border: 1px solid var(--border);
+      color: var(--dim);
+    }
+    .project-link-home {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--dim);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: color 0.3s;
+    }
+    .project-link-home:hover { color: var(--text); }
+
+    @media (max-width: 900px) {
+      .projects-grid-home { grid-template-columns: 1fr 1fr; }
+    }
+
     /* ===== BLOG ===== */
     .blog {
       background: var(--bg-2);
@@ -1053,7 +1134,36 @@
   <section id="projects">
     <div class="section-eyebrow reveal">004 — Projects</div>
     <h2 class="section-heading reveal">Open Source <em>Work</em></h2>
-    <div style="text-align:center; padding: 5rem 0;">
+    <div class="projects-grid-home reveal" style="margin-bottom:3rem;">
+      <div class="project-card-home">
+        <div class="project-num-home">01</div>
+        <h3 class="project-title-home">Lumina</h3>
+        <p class="project-desc-home">Desktop language learning app with intelligent dictionary, morphology analysis, and spaced repetition. Supports German, English, Sanskrit and 20+ languages.</p>
+        <div class="project-tech-home">
+          <span>Tauri 2.0</span><span>Rust</span><span>React</span>
+        </div>
+        <a href="https://github.com/HashBrowns-fries/Lumina" class="project-link-home" target="_blank">GitHub ↗</a>
+      </div>
+      <div class="project-card-home">
+        <div class="project-num-home">02</div>
+        <h3 class="project-title-home">Canvas2Note</h3>
+        <p class="project-desc-home">SJTU 课程录屏 → 语音转写 → AI 整理笔记全流程工具。支持录播下载、实时转写、PPT 分析与 Markdown 笔记生成。</p>
+        <div class="project-tech-home">
+          <span>Python</span><span>FunASR</span><span>Qwen3-VL</span>
+        </div>
+        <a href="https://github.com/HashBrowns-fries/SJTU_Canvas2Note" class="project-link-home" target="_blank">GitHub ↗</a>
+      </div>
+      <div class="project-card-home">
+        <div class="project-num-home">03</div>
+        <h3 class="project-title-home">LLM Judge</h3>
+        <p class="project-desc-home">评估大语言模型对中文代词指代、省略、量词逻辑等语法现象的判断能力。研究 Scaling Law 与 LoRA 微调。</p>
+        <div class="project-tech-home">
+          <span>Python</span><span>PyTorch</span><span>LoRA</span>
+        </div>
+        <a href="https://github.com/HashBrowns-fries/LLM_Judge" class="project-link-home" target="_blank">GitHub ↗</a>
+      </div>
+    </div>
+    <div style="text-align:center;">
       <a href="/projects/" style="font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);text-decoration:none;border-bottom:1px solid var(--border);padding-bottom:0.3rem;transition:color 0.3s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">
         View all projects →
       </a>

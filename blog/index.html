@@ -16,6 +16,7 @@
       --font-body: 'Lora', Georgia, serif; --font-mono: 'DM Mono', monospace;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    a { text-decoration: none; }
     html { scroll-behavior: smooth; font-size: 16px; }
     body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 1rem; line-height: 1.85; }
     ::selection { background: var(--text); color: var(--bg); }
@@ -55,6 +56,8 @@
       border-bottom: 1px solid var(--border);
       cursor: pointer;
       transition: padding-left 0.3s;
+      text-decoration: none;
+      display: block;
     }
     .blog-post-item:first-of-type { border-top: 1px solid var(--border); }
     .blog-post-item:hover { padding-left: 0.75rem; }

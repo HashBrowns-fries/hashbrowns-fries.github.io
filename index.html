@@ -813,6 +813,11 @@
     .footer-links a:hover { color: var(--text); }
 
     /* ===== RESPONSIVE ===== */
+    @media (max-width: 1200px) {
+      .hero { grid-template-columns: 1fr 260px; }
+      .hero-right { padding: 6rem 2rem 6rem 0; }
+      .hero-avatar img { width: 140px; height: 140px; }
+    }
     @media (max-width: 1024px) {
       .hero-stats { gap: 2rem; }
       .hero { grid-template-columns: 1fr; }

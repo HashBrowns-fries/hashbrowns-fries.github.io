@@ -261,13 +261,28 @@
       letter-spacing: 0.25em;
       text-transform: uppercase;
       color: var(--dim);
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.8rem;
     }
-    .now-reading-text {
+    .now-reading-items {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .now-reading-item {
       font-family: var(--font-body);
       font-size: 0.82rem;
       color: var(--muted);
-      line-height: 1.7;
+      line-height: 1.5;
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+    .now-reading-slash {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent-2);
+      flex-shrink: 0;
+      line-height: 1;
     }
 
     .hero-rule {
@@ -673,7 +688,8 @@
       transition: all 0.35s ease;
     }
     .project-card-home:hover {
-      border-color: var(--text);
+      border-color: rgba(28,28,24,0.25);
+      background: var(--bg-2);
       transform: translateY(-3px);
     }
     .project-card-home::after {
@@ -1037,24 +1053,33 @@
       </div>
       <div class="hero-stats">
         <div class="hero-stat-item">
-          <div class="hero-stat-num">1</div>
+          <div class="hero-stat-num" data-target="1">1</div>
           <div class="hero-stat-label">Publication</div>
         </div>
         <div class="hero-stat-item">
-          <div class="hero-stat-num">5</div>
+          <div class="hero-stat-num" data-target="5">5</div>
           <div class="hero-stat-label">Open Source</div>
         </div>
         <div class="hero-stat-item">
-          <div class="hero-stat-num">6</div>
+          <div class="hero-stat-num" data-target="6">6</div>
           <div class="hero-stat-label">Blog</div>
         </div>
       </div>
       <div class="now-reading">
         <div class="now-reading-label">Now Reading</div>
-        <div class="now-reading-text">
-          秋谷裕幸、野原将挥《闽语与上古汉语》<br>
-          汪民安《福柯的界线》<br>
-          学习德语中
+        <div class="now-reading-items">
+          <div class="now-reading-item">
+            <span class="now-reading-slash">/</span>
+            秋谷裕幸、野原将挥《闽语与上古汉语》
+          </div>
+          <div class="now-reading-item">
+            <span class="now-reading-slash">/</span>
+            汪民安《福柯的界线》
+          </div>
+          <div class="now-reading-item">
+            <span class="now-reading-slash">/</span>
+            学习德语中
+          </div>
         </div>
       </div>
     </div>
@@ -1356,6 +1381,42 @@
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
     reveals.forEach(el => io.observe(el));
+
+    // ── Hero stat count-up ──────────────────────────────────
+    const statNums = document.querySelectorAll('.hero-stat-num[data-target]');
+    const countIO = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = parseInt(el.dataset.target, 10);
+        const duration = 900;
+        const start = performance.now();
+        function tick(now) {
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          el.textContent = Math.round(eased * target);
+          if (progress < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        countIO.unobserve(el);
+      });
+    }, { threshold: 0.5 });
+    statNums.forEach(el => countIO.observe(el));
+
+    // ── Scroll-based nav active ─────────────────────────────
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+    const navIO = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(a => {
+            a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
+          });
+        }
+      });
+    }, { threshold: 0.35 });
+    sections.forEach(s => navIO.observe(s));
 
     // ── Tab switching ───────────────────────────────────────
     const tabBar = document.getElementById('projectsTabBar');

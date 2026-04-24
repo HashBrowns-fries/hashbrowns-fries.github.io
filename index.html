@@ -91,9 +91,9 @@
     /* ===== HERO ===== */
     .hero {
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      align-items: center;
       position: relative;
       overflow: hidden;
     }
@@ -113,10 +113,57 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      max-width: 680px;
       padding: 7rem 6vw 6rem;
       position: relative;
       z-index: 1;
+    }
+
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 6rem 4rem 6rem 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-avatar {
+      position: relative;
+    }
+
+    .hero-avatar img {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      object-fit: cover;
+      display: block;
+      opacity: 0;
+      animation: fadeIn 1.2s ease forwards 0.6s;
+    }
+
+    .hero-avatar::after {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 0.8s;
+    }
+
+    .hero-avatar-caption {
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dim);
+      text-align: center;
+      margin-top: 1.2rem;
+      line-height: 1.8;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 1s;
     }
 
     .hero-stats {
@@ -296,16 +343,6 @@
       border-bottom: 1px solid var(--border);
     }
     .about-aside-item:first-child { padding-top: 0; }
-    .about-avatar {
-      margin-bottom: 2rem;
-    }
-    .about-avatar img {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      border: 1px solid var(--border);
-      object-fit: cover;
-    }
     .about-aside-item:last-child { border-bottom: none; }
     .about-aside-label {
       font-family: var(--font-mono);
@@ -770,6 +807,8 @@
     /* ===== RESPONSIVE ===== */
     @media (max-width: 1024px) {
       .hero-stats { gap: 2rem; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
       .about-grid, .contact-inner { grid-template-columns: 1fr; }
       .about-aside { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 2.5rem; }
       .research-list { grid-template-columns: 1fr; }
@@ -831,6 +870,14 @@
         </div>
       </div>
     </div>
+    <div class="hero-right">
+      <div class="hero-avatar">
+        <img src="avatar.png" alt="Chenhao Meng">
+        <div class="hero-avatar-caption">
+          沾上薯条的薯饼<br>来自台北麦当劳
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- ABOUT -->
@@ -844,9 +891,6 @@
         <p class="reveal reveal-d2">欢迎学术合作与项目交流。</p>
       </div>
       <aside class="about-aside">
-        <div class="about-avatar reveal">
-          <img src="avatar.png" alt="Chenhao Meng" width="80" height="80">
-        </div>
         <div class="about-aside-item reveal">
           <div class="about-aside-label">Affiliation</div>
           <div class="about-aside-value">Shanghai Jiao Tong University</div>

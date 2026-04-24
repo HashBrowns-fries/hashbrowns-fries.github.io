@@ -6,92 +6,54 @@
   <title>Chenhao — AI / NLP Research</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
   <style>
-    /* ===== DESIGN TOKENS — LIGHT NEO-BRUTALIST ===== */
+    /* ===== TOKENS — WARM WASHI PAPER ===== */
     :root {
-      --bg:       #f4f1ec;
-      --bg-2:     #eceae4;
-      --bg-3:     #e3e0d8;
-      --surface:  #ffffff;
-      --text:     #111110;
-      --muted:    #7a7570;
-      --dim:      #b0aca5;
-      --border:   rgba(17,17,16,0.10);
-      --border-2: rgba(17,17,16,0.22);
-      --accent:   #1a5c45;
-      --accent-dim: rgba(26,92,69,0.10);
-      --amber:    #b07d3a;
-      --amber-dim: rgba(176,125,58,0.12);
-      --red:      #c44b2e;
-
-      --font-display: 'Playfair Display', Georgia, serif;
-      --font-body:    'Crimson Pro', Georgia, serif;
-      --font-mono:    'DM Mono', 'Space Mono', monospace;
+      --bg:     #F9F7F2;
+      --bg-2:   #F3F0E8;
+      --bg-3:   #EDE9DF;
+      --surface:#FDFCFA;
+      --text:   #1C1C18;
+      --muted:  #7A7870;
+      --dim:    #B4B0A8;
+      --border: rgba(28,28,24,0.10);
+      --accent: #2C3E50;
+      --accent-2: #8B6D4A;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body:    'Lora', Georgia, serif;
+      --font-mono:    'DM Mono', monospace;
     }
 
     /* ===== RESET ===== */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; font-size: 16px; }
-
-    /* ===== LAYOUT WRAPPER ===== */
-    .wrap {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2.5rem;
-    }
-    section > .wrap { padding-top: 0.5rem; }
 
     body {
       background: var(--bg);
       color: var(--text);
       font-family: var(--font-body);
-      font-size: 1.125rem;
-      line-height: 1.65;
+      font-size: 1rem;
+      line-height: 1.85;
       overflow-x: hidden;
     }
 
-    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar { width: 1px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+    ::-webkit-scrollbar-thumb { background: var(--border); }
 
-    ::selection { background: var(--accent); color: white; }
+    ::selection { background: var(--text); color: var(--bg); }
 
-    /* ===== SCROLL REVEAL ===== */
+    /* ===== REVEAL ===== */
     .reveal {
       opacity: 0;
-      transform: translateY(36px);
-      transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
+      transform: translateY(24px);
+      transition: opacity 1.0s ease, transform 1.0s ease;
     }
     .reveal.visible { opacity: 1; transform: none; }
-    .reveal-d1 { transition-delay: 0.1s; }
-    .reveal-d2 { transition-delay: 0.2s; }
-    .reveal-d3 { transition-delay: 0.3s; }
-    .reveal-d4 { transition-delay: 0.4s; }
-
-    /* ===== MARQUEE BANNER — brutalist black bar ===== */
-    .marquee-bar {
-      background: var(--text);
-      color: var(--bg);
-      font-family: var(--font-mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      padding: 0.5rem 0;
-      overflow: hidden;
-      white-space: nowrap;
-      position: relative;
-      z-index: 10;
-    }
-    .marquee-inner {
-      display: inline-block;
-      animation: marquee 28s linear infinite;
-      padding-left: 100%;
-    }
-    @keyframes marquee {
-      to { transform: translateX(-100%); }
-    }
+    .reveal-d1 { transition-delay: 0.15s; }
+    .reveal-d2 { transition-delay: 0.3s; }
+    .reveal-d3 { transition-delay: 0.45s; }
 
     /* ===== NAV ===== */
     nav {
@@ -101,457 +63,383 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.4rem 3.5rem;
-      background: rgba(244,241,236,0.95);
-      backdrop-filter: blur(12px);
-      border-bottom: 2px solid var(--text);
+      padding: 1.6rem 5vw;
+      background: rgba(249,247,242,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
     }
     .nav-brand {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
       color: var(--text);
     }
-    .nav-brand span { color: var(--red); }
-    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-brand em { font-style: italic; color: var(--muted); }
+    .nav-links { display: flex; gap: 3rem; list-style: none; }
     .nav-links a {
       font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.18em;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       text-decoration: none;
       color: var(--muted);
-      transition: color 0.25s;
-      position: relative;
-    }
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -3px; left: 0;
-      width: 0; height: 1px;
-      background: var(--red);
-      transition: width 0.3s;
+      transition: color 0.3s;
     }
     .nav-links a:hover { color: var(--text); }
-    .nav-links a:hover::after { width: 100%; }
 
     /* ===== HERO ===== */
     .hero {
       min-height: 100vh;
       display: grid;
-      grid-template-columns: 1fr 480px;
-      padding-top: 5rem;
+      grid-template-columns: 1fr 1fr;
       position: relative;
+      overflow: hidden;
     }
 
-    /* Background grid lines — subtle on light */
+    /* subtle dot-grid texture */
     .hero::before {
       content: '';
       position: absolute;
       inset: 0;
-      background-image:
-        linear-gradient(rgba(17,17,16,0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(17,17,16,0.05) 1px, transparent 1px);
-      background-size: 80px 80px;
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%);
+      background-image: radial-gradient(circle, rgba(28,28,24,0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
       pointer-events: none;
+      z-index: 0;
     }
 
     .hero-left {
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      padding: 4rem 3.5rem 4rem 3.5rem;
+      justify-content: flex-end;
+      padding: 7rem 6vw 6rem;
       position: relative;
-      z-index: 2;
+      z-index: 1;
     }
 
-    /* Vertical text */
-    .vertical-label {
-      writing-mode: vertical-rl;
-      text-orientation: mixed;
-      font-family: var(--font-mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--muted);
-      position: absolute;
-      left: 1.2rem;
-      top: 50%;
-      transform: translateY(-50%);
-      display: none;
+    .hero-rule {
+      width: 32px; height: 1px;
+      background: var(--text);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 0.3s;
     }
 
     .hero-index {
       font-family: var(--font-mono);
-      font-size: 0.65rem;
+      font-size: 0.58rem;
       letter-spacing: 0.25em;
       text-transform: uppercase;
-      color: var(--red);
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
       opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.2s;
-    }
-    .hero-index::before {
-      content: '';
-      width: 32px; height: 1px;
-      background: var(--red);
+      animation: fadeIn 1s ease forwards 0.4s;
     }
 
     .hero-name {
       font-family: var(--font-display);
-      font-size: clamp(5rem, 8.5vw, 9.5rem);
-      font-weight: 700;
+      font-size: clamp(5.5rem, 10vw, 11rem);
+      font-weight: 300;
       line-height: 0.88;
-      letter-spacing: -0.03em;
+      letter-spacing: -0.02em;
       color: var(--text);
-      margin-bottom: 0.5rem;
+      margin-bottom: 2.5rem;
       opacity: 0;
-      animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.35s;
+      animation: fadeIn 1.2s ease forwards 0.5s;
     }
     .hero-name em {
       font-style: italic;
-      font-weight: 400;
-      color: var(--amber);
-      display: block;
-    }
-
-    .hero-subtitle {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
+      font-weight: 300;
       color: var(--muted);
-      margin-bottom: 2.5rem;
-      opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.55s;
-    }
-
-    .hero-divider {
-      width: 60px; height: 2px;
-      background: var(--red);
-      margin-bottom: 2rem;
-      opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.65s;
     }
 
     .hero-desc {
       font-family: var(--font-body);
-      font-size: 1.15rem;
-      font-weight: 300;
+      font-size: 1.05rem;
+      font-weight: 400;
       color: var(--muted);
-      line-height: 1.75;
-      max-width: 480px;
-      margin-bottom: 2.5rem;
+      line-height: 1.9;
+      max-width: 440px;
+      margin-bottom: 3rem;
       opacity: 0;
-      animation: fadeUp 0.9s ease forwards 0.75s;
+      animation: fadeIn 1s ease forwards 0.8s;
     }
 
     .hero-ctas {
       display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
+      gap: 1.5rem;
       opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.9s;
+      animation: fadeIn 1s ease forwards 1.0s;
     }
 
     .btn {
       font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      text-decoration: none;
-      padding: 0.85rem 2rem;
-      border: 1px solid;
-      transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
-      position: relative;
-      overflow: hidden;
-    }
-    .btn-primary {
-      background: var(--text);
-      border-color: var(--text);
-      color: var(--bg);
-    }
-    .btn-primary:hover {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: white;
-    }
-    .btn-outline {
-      background: transparent;
-      border-color: var(--border-2);
-      color: var(--muted);
-    }
-    .btn-outline:hover {
-      border-color: var(--text);
-      color: var(--text);
-    }
-
-    /* Hero right panel */
-    .hero-right {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 3rem 2rem;
-      border-left: 2px solid var(--text);
-      background: var(--bg-2);
-    }
-
-    .hero-stats {
-      display: flex;
-      flex-direction: column;
-      gap: 2.5rem;
-    }
-    .hero-stat {
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 2.5rem;
-    }
-    .hero-stat:last-child { border-bottom: none; padding-bottom: 0; }
-    .hero-stat-num {
-      font-family: var(--font-display);
-      font-size: 4.5rem;
-      font-weight: 700;
-      line-height: 1;
-      color: var(--text);
-    }
-    .hero-stat-num em {
-      font-style: italic;
-      font-weight: 400;
-      font-size: 2.5rem;
-      color: var(--amber);
-      vertical-align: super;
-    }
-    .hero-stat-label {
-      font-family: var(--font-mono);
       font-size: 0.6rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--muted);
-      margin-top: 0.5rem;
+      text-decoration: none;
+      padding: 0.9rem 2.2rem;
+      border: 1px solid var(--text);
+      color: var(--text);
+      transition: all 0.35s ease;
+      display: inline-block;
     }
-    .hero-stat-bar {
-      height: 1px;
-      background: linear-gradient(90deg, var(--red) 0%, transparent 100%);
-      margin-top: 0.75rem;
+    .btn:hover {
+      background: var(--text);
+      color: var(--bg);
+    }
+    .btn-ghost {
+      border-color: var(--border);
+      color: var(--muted);
+    }
+    .btn-ghost:hover {
+      background: none;
+      border-color: var(--muted);
+      color: var(--text);
     }
 
-    .hero-tags {
+    /* Hero right — large decorative text */
+    .hero-right {
+      position: relative;
       display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 3rem;
-      padding-top: 2rem;
-      border-top: 1px solid var(--border);
+      align-items: flex-end;
+      justify-content: flex-end;
+      padding: 6rem 6vw 6rem 2rem;
+      z-index: 1;
     }
-    .hero-tag {
-      font-family: var(--font-mono);
-      font-size: 0.58rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.3rem 0.75rem;
-      border: 1px solid var(--border-2);
+
+    .hero-vertical-text {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 1.5vw, 1.4rem);
+      font-style: italic;
+      font-weight: 300;
+      color: var(--bg-3);
+      letter-spacing: 0.15em;
+      line-height: 2;
+      user-select: none;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards 0.7s;
+    }
+
+    .hero-aside {
+      position: absolute;
+      right: 6vw;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 1.2s;
+    }
+
+    .hero-aside-item {
+      text-align: right;
+    }
+    .hero-aside-num {
+      font-family: var(--font-display);
+      font-size: 2.8rem;
+      font-weight: 300;
+      line-height: 1;
+      color: var(--text);
+    }
+    .hero-aside-num em {
+      font-style: italic;
+      font-size: 1.5rem;
       color: var(--muted);
     }
-
-    /* Red accent line */
-    .red-accent-line {
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 3px;
-      background: var(--red);
+    .hero-aside-label {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-top: 0.3rem;
     }
 
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes fadeIn {
+      to { opacity: 1; }
     }
 
     /* ===== SECTION COMMON ===== */
-    section { padding: 7rem 3.5rem; position: relative; max-width: 1180px; margin: 0 auto; }
-    .section-index {
+    section {
+      padding: 8rem 6vw;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    section.full-bleed {
+      max-width: none;
+      padding-left: 6vw;
+      padding-right: 6vw;
+    }
+    .section-eyebrow {
       font-family: var(--font-mono);
-      font-size: 0.6rem;
+      font-size: 0.58rem;
       letter-spacing: 0.3em;
       text-transform: uppercase;
-      color: var(--red);
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
+      color: var(--dim);
+      margin-bottom: 1.2rem;
     }
-    .section-index::before { content: '—'; color: var(--dim); }
     .section-heading {
       font-family: var(--font-display);
-      font-size: clamp(3rem, 5vw, 5.5rem);
-      font-weight: 700;
-      line-height: 1.0;
-      letter-spacing: -0.02em;
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
       margin-bottom: 4rem;
-      max-width: 700px;
+      color: var(--text);
     }
     .section-heading em {
       font-style: italic;
-      font-weight: 400;
-      color: var(--amber);
+      font-weight: 300;
+      color: var(--muted);
     }
 
     /* ===== ABOUT ===== */
-    .about { background: var(--bg-2); border-bottom: 2px solid var(--border); }
-    .about-inner {
+    .about {
+      background: var(--bg-2);
+      border-top: 1px solid var(--border);
+    }
+    .about-grid {
       display: grid;
-      grid-template-columns: 1fr 380px;
-      gap: 5rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
       align-items: start;
     }
-    .about-bio p {
-      font-size: 1.15rem;
-      font-weight: 300;
+    .about-text p {
+      font-size: 1.05rem;
       color: var(--muted);
-      line-height: 1.85;
-      margin-bottom: 1.5rem;
+      line-height: 2;
+      margin-bottom: 1.8rem;
     }
-    .about-bio p:first-child {
+    .about-text p:first-child {
       font-family: var(--font-display);
-      font-size: 1.55rem;
+      font-size: 1.6rem;
       font-weight: 400;
       color: var(--text);
-      line-height: 1.5;
+      line-height: 1.55;
     }
-    .about-sidebar {
+    .about-aside {
       border-left: 1px solid var(--border);
-      padding-left: 3rem;
+      padding-left: 4rem;
     }
-    .about-sidebar-title {
-      font-family: var(--font-mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 1.5rem;
-      padding-bottom: 0.75rem;
+    .about-aside-item {
+      padding: 1.5rem 0;
       border-bottom: 1px solid var(--border);
     }
-    .about-sidebar-item {
-      margin-bottom: 1.5rem;
-    }
-    .about-sidebar-item .label {
+    .about-aside-item:first-child { padding-top: 0; }
+    .about-aside-item:last-child { border-bottom: none; }
+    .about-aside-label {
       font-family: var(--font-mono);
-      font-size: 0.58rem;
-      letter-spacing: 0.15em;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--red);
-      margin-bottom: 0.3rem;
+      color: var(--dim);
+      margin-bottom: 0.4rem;
     }
-    .about-sidebar-item .value {
-      font-size: 0.95rem;
+    .about-aside-value {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 400;
       color: var(--text);
     }
 
     /* ===== RESEARCH ===== */
-    .research-grid {
+    .research { background: var(--bg); }
+    .research-list {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
+      gap: 3rem;
     }
-    .research-card {
-      background: var(--bg);
-      padding: 2.5rem 2rem;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.3s;
+    .research-item {
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      transition: border-color 0.3s;
     }
-    .research-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 2px;
-      background: var(--red);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
-    }
-    .research-card:hover { background: var(--bg-2); }
-    .research-card:hover::before { transform: scaleX(1); }
-    .research-card-icon {
-      font-size: 2rem;
-      margin-bottom: 1.25rem;
-      display: block;
-    }
-    .research-card-title {
-      font-family: var(--font-display);
-      font-size: 1.25rem;
-      font-weight: 400;
-      margin-bottom: 0.75rem;
-      color: var(--text);
-    }
-    .research-card-desc {
-      font-size: 0.9rem;
-      color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 1.25rem;
-    }
-    .research-card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .research-card-tag {
+    .research-item:hover { border-top-color: var(--text); }
+    .research-num {
       font-family: var(--font-mono);
       font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      color: var(--dim);
+      margin-bottom: 1.5rem;
+    }
+    .research-title {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 0.8rem;
+      line-height: 1.35;
+    }
+    .research-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 1.2rem;
+    }
+    .research-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .research-tag {
+      font-family: var(--font-mono);
+      font-size: 0.52rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      padding: 0.2rem 0.55rem;
-      border: 1px solid var(--border-2);
-      color: var(--muted);
+      padding: 0.2rem 0.6rem;
+      border: 1px solid var(--border);
+      color: var(--dim);
     }
 
     /* ===== PUBLICATIONS ===== */
-    .pubs { background: var(--surface); border-top: 2px solid var(--border); border-bottom: 2px solid var(--border); }
-    .pub-list { display: flex; flex-direction: column; gap: 0; max-width: 900px; }
+    .pubs {
+      background: var(--bg-2);
+      border-top: 1px solid var(--border);
+    }
+    .pub-list { display: flex; flex-direction: column; max-width: 860px; }
     .pub-item {
       padding: 2rem 0;
       border-bottom: 1px solid var(--border);
       display: grid;
-      grid-template-columns: 60px 1fr;
+      grid-template-columns: 48px 1fr;
       gap: 2rem;
       align-items: start;
-      transition: background 0.25s;
+      transition: all 0.3s;
     }
     .pub-item:first-child { border-top: 1px solid var(--border); }
+    .pub-item:hover { padding-left: 0.75rem; }
     .pub-year {
       font-family: var(--font-mono);
-      font-size: 0.65rem;
+      font-size: 0.58rem;
       letter-spacing: 0.1em;
-      color: var(--red);
-      padding-top: 0.2rem;
+      color: var(--dim);
+      padding-top: 0.15rem;
     }
     .pub-title {
       font-family: var(--font-display);
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 400;
-      line-height: 1.4;
+      line-height: 1.45;
       color: var(--text);
       margin-bottom: 0.4rem;
-      transition: color 0.25s;
+      transition: color 0.3s;
     }
-    .pub-item:hover .pub-title { color: var(--amber); }
+    .pub-item:hover .pub-title { color: var(--accent-2); }
     .pub-meta {
       font-family: var(--font-mono);
-      font-size: 0.58rem;
+      font-size: 0.55rem;
       letter-spacing: 0.08em;
-      color: var(--muted);
+      color: var(--dim);
     }
     .pub-badge {
       display: inline-block;
-      background: var(--red-dim);
-      color: var(--red);
       font-family: var(--font-mono);
-      font-size: 0.55rem;
+      font-size: 0.5rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       padding: 0.15rem 0.5rem;
+      border: 1px solid var(--border);
+      color: var(--dim);
       margin-left: 0.75rem;
     }
 
@@ -564,112 +452,112 @@
     }
     .tab-btn {
       font-family: var(--font-mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.18em;
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      padding: 0.75rem 1.5rem;
+      padding: 0.8rem 1.5rem;
       background: none;
       border: none;
-      border-bottom: 2px solid transparent;
-      color: var(--muted);
+      border-bottom: 1px solid transparent;
+      color: var(--dim);
       cursor: pointer;
-      transition: color 0.25s, border-color 0.25s;
+      transition: color 0.3s, border-color 0.3s;
       margin-bottom: -1px;
     }
     .tab-btn:hover { color: var(--text); }
-    .tab-btn.active { color: var(--text); border-bottom-color: var(--red); }
+    .tab-btn.active { color: var(--text); border-bottom-color: var(--text); }
     .tab-count {
-      display: inline-block;
-      font-size: 0.5rem;
-      background: var(--border);
-      color: var(--muted);
-      padding: 0.1rem 0.35rem;
-      margin-left: 0.4rem;
-      border-radius: 2px;
+      font-size: 0.48rem;
+      margin-left: 0.3rem;
+      opacity: 0.6;
     }
-    .tab-btn.active .tab-count { background: var(--red-dim); color: var(--red); }
 
     /* ===== PROJECTS ===== */
     .projects-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
+      gap: 2rem;
     }
     .project-card {
-      background: var(--bg-3);
-      border: 1px solid var(--border);
       padding: 2.5rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
       position: relative;
-      overflow: hidden;
-      transition: border-color 0.35s, transform 0.35s;
+      transition: all 0.35s ease;
+    }
+    .project-card:hover {
+      border-color: var(--text);
+      transform: translateY(-3px);
     }
     .project-card::after {
       content: '';
       position: absolute;
       bottom: 0; left: 0;
-      width: 0; height: 2px;
-      background: var(--amber);
-      transition: width 0.5s cubic-bezier(0.16,1,0.3,1);
+      width: 0; height: 1px;
+      background: var(--text);
+      transition: width 0.4s ease;
     }
-    .project-card:hover { border-color: var(--border-2); transform: translateY(-4px); }
     .project-card:hover::after { width: 100%; }
-    .project-number {
+    .project-num {
       font-family: var(--font-mono);
-      font-size: 0.6rem;
+      font-size: 0.55rem;
       letter-spacing: 0.2em;
       color: var(--dim);
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
     }
     .project-title {
       font-family: var(--font-display);
-      font-size: 1.45rem;
+      font-size: 1.4rem;
       font-weight: 400;
-      margin-bottom: 0.75rem;
       color: var(--text);
+      margin-bottom: 0.8rem;
+      line-height: 1.3;
     }
     .project-desc {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       color: var(--muted);
-      line-height: 1.7;
+      line-height: 1.8;
       margin-bottom: 1.5rem;
     }
     .project-tech { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
     .project-tech span {
       font-family: var(--font-mono);
-      font-size: 0.55rem;
+      font-size: 0.52rem;
       letter-spacing: 0.08em;
+      text-transform: uppercase;
       padding: 0.2rem 0.5rem;
-      background: var(--amber-dim);
-      color: var(--amber);
+      border: 1px solid var(--border);
+      color: var(--dim);
     }
     .project-link {
       font-family: var(--font-mono);
-      font-size: 0.6rem;
+      font-size: 0.58rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
       text-decoration: none;
-      color: var(--muted);
+      color: var(--dim);
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      transition: color 0.25s;
+      transition: color 0.3s;
     }
-    .project-link:hover { color: var(--red); }
-
-    /* Tab filtering — hidden state */
+    .project-link:hover { color: var(--text); }
     .project-card[data-visible="false"] { display: none; }
-    .project-card[data-visible="true"] { animation: tabReveal 0.4s cubic-bezier(0.16,1,0.3,1) forwards; }
+    .project-card[data-visible="true"] { animation: tabReveal 0.4s ease forwards; }
     @keyframes tabReveal {
-      from { opacity: 0; transform: translateY(12px); }
+      from { opacity: 0; transform: translateY(10px); }
       to   { opacity: 1; transform: none; }
     }
 
     /* ===== BLOG ===== */
-    .blog { background: var(--bg-2); border-bottom: 2px solid var(--border); }
+    .blog {
+      background: var(--bg-2);
+      border-top: 1px solid var(--border);
+    }
     .blog-layout {
       display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 4rem;
+      grid-template-columns: 1fr 280px;
+      gap: 5rem;
       align-items: start;
     }
     .blog-post {
@@ -679,40 +567,40 @@
       transition: padding-left 0.3s;
     }
     .blog-post:first-child { border-top: 1px solid var(--border); }
-    .blog-post:hover { padding-left: 1rem; }
-    .blog-post:hover .blog-post-title { color: var(--amber); }
+    .blog-post:hover { padding-left: 0.75rem; }
+    .blog-post:hover .blog-post-title { color: var(--accent-2); }
     .blog-post-meta {
       font-family: var(--font-mono);
-      font-size: 0.58rem;
+      font-size: 0.55rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--red);
+      color: var(--dim);
       margin-bottom: 0.6rem;
     }
     .blog-post-title {
       font-family: var(--font-display);
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       font-weight: 400;
       color: var(--text);
       margin-bottom: 0.6rem;
-      line-height: 1.3;
-      transition: color 0.25s;
+      line-height: 1.35;
+      transition: color 0.3s;
     }
     .blog-post-excerpt {
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       color: var(--muted);
-      line-height: 1.75;
-      margin-bottom: 1rem;
+      line-height: 1.8;
+      margin-bottom: 0.8rem;
     }
     .blog-post-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
     .blog-post-tag {
       font-family: var(--font-mono);
-      font-size: 0.55rem;
+      font-size: 0.52rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 0.2rem 0.55rem;
-      border: 1px solid var(--border-2);
-      color: var(--muted);
+      padding: 0.2rem 0.5rem;
+      border: 1px solid var(--border);
+      color: var(--dim);
     }
     .blog-sidebar {
       position: sticky;
@@ -720,10 +608,10 @@
     }
     .blog-sidebar-title {
       font-family: var(--font-mono);
-      font-size: 0.6rem;
+      font-size: 0.55rem;
       letter-spacing: 0.25em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--dim);
       margin-bottom: 1.5rem;
       padding-bottom: 0.75rem;
       border-bottom: 1px solid var(--border);
@@ -731,37 +619,42 @@
     .blog-sidebar-item {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      padding: 0.65rem 0;
+      padding: 0.7rem 0;
       border-bottom: 1px solid var(--border);
       cursor: pointer;
       transition: padding-left 0.25s;
     }
     .blog-sidebar-item:hover { padding-left: 0.5rem; }
-    .blog-sidebar-item:hover .blog-sidebar-name { color: var(--amber); }
+    .blog-sidebar-item:hover .blog-sidebar-name { color: var(--text); }
     .blog-sidebar-name {
       font-family: var(--font-mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.1em;
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--dim);
       transition: color 0.25s;
     }
     .blog-sidebar-count {
       font-family: var(--font-mono);
-      font-size: 0.55rem;
+      font-size: 0.52rem;
       color: var(--dim);
     }
 
-    /* ===== EXPERIENCE / TIMELINE ===== */
-    .experience { background: var(--bg-2); border-bottom: 2px solid var(--border); }
-    .timeline { position: relative; max-width: 800px; padding-left: 3rem; }
+    /* ===== EXPERIENCE ===== */
+    .experience {
+      border-top: 1px solid var(--border);
+    }
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      padding-left: 3rem;
+    }
     .timeline::before {
       content: '';
       position: absolute;
       left: 0; top: 0; bottom: 0;
       width: 1px;
-      background: linear-gradient(180deg, var(--red), var(--border));
+      background: linear-gradient(180deg, var(--text), var(--border));
     }
     .timeline-item {
       position: relative;
@@ -771,159 +664,152 @@
     .timeline-item::before {
       content: '';
       position: absolute;
-      left: -4px; top: 6px;
-      width: 9px; height: 9px;
-      background: var(--bg-2);
-      border: 2px solid var(--red);
-      border-radius: 0;
+      left: -3px; top: 8px;
+      width: 7px; height: 7px;
+      background: var(--bg);
+      border: 1px solid var(--text);
     }
     .timeline-date {
       font-family: var(--font-mono);
-      font-size: 0.6rem;
+      font-size: 0.55rem;
       letter-spacing: 0.2em;
-      color: var(--red);
       text-transform: uppercase;
-      margin-bottom: 0.5rem;
+      color: var(--dim);
+      margin-bottom: 0.4rem;
     }
     .timeline-title {
       font-family: var(--font-display);
-      font-size: 1.3rem;
+      font-size: 1.25rem;
       font-weight: 400;
-      margin-bottom: 0.25rem;
       color: var(--text);
+      margin-bottom: 0.2rem;
     }
     .timeline-org {
       font-family: var(--font-mono);
-      font-size: 0.62rem;
+      font-size: 0.58rem;
       letter-spacing: 0.1em;
-      color: var(--muted);
+      color: var(--dim);
       margin-bottom: 0.75rem;
     }
     .timeline-desc {
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       color: var(--muted);
-      line-height: 1.7;
+      line-height: 1.8;
     }
 
     /* ===== CONTACT ===== */
-    .contact { background: var(--bg); border-top: 2px solid var(--text); }
+    .contact {
+      background: var(--bg-3);
+      border-top: 1px solid var(--border);
+    }
     .contact-inner {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 5rem;
+      gap: 6rem;
     }
     .contact-info { display: flex; flex-direction: column; gap: 2rem; }
-    .contact-item { display: flex; gap: 1.25rem; align-items: flex-start; }
+    .contact-item { display: flex; gap: 1.5rem; align-items: flex-start; }
     .contact-icon {
-      width: 44px; height: 44px;
-      border: 1px solid var(--border-2);
+      width: 40px; height: 40px;
+      border: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1rem;
+      font-size: 0.9rem;
       flex-shrink: 0;
-      color: var(--red);
+      color: var(--muted);
     }
     .contact-label {
       font-family: var(--font-mono);
-      font-size: 0.58rem;
+      font-size: 0.55rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--dim);
       margin-bottom: 0.25rem;
     }
     .contact-value {
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       color: var(--text);
       text-decoration: none;
-      transition: color 0.25s;
+      transition: color 0.3s;
     }
-    .contact-value:hover { color: var(--amber); }
-
-    .contact-form { display: flex; flex-direction: column; gap: 1.25rem; }
+    .contact-value:hover { color: var(--accent-2); }
+    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
     .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
     .form-group label {
       font-family: var(--font-mono);
-      font-size: 0.58rem;
-      letter-spacing: 0.18em;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--dim);
     }
     .form-group input, .form-group textarea {
       background: var(--surface);
-      border: 1px solid var(--border-2);
+      border: 1px solid var(--border);
       color: var(--text);
       font-family: var(--font-body);
-      font-size: 1rem;
+      font-size: 0.95rem;
       padding: 0.85rem 1rem;
       outline: none;
       transition: border-color 0.3s;
       resize: none;
     }
-    .form-group input:focus, .form-group textarea:focus { border-color: var(--accent); }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--text); }
     .form-group input::placeholder, .form-group textarea::placeholder { color: var(--dim); }
 
     /* ===== FOOTER ===== */
     footer {
-      padding: 2.5rem 3.5rem;
-      border-top: 2px solid var(--text);
+      padding: 3rem 6vw;
+      border-top: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: var(--text);
+      background: var(--bg);
     }
     .footer-copy {
       font-family: var(--font-mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.12em;
-      color: var(--muted);
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      color: var(--dim);
     }
-    .footer-links { display: flex; gap: 2rem; }
+    .footer-links { display: flex; gap: 2.5rem; }
     .footer-links a {
       font-family: var(--font-mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.12em;
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--dim);
       text-decoration: none;
-      transition: color 0.25s;
+      transition: color 0.3s;
     }
-    .footer-links a:hover { color: var(--bg); }
+    .footer-links a:hover { color: var(--text); }
 
     /* ===== RESPONSIVE ===== */
-    @media (max-width: 1100px) {
-      .hero { grid-template-columns: 1fr; }
+    @media (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; }
       .hero-right { display: none; }
-      .about-inner, .contact-inner { grid-template-columns: 1fr; }
-      .about-sidebar { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 2.5rem; margin-top: 0; }
-      .research-grid { grid-template-columns: 1fr 1fr; }
+      .about-grid, .contact-inner { grid-template-columns: 1fr; }
+      .about-aside { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 2.5rem; }
+      .research-list { grid-template-columns: 1fr; }
       .projects-grid { grid-template-columns: 1fr; }
+      .blog-layout { grid-template-columns: 1fr; }
+      .blog-sidebar { position: static; }
     }
-    @media (max-width: 700px) {
-      nav { padding: 1.2rem 1.5rem; }
+    @media (max-width: 640px) {
+      nav { padding: 1.2rem 5vw; }
       nav .nav-links { gap: 1.5rem; }
-      section { padding: 4rem 1.5rem; }
+      section { padding: 5rem 5vw; }
       .hero-name { font-size: 4rem; }
-      .section-heading { font-size: 2.8rem; }
-      .research-grid { grid-template-columns: 1fr; }
-      .contact-inner { gap: 3rem; }
-      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+      .section-heading { font-size: 2.5rem; }
+      footer { flex-direction: column; gap: 1.5rem; text-align: center; }
     }
   </style>
 </head>
 <body>
 
-  <!-- MARQUEE -->
-  <div class="marquee-bar">
-    <div class="marquee-inner">
-      NLP RESEARCH &nbsp;&nbsp;—&nbsp;&nbsp; LARGE LANGUAGE MODELS &nbsp;&nbsp;—&nbsp;&nbsp; SEMANTIC ANALYSIS &nbsp;&nbsp;—&nbsp;&nbsp; COGNITIVE COMPUTING &nbsp;&nbsp;—&nbsp;&nbsp; COMPUTATIONAL POETICS &nbsp;&nbsp;—&nbsp;&nbsp; ARXIV:2401.00000 &nbsp;&nbsp;—&nbsp;&nbsp; COLING 2025 &nbsp;&nbsp;—&nbsp;&nbsp; EMNLP 2024 &nbsp;&nbsp;—&nbsp;&nbsp; ACL 2024 &nbsp;&nbsp;—&nbsp;&nbsp;
-      NLP RESEARCH &nbsp;&nbsp;—&nbsp;&nbsp; LARGE LANGUAGE MODELS &nbsp;&nbsp;—&nbsp;&nbsp; SEMANTIC ANALYSIS &nbsp;&nbsp;—&nbsp;&nbsp; COGNITIVE COMPUTING &nbsp;&nbsp;—&nbsp;&nbsp; COMPUTATIONAL POETICS &nbsp;&nbsp;—&nbsp;&nbsp; ARXIV:2401.00000 &nbsp;&nbsp;—&nbsp;&nbsp; COLING 2025 &nbsp;&nbsp;—&nbsp;&nbsp; EMNLP 2024 &nbsp;&nbsp;—&nbsp;&nbsp; ACL 2024 &nbsp;&nbsp;—&nbsp;&nbsp;
-    </div>
-  </div>
-
   <!-- NAV -->
   <nav>
-    <div class="nav-brand">Chen<span>.</span>hao</div>
+    <div class="nav-brand">Chen<em>hao</em></div>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#research">Research</a></li>
@@ -935,127 +821,111 @@
   </nav>
 
   <!-- HERO -->
-  <section class="hero">
+  <section class="hero" style="max-width:none; padding-top:0; padding-bottom:0; margin:0; align-items:stretch;">
     <div class="hero-left">
+      <div class="hero-rule"></div>
       <div class="hero-index">AI / NLP Researcher · Beijing</div>
-      <h1 class="hero-name">
-        Chen<em>hao</em>
-      </h1>
-      <p class="hero-subtitle">Large Language Models &nbsp;/&nbsp; Semantic Cognition &nbsp;/&nbsp; Computational Poetics</p>
-      <div class="hero-divider"></div>
+      <h1 class="hero-name">Chen<em>hao</em></h1>
       <p class="hero-desc">
-        探索大模型与人类语言的边界。研究方向涵盖 LLM 评估与推理优化、语言障碍的计算建模，以及诗歌语义空间的量化分析。曾在 COLING、EMNLP、ACL 等国际会议发表论文。
+        探索大模型与人类语言的边界。研究方向涵盖 LLM 评估与推理优化、语言障碍的计算建模，以及诗歌语义空间的量化分析。
       </p>
       <div class="hero-ctas">
-        <a href="#projects" class="btn btn-primary">View Projects</a>
-        <a href="#contact" class="btn btn-outline">Get in Touch</a>
+        <a href="#projects" class="btn">View Projects</a>
+        <a href="#contact" class="btn btn-ghost">Get in Touch</a>
       </div>
     </div>
+
     <div class="hero-right">
-      <div class="red-accent-line"></div>
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <div class="hero-stat-num">5<em>+</em></div>
-          <div class="hero-stat-label">Years Research</div>
-          <div class="hero-stat-bar"></div>
+      <div class="hero-vertical-text">Natural Language Processing · Large Language Models · Computational Poetry</div>
+      <div class="hero-aside">
+        <div class="hero-aside-item">
+          <div class="hero-aside-num">5<em>+</em></div>
+          <div class="hero-aside-label">Years Research</div>
         </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num">12</div>
-          <div class="hero-stat-label">Publications</div>
-          <div class="hero-stat-bar"></div>
+        <div class="hero-aside-item">
+          <div class="hero-aside-num">12</div>
+          <div class="hero-aside-label">Publications</div>
         </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num">8</div>
-          <div class="hero-stat-label">Open Source Projects</div>
-          <div class="hero-stat-bar"></div>
+        <div class="hero-aside-item">
+          <div class="hero-aside-num">8</div>
+          <div class="hero-aside-label">Projects</div>
         </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num">3</div>
-          <div class="hero-stat-label">Conferences</div>
-          <div class="hero-stat-bar"></div>
+        <div class="hero-aside-item">
+          <div class="hero-aside-num">3</div>
+          <div class="hero-aside-label">Conferences</div>
         </div>
-      </div>
-      <div class="hero-tags">
-        <span class="hero-tag">PyTorch</span>
-        <span class="hero-tag">Transformers</span>
-        <span class="hero-tag">LLM</span>
-        <span class="hero-tag">NLP</span>
-        <span class="hero-tag">BERT</span>
-        <span class="hero-tag">CUDA</span>
-        <span class="hero-tag">Docker</span>
       </div>
     </div>
   </section>
 
   <!-- ABOUT -->
   <section class="about" id="about">
-    <div class="section-index reveal">001 — About</div>
-    <div class="about-inner">
-      <div class="about-bio">
+    <div class="section-eyebrow reveal">001 — About</div>
+    <h2 class="section-heading reveal">Who I <em>Am</em></h2>
+    <div class="about-grid">
+      <div class="about-text">
         <p class="reveal">我是一名 AI / NLP 方向的研究者，热衷于用计算方法理解语言与认知。</p>
         <p class="reveal reveal-d1">当前专注于大语言模型（LLM）的评估与推理能力优化，以及语言障碍（如失语症）的计算建模研究。研究方法融合深度学习、认知科学与社会计算。</p>
-        <p class="reveal reveal-d2">业余时间探索诗歌语义空间与计算诗学的交叉领域，试图用向量几何重新理解古典文本的演化脉络。曾参与多项国家级 NLP 课题，在国际会议发表论文 12 篇。</p>
-        <p class="reveal reveal-d3">我相信：好的语言模型不仅要理解字面语义，更要捕捉语言背后的人类认知结构。</p>
+        <p class="reveal reveal-d2">业余时间探索诗歌语义空间与计算诗学的交叉领域，试图用向量几何重新理解古典文本的演化脉络。</p>
       </div>
-      <aside class="about-sidebar">
-        <div class="about-sidebar-title reveal">Quick Facts</div>
-        <div class="about-sidebar-item reveal reveal-d1">
-          <div class="label">Affiliation</div>
-          <div class="value">NLP Lab, Beijing</div>
+      <aside class="about-aside">
+        <div class="about-aside-item reveal">
+          <div class="about-aside-label">Affiliation</div>
+          <div class="about-aside-value">NLP Lab, Beijing</div>
         </div>
-        <div class="about-sidebar-item reveal reveal-d2">
-          <div class="label">Education</div>
-          <div class="value">M.S. Computer Science</div>
+        <div class="about-aside-item reveal reveal-d1">
+          <div class="about-aside-label">Education</div>
+          <div class="about-aside-value">M.S. Computer Science</div>
         </div>
-        <div class="about-sidebar-item reveal reveal-d3">
-          <div class="label">Focus Areas</div>
-          <div class="value">LLM · NLP · Cognitive Computing</div>
+        <div class="about-aside-item reveal reveal-d2">
+          <div class="about-aside-label">Focus</div>
+          <div class="about-aside-value">LLM · NLP · Cognitive Computing</div>
         </div>
-        <div class="about-sidebar-item reveal reveal-d4">
-          <div class="label">Languages</div>
-          <div class="value">Python · R · C++ · LaTeX</div>
+        <div class="about-aside-item reveal reveal-d3">
+          <div class="about-aside-label">Languages</div>
+          <div class="about-aside-value">Python · R · C++ · LaTeX</div>
         </div>
-        <div class="about-sidebar-item reveal">
-          <div class="label">Status</div>
-          <div class="value" style="color: var(--green);">● Available for collaboration</div>
+        <div class="about-aside-item reveal">
+          <div class="about-aside-label">Status</div>
+          <div class="about-aside-value" style="color:var(--accent-2);">Open to collaboration</div>
         </div>
       </aside>
     </div>
   </section>
 
-  <!-- RESEARCH INTERESTS -->
-  <section id="research">
-    <div class="section-index reveal">002 — Research</div>
+  <!-- RESEARCH -->
+  <section class="research" id="research">
+    <div class="section-eyebrow reveal">002 — Research</div>
     <h2 class="section-heading reveal">Research <em>Interests</em></h2>
-    <div class="research-grid reveal">
-      <div class="research-card">
-        <span class="research-card-icon">🧠</span>
-        <h3 class="research-card-title">LLM Reasoning</h3>
-        <p class="research-card-desc">大语言模型的推理能力评估与 Chain-of-Thought 提示优化，探索模型"思考"过程中的认知层次。</p>
-        <div class="research-card-tags">
-          <span class="research-card-tag">Chain-of-Thought</span>
-          <span class="research-card-tag">Evaluation</span>
-          <span class="research-card-tag">Benchmark</span>
+    <div class="research-list">
+      <div class="research-item reveal">
+        <div class="research-num">01</div>
+        <h3 class="research-title">LLM Reasoning</h3>
+        <p class="research-desc">大语言模型的推理能力评估与 Chain-of-Thought 提示优化，探索模型"思考"过程中的认知层次。</p>
+        <div class="research-tags">
+          <span class="research-tag">Chain-of-Thought</span>
+          <span class="research-tag">Evaluation</span>
+          <span class="research-tag">Benchmark</span>
         </div>
       </div>
-      <div class="research-card">
-        <span class="research-card-icon">💬</span>
-        <h3 class="research-card-title">Language Disorders</h3>
-        <p class="research-card-desc">失语症语义表征变化的计算建模，利用 Word2Vec / BERT 空间量化语言障碍严重程度。</p>
-        <div class="research-card-tags">
-          <span class="research-card-tag">Aphasia</span>
-          <span class="research-card-tag">Clinical NLP</span>
-          <span class="research-card-tag">Semantic Space</span>
+      <div class="research-item reveal reveal-d1">
+        <div class="research-num">02</div>
+        <h3 class="research-title">Language Disorders</h3>
+        <p class="research-desc">失语症语义表征变化的计算建模，利用 Word2Vec / BERT 空间量化语言障碍严重程度。</p>
+        <div class="research-tags">
+          <span class="research-tag">Aphasia</span>
+          <span class="research-tag">Clinical NLP</span>
+          <span class="research-tag">Semantic Space</span>
         </div>
       </div>
-      <div class="research-card">
-        <span class="research-card-icon">📜</span>
-        <h3 class="research-card-title">Computational Poetics</h3>
-        <p class="research-card-desc">诗歌语义空间的量化分析，重建古典文本演化树，探索风格迁移与文化传承的计算规律。</p>
-        <div class="research-card-tags">
-          <span class="research-card-tag">Poetry</span>
-          <span class="research-card-tag">Cultural Evolution</span>
-          <span class="research-card-tag">Embedding</span>
+      <div class="research-item reveal reveal-d2">
+        <div class="research-num">03</div>
+        <h3 class="research-title">Computational Poetics</h3>
+        <p class="research-desc">诗歌语义空间的量化分析，重建古典文本演化树，探索风格迁移与文化传承的计算规律。</p>
+        <div class="research-tags">
+          <span class="research-tag">Poetry</span>
+          <span class="research-tag">Cultural Evolution</span>
+          <span class="research-tag">Embedding</span>
         </div>
       </div>
     </div>
@@ -1063,10 +933,10 @@
 
   <!-- PUBLICATIONS -->
   <section class="pubs" id="publications">
-    <div class="section-index reveal">003 — Publications</div>
+    <div class="section-eyebrow reveal">003 — Publications</div>
     <h2 class="section-heading reveal">Selected <em>Papers</em></h2>
     <div class="pub-list">
-      <div class="pub-placeholder" style="padding:3rem 0; font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);">
+      <div class="pub-placeholder" style="padding:2.5rem 0; font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);">
         // Papers — 待填入真实论文
       </div>
     </div>
@@ -1074,22 +944,20 @@
 
   <!-- PROJECTS -->
   <section id="projects">
-    <div class="section-index reveal">004 — Projects</div>
+    <div class="section-eyebrow reveal">004 — Projects</div>
     <h2 class="section-heading reveal">Open Source <em>Work</em></h2>
 
-    <!-- TABS -->
     <div class="tab-bar reveal" id="projectsTabBar">
-      <button class="tab-btn active" data-tab="all">All <span class="tab-count" id="count-all">0</span></button>
-      <button class="tab-btn" data-tab="projects">Projects <span class="tab-count" id="count-projects">0</span></button>
-      <button class="tab-btn" data-tab="papers">Papers <span class="tab-count" id="count-papers">0</span></button>
-      <button class="tab-btn" data-tab="code">Code <span class="tab-count" id="count-code">0</span></button>
+      <button class="tab-btn active" data-tab="all">All <span class="tab-count">—</span></button>
+      <button class="tab-btn" data-tab="projects">Projects <span class="tab-count">—</span></button>
+      <button class="tab-btn" data-tab="papers">Papers <span class="tab-count">—</span></button>
+      <button class="tab-btn" data-tab="code">Code <span class="tab-count">—</span></button>
     </div>
 
     <div class="projects-grid" id="projectsGrid">
-      <!-- 项目内容请在下方替换为真实信息 -->
-      <div class="project-placeholder" style="grid-column:1/-1; padding:4rem 0; text-align:center;">
-        <div style="font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--dim);">
-          // Projects — 待填入真实项目
+      <div class="project-placeholder" style="grid-column:1/-1; padding:3rem 0; text-align:center;">
+        <div style="font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--dim);">
+          // Projects — 待填入真实内容
         </div>
       </div>
     </div>
@@ -1097,11 +965,11 @@
 
   <!-- BLOG -->
   <section class="blog" id="blog">
-    <div class="section-index reveal">005 — Blog</div>
+    <div class="section-eyebrow reveal">005 — Blog</div>
     <h2 class="section-heading reveal">Writing &amp; <em>Notes</em></h2>
     <div class="blog-layout">
       <div class="blog-list">
-        <div class="blog-placeholder" style="padding:3rem 0; font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);">
+        <div class="blog-placeholder" style="padding:2.5rem 0; font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);">
           // Blog posts — 待填入真实文章
         </div>
       </div>
@@ -1133,10 +1001,10 @@
 
   <!-- EXPERIENCE -->
   <section class="experience" id="experience">
-    <div class="section-index reveal">006 — Experience</div>
+    <div class="section-eyebrow reveal">006 — Experience</div>
     <h2 class="section-heading reveal">Career <em>Path</em></h2>
     <div class="timeline">
-      <div class="timeline-placeholder" style="padding:2rem 0; font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);">
+      <div class="timeline-placeholder" style="padding:2rem 0; font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);">
         // Experience — 待填入真实经历
       </div>
     </div>
@@ -1144,7 +1012,7 @@
 
   <!-- CONTACT -->
   <section class="contact" id="contact">
-    <div class="section-index reveal">006 — Contact</div>
+    <div class="section-eyebrow reveal">006 — Contact</div>
     <h2 class="section-heading reveal">Let's <em>Talk</em></h2>
     <div class="contact-inner">
       <div class="contact-info reveal">
@@ -1180,7 +1048,7 @@
           <div class="contact-icon">▲</div>
           <div>
             <div class="contact-label">ArXiv</div>
-            <a href="#" class="contact-value">arxiv.org/abs/2401.00000</a>
+            <a href="#" class="contact-value">arxiv.org/abs/xxxx.xxxxx</a>
           </div>
         </div>
       </div>
@@ -1197,59 +1065,48 @@
           <label>Message</label>
           <textarea placeholder="Say something..." required></textarea>
         </div>
-        <button type="submit" class="btn btn-primary" style="width:fit-content;">Send Message ↗</button>
+        <button type="submit" class="btn">Send Message ↗</button>
       </form>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-copy">© 2025 Chenhao · Built with pure HTML & CSS · Deployed on GitHub Pages</div>
+    <div class="footer-copy">© 2025 Chenhao · Built with pure HTML & CSS</div>
     <div class="footer-links">
       <a href="#">GitHub</a>
       <a href="#">Scholar</a>
       <a href="#">ArXiv</a>
-      <a href="#">Twitter</a>
     </div>
   </footer>
 
   <script>
-    // ── Scroll reveal ────────────────────────────────────────────
+    // ── Scroll reveal ──────────────────────────────────────
     const reveals = document.querySelectorAll('.reveal');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) e.target.classList.add('visible');
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
     reveals.forEach(el => io.observe(el));
 
-    // ── Tab switching ─────────────────────────────────────────────
-    // Logic: each .project-card has data-category="projects|papers|code"
-    //        .tab-btn has data-tab="all|projects|papers|code"
-    //        clicking a tab sets data-visible="true|false" on cards
+    // ── Tab switching ───────────────────────────────────────
     const tabBar = document.getElementById('projectsTabBar');
-    const tabBtns = tabBar ? tabBar.querySelectorAll('.tab-btn') : [];
-    const cards = document.querySelectorAll('.project-card[data-category]');
+    if (tabBar) {
+      const tabBtns = tabBar.querySelectorAll('.tab-btn');
+      const cards = document.querySelectorAll('.project-card[data-category]');
 
-    tabBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        // Update active button
-        tabBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        const selected = btn.dataset.tab;
-
-        cards.forEach(card => {
-          if (selected === 'all' || card.dataset.category === selected) {
-            card.dataset.visible = 'true';
-          } else {
-            card.dataset.visible = 'false';
-          }
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          tabBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const sel = btn.dataset.tab;
+          cards.forEach(c => {
+            c.dataset.visible = (sel === 'all' || c.dataset.category === sel) ? 'true' : 'false';
+          });
         });
       });
-    });
+    }
 
-    // ── Contact form feedback ────────────────────────────────────
+    // ── Contact form ────────────────────────────────────────
     function handleSubmit(e) {
       e.preventDefault();
       const btn = e.target.querySelector('button');

@@ -315,48 +315,56 @@
       background: var(--bg-2);
       border-top: 1px solid var(--border);
     }
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: start;
+    .about-inner {
+      max-width: 640px;
+      margin: 0 auto;
     }
     .about-text p {
       font-size: 1.05rem;
       color: var(--muted);
       line-height: 2;
       margin-bottom: 1.8rem;
+      text-align: center;
     }
     .about-text p:first-child {
       font-family: var(--font-display);
-      font-size: 1.6rem;
+      font-size: 1.7rem;
       font-weight: 400;
       color: var(--text);
       line-height: 1.55;
     }
-    .about-aside {
-      border-left: 1px solid var(--border);
-      padding-left: 4rem;
+    .about-rule {
+      width: 32px;
+      height: 1px;
+      background: var(--border);
+      margin: 3rem auto;
     }
-    .about-aside-item {
-      padding: 1.5rem 0;
+    .about-kv {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .about-kv-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 1rem 0;
       border-bottom: 1px solid var(--border);
     }
-    .about-aside-item:first-child { padding-top: 0; }
-    .about-aside-item:last-child { border-bottom: none; }
-    .about-aside-label {
+    .about-kv-row:first-child { border-top: 1px solid var(--border); }
+    .about-kv-label {
       font-family: var(--font-mono);
       font-size: 0.55rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--dim);
-      margin-bottom: 0.4rem;
     }
-    .about-aside-value {
+    .about-kv-value {
       font-family: var(--font-display);
       font-size: 1.05rem;
       font-weight: 400;
       color: var(--text);
+      text-align: right;
     }
 
     /* ===== RESEARCH ===== */
@@ -809,8 +817,7 @@
       .hero-stats { gap: 2rem; }
       .hero { grid-template-columns: 1fr; }
       .hero-right { display: none; }
-      .about-grid, .contact-inner { grid-template-columns: 1fr; }
-      .about-aside { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 2.5rem; }
+      .contact-inner { grid-template-columns: 1fr; }
       .research-list { grid-template-columns: 1fr; }
       .projects-grid { grid-template-columns: 1fr; }
       .blog-layout { grid-template-columns: 1fr; }
@@ -884,34 +891,35 @@
   <section class="about" id="about">
     <div class="section-eyebrow reveal">001 — About</div>
     <h2 class="section-heading reveal">Who I <em>Am</em></h2>
-    <div class="about-grid">
+    <div class="about-inner">
       <div class="about-text">
         <p class="reveal">上海交通大学在读，研究方向为汉藏语语言学与计算语言学。</p>
         <p class="reveal reveal-d1">论文发表于 EMNLP 2025 Findings（方面情感三元组抽取）。开源项目涵盖 LLM 评估（LLM Judge）、藏文形态学解析（TibSplit）、古典诗歌语义空间（Poetry Crystallization）、语言学习桌面应用（Lumina）与课程笔记工具（Canvas2Note）。</p>
         <p class="reveal reveal-d2">欢迎学术合作与项目交流。</p>
       </div>
-      <aside class="about-aside">
-        <div class="about-aside-item reveal">
-          <div class="about-aside-label">Affiliation</div>
-          <div class="about-aside-value">Shanghai Jiao Tong University</div>
+      <div class="about-rule reveal"></div>
+      <div class="about-kv reveal">
+        <div class="about-kv-row">
+          <span class="about-kv-label">Affiliation</span>
+          <span class="about-kv-value">Shanghai Jiao Tong University</span>
         </div>
-        <div class="about-aside-item reveal reveal-d1">
-          <div class="about-aside-label">Education</div>
-          <div class="about-aside-value">Linguistics (Proceeding)</div>
+        <div class="about-kv-row">
+          <span class="about-kv-label">Education</span>
+          <span class="about-kv-value">Linguistics (Proceeding)</span>
         </div>
-        <div class="about-aside-item reveal reveal-d2">
-          <div class="about-aside-label">Focus</div>
-          <div class="about-aside-value">NLP · LLM · Historical Linguistics</div>
+        <div class="about-kv-row">
+          <span class="about-kv-label">Focus</span>
+          <span class="about-kv-value">NLP · LLM · Historical Linguistics</span>
         </div>
-        <div class="about-aside-item reveal reveal-d3">
-          <div class="about-aside-label">Languages</div>
-          <div class="about-aside-value">Wu Chinese · English · German</div>
+        <div class="about-kv-row">
+          <span class="about-kv-label">Languages</span>
+          <span class="about-kv-value">Wu Chinese · English · German</span>
         </div>
-        <div class="about-aside-item reveal">
-          <div class="about-aside-label">Interests</div>
-          <div class="about-aside-value">Reading · Music · Travel</div>
+        <div class="about-kv-row">
+          <span class="about-kv-label">Interests</span>
+          <span class="about-kv-value">Reading · Music · Travel</span>
         </div>
-      </aside>
+      </div>
     </div>
   </section>
 

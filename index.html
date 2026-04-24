@@ -91,8 +91,9 @@
     /* ===== HERO ===== */
     .hero {
       min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       position: relative;
       overflow: hidden;
     }
@@ -111,8 +112,11 @@
     .hero-left {
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
-      max-width: 900px;
+      justify-content: center;
+      max-width: 680px;
+      padding: 7rem 6vw 6rem;
+      position: relative;
+      z-index: 1;
     }
 
     .hero-stats {
@@ -137,10 +141,6 @@
       text-transform: uppercase;
       color: var(--dim);
       margin-top: 0.3rem;
-    }
-      padding: 7rem 6vw 6rem;
-      position: relative;
-      z-index: 1;
     }
 
     .hero-rule {
@@ -786,20 +786,21 @@
       <li><a href="#about">About</a></li>
       <li><a href="#research">Research</a></li>
       <li><a href="#publications">Publications</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="/life.html">Notes</a></li>
+      <li><a href="/projects/">Projects</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/life.html">Life</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
 
   <!-- HERO -->
-  <section class="hero" style="max-width:none; padding-top:0; padding-bottom:0; margin:0; align-items:stretch;">
+  <section class="hero">
     <div class="hero-left">
       <div class="hero-rule"></div>
       <div class="hero-index">AI / NLP Researcher · Shanghai</div>
       <h1 class="hero-name">Chenhao<br><em>Meng</em></h1>
       <p class="hero-desc">
-        研究方向涵盖中文词源与音韵学、藏文形态学，以及语义空间的计算建模。曾在 EMNLP 2025 发表论文一篇。
+        研究方向涵盖 NLP、LLM · 汉语音韵学、文字学、训诂学；跨喜马拉雅语系
       </p>
       <div class="hero-ctas">
         <a href="#projects" class="btn">View Projects</a>
@@ -828,7 +829,7 @@
     <h2 class="section-heading reveal">Who I <em>Am</em></h2>
     <div class="about-grid">
       <div class="about-text">
-        <p class="reveal">上海交通大学在读，研究方向为中文词源音韵学与计算语言学。</p>
+        <p class="reveal">上海交通大学在读，研究方向为汉藏语语言学与计算语言学。</p>
         <p class="reveal reveal-d1">论文发表于 EMNLP 2025 Findings（方面情感三元组抽取）。开源项目涵盖 LLM 评估（LLM Judge）、藏文形态学解析（TibSplit）、古典诗歌语义空间（Poetry Crystallization）、语言学习桌面应用（Lumina）与课程笔记工具（Canvas2Note）。</p>
         <p class="reveal reveal-d2">欢迎学术合作与项目交流。</p>
       </div>
@@ -847,7 +848,7 @@
         </div>
         <div class="about-aside-item reveal reveal-d3">
           <div class="about-aside-label">Languages</div>
-          <div class="about-aside-value">Python · R · LaTeX</div>
+          <div class="about-aside-value">Wu Chinese · English · German</div>
         </div>
         <div class="about-aside-item reveal">
           <div class="about-aside-label">Interests</div>
@@ -918,61 +919,10 @@
   <section id="projects">
     <div class="section-eyebrow reveal">004 — Projects</div>
     <h2 class="section-heading reveal">Open Source <em>Work</em></h2>
-
-    <div class="tab-bar reveal" id="projectsTabBar">
-      <button class="tab-btn active" data-tab="all">All <span class="tab-count">5</span></button>
-      <button class="tab-btn" data-tab="projects">Projects <span class="tab-count">2</span></button>
-      <button class="tab-btn" data-tab="papers">Papers <span class="tab-count">1</span></button>
-      <button class="tab-btn" data-tab="code">Code <span class="tab-count">3</span></button>
-    </div>
-
-    <div class="projects-grid" id="projectsGrid">
-      <div class="project-card reveal" data-category="projects" data-visible="true">
-        <div class="project-num">01</div>
-        <h3 class="project-title">Lumina — Intelligent Language Learning App</h3>
-        <p class="project-desc">Modern desktop application for language learning with intelligent dictionary, morphology analysis, and spaced repetition system. Powered by Tauri 2.0 + Rust backend, supporting German, English, Sanskrit and 20+ languages.</p>
-        <div class="project-tech">
-          <span>Tauri 2.0</span><span>Rust</span><span>React</span><span>TypeScript</span><span>SQLite</span><span>Python</span>
-        </div>
-        <a href="https://github.com/HashBrowns-fries/Lumina" class="project-link" target="_blank">GitHub ↗</a>
-        <a href="https://github.com/HashBrowns-fries/Lumina/releases" class="project-link" style="margin-left:1.5rem;" target="_blank">Downloads ↗</a>
-      </div>
-      <div class="project-card reveal" data-category="projects" data-visible="true">
-        <div class="project-num">02</div>
-        <h3 class="project-title">Canvas2Note — SJTU Course Note Pipeline</h3>
-        <p class="project-desc">上海交通大学课程录屏 → 语音转写 → AI 整理笔记全流程工具。支持课程文件下载、录播下载、直播实时转写（FunASR）、PPT 幻灯片 VLM 分析、Markdown 笔记生成、LLM 对话。</p>
-        <div class="project-tech">
-          <span>Python</span><span>FastAPI</span><span>React</span><span>Vite</span><span>Tailwind</span><span>FunASR</span><span>Qwen3-VL</span>
-        </div>
-        <a href="https://github.com/HashBrowns-fries/SJTU_Canvas2Note" class="project-link" target="_blank">GitHub ↗</a>
-      </div>
-      <div class="project-card reveal" data-category="code" data-visible="true">
-        <div class="project-num">03</div>
-        <h3 class="project-title">LLM Judge — Chinese Grammar Evaluation System</h3>
-        <p class="project-desc">评估大语言模型对中文代词指代、省略、量词逻辑等语法现象的判断能力。研究 Scaling Law、LoRA 微调与 Token Fertility。</p>
-        <div class="project-tech">
-          <span>Python</span><span>PyTorch</span><span>HuggingFace</span><span>LoRA</span><span>Qwen</span>
-        </div>
-        <a href="https://github.com/HashBrowns-fries/LLM_Judge" class="project-link" target="_blank">GitHub ↗</a>
-      </div>
-      <div class="project-card reveal" data-category="code" data-visible="true">
-        <div class="project-num">04</div>
-        <h3 class="project-title">TibSplit — Classical Tibetan Morphological Analyzer</h3>
-        <p class="project-desc">基于 BERT-CRF 的古典藏文形态学解析系统，支持细粒度 POS 标注（77 类）、格助词分析、Gemma 分词、RAG 佛典问答与 SRS 助词复习。</p>
-        <div class="project-tech">
-          <span>Python</span><span>BERT-CRF</span><span>FastAPI</span><span>React</span><span>vLLM</span><span>ChromaDB</span>
-        </div>
-        <a href="https://github.com/HashBrowns-fries/Tibert-Classical" class="project-link" target="_blank">GitHub ↗</a>
-      </div>
-      <div class="project-card reveal" data-category="code" data-visible="true">
-        <div class="project-num">05</div>
-        <h3 class="project-title">Poetry Crystallization — Semantic Space in Classical Chinese Poetry</h3>
-        <p class="project-desc">课程论文配套研究。核心发现：体裁形式是中国古典诗歌语义空间的第一组织力量，朝代效应是体裁效应的副产品。基于 111 万首古典诗歌语料，BERT-CCPoem + t-SNE + PERMANOVA + Louvain 社区检测。</p>
-        <div class="project-tech">
-          <span>Python</span><span>BERT-CCPoem</span><span>t-SNE</span><span>PERMANOVA</span><span>Louvain</span>
-        </div>
-        <a href="https://github.com/HashBrowns-fries/poetryCrystallization" class="project-link" target="_blank">GitHub ↗</a>
-      </div>
+    <div style="text-align:center; padding: 5rem 0;">
+      <a href="/projects/" style="font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);text-decoration:none;border-bottom:1px solid var(--border);padding-bottom:0.3rem;transition:color 0.3s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">
+        View all projects →
+      </a>
     </div>
   </section>
 
@@ -982,6 +932,24 @@
     <h2 class="section-heading reveal">Writing &amp; <em>Notes</em></h2>
     <div class="blog-layout">
       <div class="blog-list">
+        <a href="/blog/wu-jingzhi-zhuangzhang.html" class="blog-post-item">
+          <div class="blog-post-meta">Wu Chinese · Historical Phonology · 2025</div>
+          <h2 class="blog-post-title">北部吳語精知莊章組的演化</h2>
+          <p class="blog-post-excerpt">考察北部吳語中精知莊章四组的分化与合并模式，探讨吴语方言中舌尖音的层次问题。</p>
+          <div class="blog-post-tags">
+            <span class="blog-post-tag">Wu Chinese</span>
+            <span class="blog-post-tag">Historical Phonology</span>
+          </div>
+        </a>
+        <a href="/blog/luan.html" class="blog-post-item">
+          <div class="blog-post-meta">Historical Linguistics · 2025</div>
+          <h2 class="blog-post-title">亂</h2>
+          <p class="blog-post-excerpt">「亂」为何在金文中写作双手整理丝线之形？本字从「爪」从「又」，「又」即手之象形，本义为以手治丝。</p>
+          <div class="blog-post-tags">
+            <span class="blog-post-tag">Historical Linguistics</span>
+            <span class="blog-post-tag">Chinese Etymology</span>
+          </div>
+        </a>
         <a href="/blog/gong-etymology.html" class="blog-post-item">
           <div class="blog-post-meta">Historical Linguistics · 2025-03-10</div>
           <h2 class="blog-post-title">「公」字怎么与男性绑定</h2>
@@ -1074,8 +1042,6 @@
     <div class="footer-copy">© 2025 Chenhao Meng</div>
     <div class="footer-links">
       <a href="https://github.com/HashBrowns-fries" target="_blank">GitHub</a>
-      <a href="#">Scholar</a>
-      <a href="#">ArXiv</a>
     </div>
   </footer>
 

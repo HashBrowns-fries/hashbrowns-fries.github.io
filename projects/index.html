@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — Chenhao Meng</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F9F7F2; --bg-2: #F3F0E8; --bg-3: #EDE9DF; --surface: #FDFCFA;
+      --text: #1C1C18; --muted: #7A7870; --dim: #B4B0A8;
+      --border: rgba(28,28,24,0.10); --accent-2: #8B6D4A;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Lora', Georgia, serif; --font-mono: 'DM Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 1rem; line-height: 1.85; }
+    ::selection { background: var(--text); color: var(--bg); }
+    a { text-decoration: none; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.6rem 5vw;
+      background: rgba(249,247,242,0.95); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-brand { font-family: var(--font-display); font-size: 1.1rem; font-weight: 400; color: var(--text); }
+    .nav-brand em { font-style: italic; color: var(--muted); }
+    .nav-links { display: flex; gap: 3rem; list-style: none; }
+    .nav-links a { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; color: var(--muted); transition: color 0.3s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a.active { color: var(--text); }
+
+    .projects-page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 8rem 5vw 6rem;
+    }
+    .page-eyebrow {
+      font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--dim); margin-bottom: 1.2rem;
+    }
+    .page-title {
+      font-family: var(--font-display); font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 300; line-height: 1.1; letter-spacing: -0.01em;
+      margin-bottom: 3rem; color: var(--text);
+    }
+    .page-title em { font-style: italic; font-weight: 300; color: var(--muted); }
+
+    .tab-bar {
+      display: flex; gap: 0; border-bottom: 1px solid var(--border);
+      margin-bottom: 3rem;
+    }
+    .tab-btn {
+      font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--dim);
+      background: none; border: none; border-bottom: 2px solid transparent;
+      padding: 0.8rem 1.5rem; cursor: pointer; transition: all 0.3s;
+      margin-bottom: -1px;
+    }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { color: var(--text); border-bottom-color: var(--text); }
+    .tab-count { font-size: 0.5rem; vertical-align: super; margin-left: 0.3em; }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+    .project-card {
+      padding: 2.5rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      position: relative;
+      transition: all 0.35s ease;
+    }
+    .project-card:hover {
+      border-color: var(--text);
+      transform: translateY(-3px);
+    }
+    .project-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--text);
+      transition: width 0.4s ease;
+    }
+    .project-card:hover::after { width: 100%; }
+    .project-num {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      color: var(--dim);
+      margin-bottom: 1.2rem;
+    }
+    .project-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 0.8rem;
+      line-height: 1.3;
+    }
+    .project-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+    .project-tech { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
+    .project-tech span {
+      font-family: var(--font-mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.5rem;
+      border: 1px solid var(--border);
+      color: var(--dim);
+    }
+    .project-link {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--dim);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.3s;
+    }
+    .project-link:hover { color: var(--text); }
+    .project-card[data-visible="false"] { display: none; }
+    .project-card[data-visible="true"] { animation: tabReveal 0.4s ease forwards; }
+    @keyframes tabReveal {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    footer { padding: 3rem 5vw; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .footer-copy { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.1em; color: var(--dim); }
+    .footer-links { display: flex; gap: 2.5rem; }
+    .footer-links a { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); text-decoration: none; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--text); }
+
+    @media (max-width: 640px) {
+      nav .nav-links { gap: 1.5rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+    }
+    @media (max-width: 768px) {
+      .projects-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-brand">Chenhao <em>Meng</em></div>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#about">About</a></li>
+      <li><a href="/#research">Research</a></li>
+      <li><a href="/#publications">Publications</a></li>
+      <li><a href="/projects/" class="active">Projects</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/life.html">Life</a></li>
+    </ul>
+  </nav>
+
+  <div class="projects-page">
+    <div class="page-eyebrow">004 — Projects</div>
+    <h1 class="page-title">Open Source <em>Work</em></h1>
+
+    <div class="tab-bar" id="projectsTabBar">
+      <button class="tab-btn active" data-tab="all">All <span class="tab-count">5</span></button>
+      <button class="tab-btn" data-tab="projects">Projects <span class="tab-count">2</span></button>
+      <button class="tab-btn" data-tab="papers">Papers <span class="tab-count">1</span></button>
+      <button class="tab-btn" data-tab="code">Code <span class="tab-count">3</span></button>
+    </div>
+
+    <div class="projects-grid" id="projectsGrid">
+
+      <div class="project-card" data-category="projects" data-visible="true">
+        <div class="project-num">01</div>
+        <h3 class="project-title">Lumina — Intelligent Language Learning App</h3>
+        <p class="project-desc">Modern desktop application for language learning with intelligent dictionary, morphology analysis, and spaced repetition system. Powered by Tauri 2.0 + Rust backend, supporting German, English, Sanskrit and 20+ languages.</p>
+        <div class="project-tech">
+          <span>Tauri 2.0</span><span>Rust</span><span>React</span><span>TypeScript</span><span>SQLite</span><span>Python</span>
+        </div>
+        <a href="https://github.com/HashBrowns-fries/Lumina" class="project-link" target="_blank">GitHub ↗</a>
+        <a href="https://github.com/HashBrowns-fries/Lumina/releases" class="project-link" style="margin-left:1.5rem;" target="_blank">Downloads ↗</a>
+      </div>
+
+      <div class="project-card" data-category="projects" data-visible="true">
+        <div class="project-num">02</div>
+        <h3 class="project-title">Canvas2Note — SJTU Course Note Pipeline</h3>
+        <p class="project-desc">上海交通大学课程录屏 → 语音转写 → AI 整理笔记全流程工具。支持课程文件下载、录播下载、直播实时转写（FunASR）、PPT 幻灯片 VLM 分析、Markdown 笔记生成、LLM 对话。</p>
+        <div class="project-tech">
+          <span>Python</span><span>FastAPI</span><span>React</span><span>Vite</span><span>Tailwind</span><span>FunASR</span><span>Qwen3-VL</span>
+        </div>
+        <a href="https://github.com/HashBrowns-fries/SJTU_Canvas2Note" class="project-link" target="_blank">GitHub ↗</a>
+      </div>
+
+      <div class="project-card" data-category="code" data-visible="true">
+        <div class="project-num">03</div>
+        <h3 class="project-title">LLM Judge — Chinese Grammar Evaluation System</h3>
+        <p class="project-desc">评估大语言模型对中文代词指代、省略、量词逻辑等语法现象的判断能力。研究 Scaling Law、LoRA 微调与 Token Fertility。</p>
+        <div class="project-tech">
+          <span>Python</span><span>PyTorch</span><span>HuggingFace</span><span>LoRA</span><span>Qwen</span>
+        </div>
+        <a href="https://github.com/HashBrowns-fries/LLM_Judge" class="project-link" target="_blank">GitHub ↗</a>
+      </div>
+
+      <div class="project-card" data-category="code" data-visible="true">
+        <div class="project-num">04</div>
+        <h3 class="project-title">TibSplit — Classical Tibetan Morphological Analyzer</h3>
+        <p class="project-desc">基于 BERT-CRF 的古典藏文形态学解析系统，支持细粒度 POS 标注（77 类）、格助词分析、Gemma 分词、RAG 佛典问答与 SRS 助词复习。</p>
+        <div class="project-tech">
+          <span>Python</span><span>BERT-CRF</span><span>FastAPI</span><span>React</span><span>vLLM</span><span>ChromaDB</span>
+        </div>
+        <a href="https://github.com/HashBrowns-fries/Tibert-Classical" class="project-link" target="_blank">GitHub ↗</a>
+      </div>
+
+      <div class="project-card" data-category="code" data-visible="true">
+        <div class="project-num">05</div>
+        <h3 class="project-title">Poetry Crystallization — Semantic Space in Classical Chinese Poetry</h3>
+        <p class="project-desc">课程论文配套研究。核心发现：体裁形式是中国古典诗歌语义空间的第一组织力量，朝代效应是体裁效应的副产品。基于 111 万首古典诗歌语料，BERT-CCPoem + t-SNE + PERMANOVA + Louvain 社区检测。</p>
+        <div class="project-tech">
+          <span>Python</span><span>BERT-CCPoem</span><span>t-SNE</span><span>PERMANOVA</span><span>Louvain</span>
+        </div>
+        <a href="https://github.com/HashBrowns-fries/poetryCrystallization" class="project-link" target="_blank">GitHub ↗</a>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-copy">© 2025 Chenhao Meng</div>
+    <div class="footer-links">
+      <a href="https://github.com/HashBrowns-fries" target="_blank">GitHub</a>
+    </div>
+  </footer>
+
+  <script>
+    const tabBar = document.getElementById('projectsTabBar');
+    if (tabBar) {
+      const tabBtns = tabBar.querySelectorAll('.tab-btn');
+      const cards = document.querySelectorAll('.project-card[data-category]');
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          tabBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const sel = btn.dataset.tab;
+          cards.forEach(c => {
+            c.dataset.visible = (sel === 'all' || c.dataset.category === sel) ? 'true' : 'false';
+          });
+        });
+      });
+    }
+  </script>
+
+</body>
+</html>

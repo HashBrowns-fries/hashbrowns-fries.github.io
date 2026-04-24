@@ -7,7 +7,13 @@
   <title>Chenhao Meng — AI / NLP Research</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Iansui&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'HanaMinA';
+      src: url('/HanaMinA.ttf') format('truetype');
+      font-display: swap;
+    }
   <style>
     /* ===== TOKENS — WARM WASHI PAPER ===== */
     :root {
@@ -22,7 +28,7 @@
       --accent: #2C3E50;
       --accent-2: #8B6D4A;
       --font-display: 'Cormorant Garamond', Georgia, serif;
-      --font-body:    'Lora', Georgia, serif;
+      --font-body:    'HanaMinA', 'Iansui', Georgia, serif;
       --font-mono:    'DM Mono', monospace;
     }
 
@@ -178,7 +184,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 6rem 4rem 6rem 0;
+      padding: 7rem 4rem 0 0;
       position: relative;
       z-index: 1;
     }
@@ -251,39 +257,28 @@
     }
 
     .now-reading {
-      margin-top: 1.8rem;
-      padding: 1.2rem 1.5rem;
-      border: 1px solid var(--border);
-      background: var(--surface);
+      margin-top: 2rem;
+      padding-left: 1.2rem;
+      border-left: 2px solid var(--accent-2);
     }
     .now-reading-label {
       font-family: var(--font-mono);
       font-size: 0.52rem;
-      letter-spacing: 0.25em;
+      letter-spacing: 0.3em;
       text-transform: uppercase;
       color: var(--dim);
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.7rem;
     }
     .now-reading-items {
       display: flex;
       flex-direction: column;
-      gap: 0.45rem;
+      gap: 0.35rem;
     }
     .now-reading-item {
       font-family: var(--font-body);
-      font-size: 0.82rem;
+      font-size: 0.98rem;
       color: var(--muted);
-      line-height: 1.5;
-      display: flex;
-      align-items: baseline;
-      gap: 0.5rem;
-    }
-    .now-reading-slash {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      color: var(--accent-2);
-      flex-shrink: 0;
-      line-height: 1;
+      line-height: 1.55;
     }
 
     .hero-rule {
@@ -323,10 +318,9 @@
     }
     .hero-ipa {
       font-family: var(--font-mono);
-      font-size: 0.72rem;
+      font-size: 1.2rem;
       color: var(--dim);
-      letter-spacing: 0.05em;
-      margin-top: 0.5rem;
+      margin-top: 0.6rem;
       opacity: 0;
       animation: fadeIn 1s ease forwards 0.65s;
     }
@@ -996,7 +990,7 @@
     /* ===== RESPONSIVE ===== */
     @media (max-width: 1200px) {
       .hero { grid-template-columns: 1fr 340px; }
-      .hero-right { padding: 6rem 2rem 6rem 0; }
+      .hero-right { padding: 7rem 2rem 0 0; }
       .hero-avatar img { width: 220px; height: 220px; }
     }
     @media (max-width: 1024px) {
@@ -1016,7 +1010,8 @@
       .hero-name { font-size: 4rem; }
       .section-heading { font-size: 2.5rem; }
       footer { flex-direction: column; gap: 1.5rem; text-align: center; }
-      .now-reading { padding: 1rem 1.2rem; }
+      .hero-ipa { font-size: 0.88rem; }
+      .now-reading-item { font-size: 0.88rem; }
     }
   </style>
 </head>
@@ -1069,18 +1064,9 @@
       <div class="now-reading">
         <div class="now-reading-label">Now Reading</div>
         <div class="now-reading-items">
-          <div class="now-reading-item">
-            <span class="now-reading-slash">/</span>
-            秋谷裕幸、野原将挥《闽语与上古汉语》
-          </div>
-          <div class="now-reading-item">
-            <span class="now-reading-slash">/</span>
-            汪民安《福柯的界线》
-          </div>
-          <div class="now-reading-item">
-            <span class="now-reading-slash">/</span>
-            学习德语中
-          </div>
+          <div class="now-reading-item">秋谷裕幸、野原将挥《闽语与上古汉语》</div>
+          <div class="now-reading-item">汪民安《福柯的界线》</div>
+          <div class="now-reading-item">学习德语中</div>
         </div>
       </div>
     </div>

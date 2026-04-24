@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>并不是女子拿扫帚｜「婦」的文字来源 — Chenhao Meng</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F9F7F2; --bg-2: #F3F0E8; --bg-3: #EDE9DF; --surface: #FDFCFA;
+      --text: #1C1C18; --muted: #7A7870; --dim: #B4B0A8;
+      --border: rgba(28,28,24,0.10); --accent-2: #8B6D4A;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Lora', Georgia, serif; --font-mono: 'DM Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 1rem; line-height: 1.85; }
+    ::selection { background: var(--text); color: var(--bg); }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.6rem 5vw;
+      background: rgba(249,247,242,0.95); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-brand { font-family: var(--font-display); font-size: 1.1rem; font-weight: 400; color: var(--text); }
+    .nav-brand em { font-style: italic; color: var(--muted); }
+    .nav-links { display: flex; gap: 3rem; list-style: none; }
+    .nav-links a { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; color: var(--muted); transition: color 0.3s; }
+    .nav-links a:hover { color: var(--text); }
+
+    .post-header {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 8rem 5vw 4rem;
+    }
+    .post-back {
+      font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--dim); text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;
+      margin-bottom: 3rem; transition: color 0.3s;
+    }
+    .post-back:hover { color: var(--text); }
+    .post-meta {
+      font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--dim); margin-bottom: 1rem;
+    }
+    .post-title {
+      font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 300; line-height: 1.1; letter-spacing: -0.01em; color: var(--text); margin-bottom: 0.8rem;
+    }
+    .post-title em { font-style: italic; font-weight: 300; color: var(--muted); }
+    .post-subtitle {
+      font-family: var(--font-display); font-size: 1.1rem; font-style: italic; color: var(--muted); margin-bottom: 2rem;
+    }
+    .post-divider { width: 32px; height: 1px; background: var(--text); margin: 2rem 0; }
+
+    .post-content {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 5vw 6rem;
+    }
+    .post-content p { margin-bottom: 1.8rem; font-size: 1.05rem; color: var(--muted); line-height: 1.9; }
+    .post-content p:first-of-type { font-size: 1.1rem; color: var(--text); }
+    .post-content h2 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 400; color: var(--text); margin: 2.5rem 0 1rem; }
+    .post-content strong { font-weight: 600; color: var(--text); }
+    .post-content em { font-style: italic; color: var(--text); }
+
+    .phonetic-table {
+      margin: 1.5rem 0;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+    }
+    .phonetic-table th {
+      text-align: left;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
+      color: var(--dim);
+      font-weight: 400;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      background: var(--bg-2);
+    }
+    .phonetic-table td {
+      padding: 0.6rem 1rem;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .tibetan {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      background: var(--bg-3);
+      padding: 0.2rem 0.5rem;
+      border-radius: 2px;
+    }
+
+    .post-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+    .post-tag { font-family: var(--font-mono); font-size: 0.52rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.6rem; border: 1px solid var(--border); color: var(--dim); }
+
+    footer { padding: 3rem 5vw; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .footer-copy { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.1em; color: var(--dim); }
+    .footer-links { display: flex; gap: 2.5rem; }
+    .footer-links a { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); text-decoration: none; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--text); }
+
+    @media (max-width: 640px) {
+      nav .nav-links { gap: 1.5rem; }
+      footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-brand">Chenhao <em>Meng</em></div>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#projects">Projects</a></li>
+      <li><a href="/#publications">Publications</a></li>
+      <li><a href="/blog/">Blog</a></li>
+    </ul>
+  </nav>
+
+  <div class="post-header">
+    <a href="/blog/" class="post-back">← Back to Blog</a>
+    <div class="post-meta">Historical Linguistics · 2025</div>
+    <h1 class="post-title">并不是女子拿扫帚<em>｜</em><strong>「婦」</strong>的文字来源</h1>
+    <p class="post-subtitle">祝所有女性妇女节快乐</p>
+    <div class="post-divider"></div>
+  </div>
+
+  <article class="post-content">
+
+    <p>长期以来，坊间对「婦」字存在一种根深蒂固的误读：将其拆解为「女子持帚，操持家务」。此论不仅是对汉字演变逻辑的浅表臆断，更在不自觉间矮化了古代女性的社会地位。</p>
+
+    <h2>甲金文多以「帚」假借「妇」字</h2>
+
+    <p>妇好也称「帚好」——如果婦真是女子加扫帚，就不能解释以帚代妇的用法。</p>
+
+    <p>特别是在商代，上层女性地位极高，妇好可以上马征讨，却还要操心家务事吗？事实上，打扫之事都是奴隶所做，妇好何必做？</p>
+
+    <p>对于妇右边部分的来源，也有诸多争议，如认为是征战的旌旗、或是权杖等等，我们先不表。</p>
+
+    <h2>形声字的解释</h2>
+
+    <p>事实上，我们认为：婦是一个形声字，先由读音相近的帚假借，后在帚旁加一女旁，以表区分。</p>
+
+    <p>根据白一平&amp;沙加尔的构拟：</p>
+
+    <table class="phonetic-table">
+      <tr>
+        <th>字</th>
+        <th>上古音（最新构拟）</th>
+      </tr>
+      <tr>
+        <td>帚</td>
+        <td><span class="tibetan">*t.pəʔ</span></td>
+      </tr>
+      <tr>
+        <td>妇</td>
+        <td><span class="tibetan">*pjuʔ</span></td>
+      </tr>
+    </table>
+
+    <p>另外，有藏语的旁证：</p>
+
+    <p>
+      <span class="tibetan">phyags ma</span> — 扫帚<br>
+      <span class="tibetan">bags ma</span> — 新娘
+    </p>
+
+    <p>妇字用帚，实际上只是一个形声字选声旁的巧合。后世所谓妇女持扫帚打扫，只是封建文人的附会，完全不可信。</p>
+
+    <h2>商代女性的社会地位</h2>
+
+    <p>商代精英女性地位超然，奴隶阶层承担了所有的体力杂务。一位能征善战的统帅，绝无可能被定义在尘埃里的扫帚之上。</p>
+
+    <p>这种解读，实质上是后世男权社会将女性「家庭化」、「工具化」后，强行投射给文字的集体幻觉。</p>
+
+    <p>另外，对于假命题无需进行批判，更不要归咎于汉字的所谓性别歧视——文字本无罪。</p>
+
+    <div class="post-tags">
+      <span class="post-tag">Historical Linguistics</span>
+      <span class="post-tag">Chinese Etymology</span>
+      <span class="post-tag">Gender Studies</span>
+    </div>
+  </article>
+
+  <footer>
+    <div class="footer-copy">© 2025 Chenhao Meng</div>
+    <div class="footer-links">
+      <a href="https://github.com/HashBrowns-fries" target="_blank">GitHub</a>
+    </div>
+  </footer>
+
+</body>
+</html>

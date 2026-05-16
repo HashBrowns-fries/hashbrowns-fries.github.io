@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canvas2Note — SJTU Course Note Pipeline — Chenhao Meng</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'HanaMinA';
+      src: url('/fonts/HanaMinA.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+      unicode-range: U+4E00-9FFF, U+3400-4DBF, U+F900-FAFF, U+2F800-2FA1F, U+3000-303F, U+FF00-FFEF, U+2E80-2EFF, U+3100-312F;
+    }
+    :root {
+      --bg: #F9F7F2; --bg-2: #F3F0E8; --bg-3: #EDE9DF; --surface: #FDFCFA;
+      --text: #1C1C18; --muted: #7A7870; --dim: #B4B0A8;
+      --border: rgba(28,28,24,0.10); --accent-2: #8B6D4A;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Lora', 'HanaMinA', Georgia, serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 1rem; line-height: 1.85; }
+    ::selection { background: var(--text); color: var(--bg); }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.6rem 5vw;
+      background: rgba(249,247,242,0.95); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-brand { font-family: var(--font-display); font-size: 1.1rem; font-weight: 400; color: var(--text); }
+    .nav-brand em { font-style: italic; color: var(--muted); }
+    .nav-links { display: flex; gap: 3rem; list-style: none; }
+    .nav-links a { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; color: var(--muted); transition: color 0.3s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a.active { color: var(--text); }
+
+    .post-header {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 8rem 5vw 4rem;
+    }
+    .post-back {
+      font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--dim); text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;
+      margin-bottom: 3rem; transition: color 0.3s;
+    }
+    .post-back:hover { color: var(--text); }
+    .post-meta {
+      font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--dim); margin-bottom: 1rem;
+    }
+    .post-title {
+      font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 300; line-height: 1.1; letter-spacing: -0.01em; color: var(--text); margin-bottom: 0.8rem;
+    }
+    .post-divider { width: 32px; height: 1px; background: var(--text); margin: 2rem 0; }
+
+    .post-content {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 5vw 6rem;
+    }
+    .post-content p { margin-bottom: 1.8rem; font-size: 1.05rem; color: var(--muted); line-height: 1.9; }
+    .post-content p:first-of-type { font-size: 1.1rem; color: var(--text); }
+    .post-content h2 {
+      font-family: var(--font-display); font-size: 1.6rem; font-weight: 400; color: var(--text);
+      margin: 3rem 0 1.2rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
+    }
+    .post-content h3 {
+      font-family: var(--font-display); font-size: 1.25rem; font-weight: 400; color: var(--text);
+      margin: 2rem 0 0.8rem;
+    }
+    .post-content ul, .post-content ol {
+      margin-bottom: 1.8rem; padding-left: 1.5rem; color: var(--muted); font-size: 1.05rem; line-height: 1.9;
+    }
+    .post-content li { margin-bottom: 0.4rem; }
+    .post-content strong { color: var(--text); font-weight: 500; }
+    .post-content code {
+      font-family: var(--font-mono); font-size: 0.88em;
+      background: var(--bg-2); padding: 0.15em 0.4em; border-radius: 3px;
+    }
+    .post-content pre {
+      background: var(--bg-2); padding: 1.5rem; margin-bottom: 1.8rem;
+      overflow-x: auto; border: 1px solid var(--border); border-radius: 4px;
+    }
+    .post-content pre code {
+      background: none; padding: 0; font-size: 0.82rem; line-height: 1.6;
+    }
+    .post-content blockquote {
+      border-left: 2px solid var(--border); padding: 1rem 1.5rem; margin: 1.5rem 0;
+      font-style: italic; color: var(--muted); background: var(--bg-2);
+    }
+    .post-content table {
+      width: 100%; border-collapse: collapse; margin-bottom: 1.8rem; font-size: 0.92rem;
+    }
+    .post-content th {
+      font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+      text-align: left; padding: 0.8rem 1rem; border-bottom: 2px solid var(--text); color: var(--text);
+    }
+    .post-content td {
+      padding: 0.7rem 1rem; border-bottom: 1px solid var(--border); color: var(--muted); line-height: 1.6;
+    }
+    .post-content tr:hover td { background: var(--bg-2); }
+    .post-content .mermaid {
+      margin: 2rem 0; text-align: center;
+    }
+    .post-content a { color: var(--accent-2); text-decoration: underline; text-underline-offset: 0.15em; transition: color 0.3s; }
+    .post-content a:hover { color: var(--text); }
+
+    .post-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+    .post-tag { font-family: var(--font-mono); font-size: 0.52rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.6rem; border: 1px solid var(--border); color: var(--dim); }
+
+    footer { padding: 3rem 5vw; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .footer-copy { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.1em; color: var(--dim); }
+    .footer-links { display: flex; gap: 2.5rem; }
+    .footer-links a { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); text-decoration: none; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--text); }
+
+    @media (max-width: 640px) {
+      nav .nav-links { gap: 1.5rem; }
+      footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+      .post-content table { font-size: 0.8rem; }
+      .post-content th, .post-content td { padding: 0.5rem; }
+    }
+
+    /* ===== CUSTOM CURSOR ===== */
+    body { cursor: none; }
+    a, button { cursor: none; }
+    .cursor {
+      position: fixed;
+      width: 22px;
+      height: 22px;
+      border: 1px solid var(--text);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10000;
+      transform: translate(-50%, -50%);
+      opacity: 0.45;
+      transition: width 0.35s cubic-bezier(0.23,1,0.32,1),
+                  height 0.35s cubic-bezier(0.23,1,0.32,1),
+                  opacity 0.35s;
+    }
+    body:has(a:hover) .cursor,
+    body:has(button:hover) .cursor {
+      width: 38px;
+      height: 38px;
+      opacity: 0.75;
+    }
+    @media (hover: none) {
+      .cursor { display: none; }
+      body, a, button { cursor: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor"></div>
+
+  <nav>
+    <a href="https://hashbrowns-fries.github.io" class="nav-brand" style="text-decoration:none;color:inherit;">Chenhao <em>Meng</em></a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#about">About</a></li>
+      <li><a href="/#research">Research</a></li>
+      <li><a href="/#publications">Publications</a></li>
+      <li><a href="/projects/" class="active">Projects</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/life.html">Life</a></li>
+    </ul>
+  </nav>
+
+  <div class="post-header">
+    <a href="/projects/" class="post-back">&larr; Back to Projects</a>
+    <div class="post-meta">03 — Project &middot; Course Automation</div>
+    <h1 class="post-title">Canvas2Note — SJTU Course Note Pipeline</h1>
+    <div class="post-divider"></div>
+  </div>
+
+  <article class="post-content" id="prd-rendered"></article>
+
+  <script type="text/markdown" id="prd-content">
+Canvas2Note 是 SJTU 全链路课程笔记自动化系统，实现从课程录像到结构化 Markdown 笔记的端到端流水线。系统通过 **Canvas API** 自动下载课件与录像，调度 **5 种 ASR 引擎**（FunASR SenseVoice · faster-whisper · Qwen3-ASR · SenseVoice-small · Whisper）进行语音转写，结合 **VLM（Qwen3-VL）** 对 PPT 截帧进行视觉分析，最终由 **LLM** 融合转写文本与视觉信息生成高质量 Markdown 笔记。支持直播实时转写、QR 签到监控，并提供 WebUI + CLI 双入口。
+
+## 系统架构
+
+Canvas2Note 采用 **FastAPI 后端 + React 前端** 分层架构。用户通过 WebUI 或 CLI 发起任务，FastAPI 调度下载、转写、分析、生成四个流水线阶段，通过 SSE 实时推送进度状态。
+
+```mermaid
+flowchart TB
+    User["用户\nWebUI / CLI"]
+    subgraph Frontend["React + Vite · 前端"]
+        WebUI["WebUI\n课程浏览 · 任务管理"]
+        Chat["AI 问答面板\n笔记交互"]
+        Live["直播面板\n实时转写"]
+    end
+    subgraph Backend["FastAPI · 后端"]
+        API["REST API\n任务调度 · SSE 推送"]
+        Pipeline["Pipeline 引擎\n下载 · 转写 · 分析 · 生成"]
+        Queue["任务队列\n并发控制"]
+        DB["SQLite\ncourses · videos · notes"]
+    end
+    subgraph Services["外部服务 · 引擎层"]
+        Canvas["Canvas LMS API\n课件 · 录像"]
+        ASR["ASR 引擎\nFunASR · faster-whisper\nQwen3-ASR"]
+        VLM["VLM\nQwen3-VL\nPPT 截帧分析"]
+        LLM["LLM\n笔记融合生成"]
+    end
+
+    User --> Frontend
+    WebUI --> |"HTTP / SSE"| API
+    Chat --> |"HTTP"| API
+    API --> Pipeline
+    Pipeline --> Queue
+    Queue --> DB
+    Pipeline --> Canvas
+    Pipeline --> ASR
+    Pipeline --> VLM
+    Pipeline --> LLM
+```
+
+## 核心特性
+
+### 多引擎 ASR 转写
+
+Canvas2Note 集成 5 种语音识别引擎，支持按精度、速度、硬件需求灵活选择：
+
+| 引擎 | 框架 | 语言 | 硬件需求 | 特点 |
+|------|------|------|---------|------|
+| **FunASR SenseVoice** | FunASR | 中/英/日/韩 | GPU 推荐 | 高精度、情感识别、事件检测 |
+| **faster-whisper** | CTranslate2 | 99 语言 | GPU/CPU | 4x 加速、低显存占用 |
+| **Qwen3-ASR** | Qwen3 | 中/英 | GPU | 端到端大模型 ASR |
+| **SenseVoice-small** | FunASR | 中/英 | CPU 友好 | 轻量推理、适合低配 |
+| **Whisper** | OpenAI | 99 语言 | GPU | 原版 Whisper 基线 |
+
+### VLM 视觉分析
+
+利用 **Qwen3-VL** 多模态大模型对课件 PPT 进行逐帧视觉分析：
+
+- **截帧提取** — FFmpeg 按关键帧变化自动截取 PPT 画面
+- **内容识别** — 识别幻灯片中的文字、公式、图表、代码
+- **结构理解** — 解析 PPT 的标题层级、要点列表、注释
+- **图文对齐** — 将截帧内容与 ASR 时间戳对齐，形成图文并茂笔记
+
+### LLM 融合生成
+
+将 ASR 转写文本与 VLM 视觉分析结果送入 LLM，生成结构化 Markdown 笔记：
+
+- **章节分割** — 基于 PPT 翻页事件自动划分章节
+- **要点提炼** — 从口语化转写中提取核心知识点
+- **公式还原** — 将口述公式转为 LaTeX 格式
+- **补充注释** — 结合 PPT 视觉信息补全口语化省略内容
+
+### 直播实时转写
+
+支持课程直播的实时语音转写，通过 WebSocket 流式推送文本：
+
+- **QR 签到监控** — 自动检测直播画面中的签到二维码，推送通知
+- **实时字幕** — 低延迟语音转写，支持 FunASR 流式模式
+- **自动录制** — 直播结束后自动触发完整笔记生成流水线
+
+## 核心流程图
+
+从 Canvas 课件获取到最终笔记生成的完整流水线，每个阶段可独立运行或串联执行。
+
+```mermaid
+flowchart LR
+    Canvas["Canvas API\n课件下载"] --> Download["下载录像\nFFmpeg 处理"]
+    Download --> ASR["ASR 转写\n5 引擎可选"]
+    ASR --> VLM["VLM 分析\nPPT 截帧识别"]
+    VLM --> Fusion["LLM 融合\n文本 + 视觉"]
+    Fusion --> Notes["Markdown 笔记\n结构化输出"]
+    Notes --> QA["AI 问答\n笔记交互"]
+```
+
+## 用户路径图
+
+从登录 Canvas 到获得课程笔记的完整用户旅程，涵盖课程选择、下载、转写、笔记生成和 AI 问答全流程。
+
+```mermaid
+flowchart LR
+    Start["扫码登录\nCanvas QR"] --> Course["选择课程\n学期筛选"]
+    Course --> Video["选择录像\n按日期列表"]
+    Video --> Download["下载视频\n进度条显示"]
+    Download --> Engine["选 ASR 引擎\n5 引擎切换"]
+    Engine --> Transcribe["语音转写\nSSE 实时进度"]
+    Transcribe --> Generate["生成笔记\nVLM + LLM"]
+    Generate --> Chat["AI 问答\n基于笔记对话"]
+```
+
+## 功能结构图
+
+Canvas2Note 的功能模块按领域组织为六大分支，覆盖下载、转写、笔记、直播、CLI 和 WebUI。
+
+```mermaid
+mindmap
+  root((Canvas2Note))
+    Download 下载
+      canvas_api Canvas API
+      qr_login 扫码登录
+      video_dl 视频下载
+      slide_dl 课件下载
+    ASR 语音转写
+      funasr FunASR SenseVoice
+      whisper faster-whisper
+      qwen3 Qwen3-ASR
+      sensevoice SenseVoice-small
+      openai Whisper
+    Notes 笔记生成
+      vlm_analysis VLM 截帧分析
+      llm_fusion LLM 融合
+      markdown Markdown 输出
+      chat AI 问答
+    Live 直播
+      realtime 实时转写
+      qr_monitor QR 签到监控
+      auto_record 自动录制
+    CLI 命令行
+      download 下载命令
+      transcribe 转写命令
+      generate 生成命令
+      config 配置管理
+    WebUI 界面
+      course_browser 课程浏览
+      task_manager 任务管理
+      note_viewer 笔记预览
+      chat_panel 问答面板
+```
+
+## 信息架构图
+
+WebUI 页面结构，左侧 Tab 导航，每个 Tab 包含独立的功能子模块。
+
+```mermaid
+mindmap
+  root((WebUI Tabs))
+    Canvas 课程
+      semester_filter 学期筛选
+      course_list 课程列表
+      video_list 录像列表
+      download_btn 下载按钮
+    Local 本地
+      file_browser 文件浏览
+      upload 上传视频
+      batch_import 批量导入
+    Videos 视频
+      video_player 视频播放
+      timeline 时间轴
+      keyframes 关键帧
+    Transcriptions 转写
+      engine_selector 引擎选择
+      transcript_view 转写文本
+      timestamp 时间戳对齐
+      edit 手动编辑
+    Notes 笔记
+      markdown_preview Markdown 预览
+      export 导出功能
+      history 版本历史
+      ChatPanel 问答面板
+        chat_input 输入框
+        chat_history 对话历史
+        context 上下文引用
+```
+
+## 状态流转图
+
+课程录像从入队到笔记生成完成的流水线状态生命周期，每个状态转换对应一个自动化处理步骤。
+
+```mermaid
+stateDiagram-v2
+    [*] --> queued : 任务创建
+    queued --> downloading : 开始下载
+    downloading --> downloaded : 下载完成
+    downloading --> error : 下载失败
+    downloaded --> transcribing : 开始转写
+    transcribing --> transcribed : 转写完成
+    transcribing --> error : 转写失败
+    transcribed --> analyzing : VLM 分析
+    analyzing --> analyzed : 分析完成
+    analyzing --> error : 分析失败
+    analyzed --> generating : LLM 生成
+    generating --> complete : 笔记生成
+    generating --> error : 生成失败
+    error --> queued : 重试
+    complete --> [*]
+```
+
+## 数据模型 ER 图
+
+SQLite 数据库核心表及其关系，涵盖课程、视频、转写、幻灯片、笔记和问答历史六大实体。
+
+```mermaid
+erDiagram
+    courses {
+        string id PK
+        string name
+        string semester
+        string canvas_id
+        datetime synced_at
+    }
+    videos {
+        string id PK
+        string course_id FK
+        string title
+        string url
+        string local_path
+        string status
+        int duration
+        datetime recorded_at
+    }
+    transcriptions {
+        string id PK
+        string video_id FK
+        string engine
+        string text
+        string timestamps
+        float confidence
+        datetime created_at
+    }
+    slides {
+        string id PK
+        string video_id FK
+        int frame_index
+        float timestamp
+        string image_path
+        string ocr_text
+        string vlm_analysis
+    }
+    notes {
+        string id PK
+        string video_id FK
+        string markdown
+        string model
+        int version
+        datetime generated_at
+    }
+    chat_history {
+        string id PK
+        string note_id FK
+        string role
+        string content
+        string context_refs
+        datetime sent_at
+    }
+    courses ||--o{ videos : "包含"
+    videos ||--o{ transcriptions : "转写"
+    videos ||--o{ slides : "截帧"
+    videos ||--o{ notes : "生成"
+    notes ||--o{ chat_history : "问答"
+```
+
+## 时序图
+
+一次典型的笔记生成流程：从用户选择视频到最终笔记展示，展示 WebUI、后端和各引擎之间的交互时序。
+
+```mermaid
+sequenceDiagram
+    actor User as 用户
+    participant UI as React WebUI
+    participant API as FastAPI
+    participant Canvas as Canvas API
+    participant ASR as ASR Engine
+    participant VLM as Qwen3-VL
+    participant LLM as LLM
+
+    User->>UI: 选择课程录像
+    UI->>API: POST /tasks/create
+    API->>Canvas: 下载视频 + 课件
+    Canvas-->>API: 视频文件 + PPT
+    API-->>UI: SSE 下载进度
+    API->>ASR: 提交音频转写
+    ASR-->>API: 转写文本 + 时间戳
+    API-->>UI: SSE 转写进度
+    API->>API: FFmpeg 截帧提取
+    API->>VLM: 提交截帧分析
+    VLM-->>API: 幻灯片结构化内容
+    API->>LLM: 融合转写 + 视觉
+    LLM-->>API: Markdown 笔记
+    API-->>UI: SSE 生成完成
+    UI-->>User: 展示笔记预览
+    User->>UI: AI 问答
+    UI->>API: POST /chat
+    API->>LLM: 笔记上下文 + 问题
+    LLM-->>API: 回答
+    API-->>UI: 流式回答
+```
+
+## 高保真原型
+
+以下是 Canvas2Note WebUI 的典型界面，展示课程笔记生成流水线的操作面板。
+
+<div style="background: #0f172a; border-radius: 8px; padding: 0; margin: 2rem 0; overflow: hidden; font-family: 'DM Mono', monospace; font-size: 0.78rem; line-height: 1.7; box-shadow: 0 4px 24px rgba(0,0,0,0.18);">
+  <div style="background: #1e293b; padding: 0.5rem 1rem; display: flex; align-items: center; gap: 0.5rem;">
+    <span style="width: 10px; height: 10px; border-radius: 50%; background: #e74c3c; display: inline-block;"></span>
+    <span style="width: 10px; height: 10px; border-radius: 50%; background: #f39c12; display: inline-block;"></span>
+    <span style="width: 10px; height: 10px; border-radius: 50%; background: #2ecc71; display: inline-block;"></span>
+    <span style="color: #64748b; font-size: 0.7rem; margin-left: 0.5rem;">Canvas2Note — localhost:5173</span>
+  </div>
+  <div style="display: flex; min-height: 380px;">
+    <div style="width: 170px; background: #1e293b; padding: 0.8rem 0; border-right: 1px solid #334155;">
+      <div style="padding: 0.4rem 1rem; color: #38bdf8; font-size: 0.72rem; font-weight: bold; margin-bottom: 0.5rem;">CANVAS2NOTE</div>
+      <div style="padding: 0.5rem 1rem; color: #e2e8f0; background: #334155; border-left: 2px solid #38bdf8; font-size: 0.72rem;">Canvas</div>
+      <div style="padding: 0.5rem 1rem; color: #64748b; font-size: 0.72rem;">Local Files</div>
+      <div style="padding: 0.5rem 1rem; color: #64748b; font-size: 0.72rem;">Videos</div>
+      <div style="padding: 0.5rem 1rem; color: #64748b; font-size: 0.72rem;">Transcriptions</div>
+      <div style="padding: 0.5rem 1rem; color: #64748b; font-size: 0.72rem;">Notes</div>
+      <div style="margin-top: 1.5rem; padding: 0.6rem 1rem; border-top: 1px solid #334155;">
+        <div style="color: #64748b; font-size: 0.62rem;">PIPELINE</div>
+        <div style="color: #4ade80; font-size: 0.72rem;">3 tasks complete</div>
+        <div style="color: #fbbf24; font-size: 0.72rem;">1 transcribing...</div>
+      </div>
+    </div>
+    <div style="flex: 1; padding: 1rem 1.2rem;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.8rem;">
+        <div style="color: #e2e8f0; font-size: 0.88rem;">MA260 — Mathematical Analysis II</div>
+        <div style="color: #64748b; font-size: 0.68rem;">Spring 2026</div>
+      </div>
+      <div style="background: #1e293b; border-radius: 6px; padding: 0.8rem; margin-bottom: 0.6rem; border: 1px solid #334155;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <div style="color: #e2e8f0; font-size: 0.78rem;">Lecture 12 — Fourier Series</div>
+            <div style="color: #64748b; font-size: 0.66rem;">2026-04-15 · 01:32:00 · 1.2 GB</div>
+          </div>
+          <div style="background: #4ade80; color: #0f172a; padding: 0.2rem 0.6rem; border-radius: 3px; font-size: 0.62rem;">COMPLETE</div>
+        </div>
+        <div style="margin-top: 0.5rem; background: #0f172a; border-radius: 4px; height: 4px; overflow: hidden;">
+          <div style="width: 100%; height: 100%; background: #4ade80;"></div>
+        </div>
+      </div>
+      <div style="background: #1e293b; border-radius: 6px; padding: 0.8rem; margin-bottom: 0.6rem; border: 1px solid #334155;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <div style="color: #e2e8f0; font-size: 0.78rem;">Lecture 13 — Uniform Convergence</div>
+            <div style="color: #64748b; font-size: 0.66rem;">2026-04-22 · 01:28:00 · 1.1 GB</div>
+          </div>
+          <div style="background: #fbbf24; color: #0f172a; padding: 0.2rem 0.6rem; border-radius: 3px; font-size: 0.62rem;">TRANSCRIBING</div>
+        </div>
+        <div style="margin-top: 0.5rem; background: #0f172a; border-radius: 4px; height: 4px; overflow: hidden;">
+          <div style="width: 67%; height: 100%; background: #fbbf24;"></div>
+        </div>
+        <div style="color: #64748b; font-size: 0.62rem; margin-top: 0.3rem;">FunASR SenseVoice · 67% · ETA 3:42</div>
+      </div>
+      <div style="background: #1e293b; border-radius: 6px; padding: 0.8rem; border: 1px solid #334155;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <div style="color: #e2e8f0; font-size: 0.78rem;">Lecture 14 — Power Series</div>
+            <div style="color: #64748b; font-size: 0.66rem;">2026-04-29 · 01:35:00 · 1.3 GB</div>
+          </div>
+          <div style="background: #334155; color: #94a3b8; padding: 0.2rem 0.6rem; border-radius: 3px; font-size: 0.62rem;">QUEUED</div>
+        </div>
+      </div>
+      <div style="display: flex; gap: 0.5rem; margin-top: 0.8rem;">
+        <div style="background: #38bdf8; color: #0f172a; padding: 0.4rem 0.8rem; border-radius: 4px; font-size: 0.68rem;">Generate Notes</div>
+        <div style="background: #334155; color: #e2e8f0; padding: 0.4rem 0.8rem; border-radius: 4px; font-size: 0.68rem;">Switch Engine</div>
+        <div style="background: #334155; color: #e2e8f0; padding: 0.4rem 0.8rem; border-radius: 4px; font-size: 0.68rem;">AI Chat</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+## ASR 引擎对比
+
+5 种 ASR 引擎的详细对比，帮助用户根据硬件条件和精度需求选择最优方案。
+
+| 引擎 | 语言支持 | 推理速度 | 显存占用 | 适用场景 | 特色功能 |
+|------|---------|---------|---------|---------|---------|
+| **FunASR SenseVoice** | 中/英/日/韩 | 快 | 约 2 GB | 中文课程首选 | 情感识别、事件检测、标点恢复 |
+| **faster-whisper** | 99 语言 | 4x Whisper | 约 1.5 GB | 多语言通用 | CTranslate2 优化、VAD 过滤 |
+| **Qwen3-ASR** | 中/英 | 中等 | 约 4 GB | 大模型端到端 | 上下文理解、口语化规整 |
+| **SenseVoice-small** | 中/英 | 很快 | 约 0.5 GB | CPU 低配环境 | 轻量模型、无需 GPU |
+| **Whisper** | 99 语言 | 基线 | 约 3 GB | 多语言基线 | OpenAI 原版、生态丰富 |
+
+## 技术栈
+
+| 层级 | 技术 | 说明 |
+|------|------|------|
+| **前端** | React · Vite · Tailwind CSS | WebUI 界面，SSE 实时进度 |
+| **后端** | FastAPI · Python | REST API、Pipeline 调度、SSE 推送 |
+| **数据采集** | Canvas LMS API | 课程同步、录像下载、课件获取 |
+| **语音转写** | FunASR · faster-whisper · Qwen3-ASR | 5 引擎可选，GPU/CPU 自适应 |
+| **视觉分析** | Qwen3-VL · FFmpeg | PPT 截帧提取 + 多模态内容理解 |
+| **笔记生成** | LLM (多模型) | ASR + VLM 融合生成结构化 Markdown |
+| **数据库** | SQLite | courses, videos, transcriptions, notes |
+| **直播** | WebSocket · FunASR Streaming | 实时转写、QR 签到监控 |
+| **桌面端** | Tauri | 跨平台桌面应用打包 |
+
+## 项目链接
+
+- [GitHub 仓库](https://github.com/HashBrowns-fries/SJTU_Canvas2Note)
+  </script>
+
+  <div class="post-content">
+    <div class="post-tags">
+      <span class="post-tag">Python</span>
+      <span class="post-tag">FastAPI</span>
+      <span class="post-tag">React</span>
+      <span class="post-tag">Vite</span>
+      <span class="post-tag">FunASR</span>
+      <span class="post-tag">Qwen3-VL</span>
+      <span class="post-tag">Canvas API</span>
+      <span class="post-tag">SSE</span>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-copy">&copy; 2026 Chenhao Meng</div>
+    <div class="footer-links">
+      <a href="https://github.com/HashBrowns-fries" target="_blank">GitHub</a>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'base',
+      themeVariables: {
+        primaryColor: '#F3F0E8',
+        primaryTextColor: '#1C1C18',
+        primaryBorderColor: '#B4B0A8',
+        lineColor: '#7A7870',
+        secondaryColor: '#EDE9DF',
+        tertiaryColor: '#F9F7F2',
+        fontFamily: "'DM Mono', monospace",
+        fontSize: '13px'
+      }
+    });
+
+    async function renderPRD() {
+      const md = document.getElementById('prd-content').textContent;
+      const renderer = new marked.Renderer();
+      const originalCode = renderer.code.bind(renderer);
+
+      renderer.code = function({ text, lang }) {
+        if (lang === 'mermaid') {
+          return '<div class="mermaid">' + text + '</div>';
+        }
+        return '<pre><code>' + (text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</code></pre>';
+      };
+
+      marked.setOptions({ renderer: renderer, breaks: false, gfm: true });
+      document.getElementById('prd-rendered').innerHTML = marked.parse(md);
+
+      await mermaid.run({ querySelector: '.mermaid' });
+    }
+
+    renderPRD();
+
+    // ── Custom cursor (ring only, smooth follow) ─────────────
+    const cursor = document.querySelector('.cursor');
+    const lerp = (a, b, t) => a + (b - a) * t;
+    let mouseX = -100, mouseY = -100;
+    let curX = -100, curY = -100;
+    document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+    document.addEventListener('mouseleave', () => { cursor.style.opacity = '0'; });
+    document.addEventListener('mouseenter', () => { cursor.style.opacity = '0.45'; });
+    function animateCursor() {
+      curX = lerp(curX, mouseX, 0.14);
+      curY = lerp(curY, mouseY, 0.14);
+      cursor.style.left = curX + 'px';
+      cursor.style.top  = curY + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+  </script>
+
+</body>
+</html>

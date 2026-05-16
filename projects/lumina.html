@@ -112,7 +112,9 @@
     }
     .post-content tr:hover td { background: var(--bg-2); }
     .post-content .mermaid {
-      margin: 2rem 0; text-align: center;
+      margin: 2rem -10vw; text-align: center;
+      max-width: calc(100% + 20vw);
+      overflow-x: auto;
     }
     .post-content a { color: var(--accent-2); text-decoration: underline; text-underline-offset: 0.15em; transition: color 0.3s; }
     .post-content a:hover { color: var(--text); }

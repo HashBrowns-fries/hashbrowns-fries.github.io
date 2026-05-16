@@ -136,6 +136,14 @@
       margin-bottom: 0.8rem;
       line-height: 1.3;
     }
+    .project-title a {
+      color: inherit;
+      text-decoration: none;
+      transition: text-decoration 0.3s;
+    }
+    .project-title a:hover {
+      text-decoration: underline;
+    }
     .project-desc {
       font-size: 0.88rem;
       color: var(--muted);
@@ -267,7 +275,7 @@
 
       <div class="project-card" data-category="projects" data-visible="true">
         <div class="project-num">01</div>
-        <h3 class="project-title">Reddy — XHS Intelligence Agent</h3>
+        <h3 class="project-title"><a href="reddy.html">Reddy — XHS Intelligence Agent</a></h3>
         <p class="project-desc">小红书情报监控智能体，Auto OCR + Hermes ReAct Agent。Node.js CLI（表现层）→ Python Agent（核心层）JSON-RPC 松耦合，25 工具 + Memory 向量检索系统。</p>
         <div class="project-tech">
           <span>Node.js</span><span>Python</span><span>ReAct Agent</span><span>OCR</span><span>JSON-RPC</span><span>Memory</span>
@@ -277,7 +285,7 @@
 
       <div class="project-card" data-category="projects" data-visible="true">
         <div class="project-num">02</div>
-        <h3 class="project-title">Lumina — Intelligent Language Learning App</h3>
+        <h3 class="project-title"><a href="lumina.html">Lumina — Intelligent Language Learning App</a></h3>
         <p class="project-desc">Tauri 2.0 + Rust 桌面端多语言学习应用。支持 20+ 语言、德语/梵语形态解析、SM-2 间隔重复、多 AI 引擎（Gemini · DeepSeek · Qwen · Ollama）。</p>
         <div class="project-tech">
           <span>Tauri 2.0</span><span>Rust</span><span>React</span><span>TypeScript</span><span>SQLite</span><span>Python</span>
@@ -288,7 +296,7 @@
 
       <div class="project-card" data-category="projects" data-visible="true">
         <div class="project-num">03</div>
-        <h3 class="project-title">Canvas2Note — SJTU Course Note Pipeline</h3>
+        <h3 class="project-title"><a href="canvas2note.html">Canvas2Note — SJTU Course Note Pipeline</a></h3>
         <p class="project-desc">SJTU 全链路课程笔记自动化。Canvas API 课件下载 → 5 引擎语音转写（FunASR SenseVoice · faster-whisper · Qwen3-ASR）→ VLM PPT 视觉分析 → LLM 融合生成 Markdown。直播实时转写 + QR 监控 + Tauri 桌面应用。</p>
         <div class="project-tech">
           <span>Python</span><span>FastAPI</span><span>React</span><span>Vite</span><span>Tailwind</span><span>FunASR</span><span>Qwen3-VL</span>

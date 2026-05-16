@@ -712,6 +712,14 @@
       margin-bottom: 0.8rem;
       line-height: 1.3;
     }
+    .project-title-home a {
+      color: inherit;
+      text-decoration: none;
+      transition: text-decoration 0.3s;
+    }
+    .project-title-home a:hover {
+      text-decoration: underline;
+    }
     .project-desc-home {
       font-size: 0.85rem;
       color: var(--muted);
@@ -1179,7 +1187,7 @@
     <div class="projects-grid-home reveal" style="margin-bottom:3rem;">
       <div class="project-card-home">
         <div class="project-num-home">01</div>
-        <h3 class="project-title-home">Reddy</h3>
+        <h3 class="project-title-home"><a href="/projects/reddy.html">Reddy</a></h3>
         <p class="project-desc-home">XHS 情报监控智能体，Auto OCR + Hermes ReAct Agent。Node.js CLI → Python 核心层 JSON-RPC 通信，25 工具 + Memory 向量检索系统。</p>
         <div class="project-tech-home">
           <span>Node.js</span><span>Python</span><span>ReAct Agent</span>
@@ -1188,7 +1196,7 @@
       </div>
       <div class="project-card-home">
         <div class="project-num-home">02</div>
-        <h3 class="project-title-home">Lumina</h3>
+        <h3 class="project-title-home"><a href="/projects/lumina.html">Lumina</a></h3>
         <p class="project-desc-home">Tauri 2.0 + Rust 桌面端多语言学习应用。智能词典、德语/梵语形态分析、SM-2 间隔重复、多 AI 引擎（Gemini · DeepSeek · Qwen · Ollama）。</p>
         <div class="project-tech-home">
           <span>Tauri 2.0</span><span>Rust</span><span>React</span>
@@ -1197,7 +1205,7 @@
       </div>
       <div class="project-card-home">
         <div class="project-num-home">03</div>
-        <h3 class="project-title-home">Canvas2Note</h3>
+        <h3 class="project-title-home"><a href="/projects/canvas2note.html">Canvas2Note</a></h3>
         <p class="project-desc-home">SJTU 全链路课程笔记自动化。Canvas API 课件 → 5 引擎语音转写 → VLM PPT 分析 → LLM 融合 Markdown。直播实时转写 + Tauri 桌面应用。</p>
         <div class="project-tech-home">
           <span>Python</span><span>FunASR</span><span>Qwen3-VL</span>

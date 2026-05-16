@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reddy — XHS Intelligence Agent — Chenhao Meng</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'HanaMinA';
+      src: url('/fonts/HanaMinA.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+      unicode-range: U+4E00-9FFF, U+3400-4DBF, U+F900-FAFF, U+2F800-2FA1F, U+3000-303F, U+FF00-FFEF, U+2E80-2EFF, U+3100-312F;
+    }
+    :root {
+      --bg: #F9F7F2; --bg-2: #F3F0E8; --bg-3: #EDE9DF; --surface: #FDFCFA;
+      --text: #1C1C18; --muted: #7A7870; --dim: #B4B0A8;
+      --border: rgba(28,28,24,0.10); --accent-2: #8B6D4A;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Lora', 'HanaMinA', Georgia, serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 1rem; line-height: 1.85; }
+    ::selection { background: var(--text); color: var(--bg); }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.6rem 5vw;
+      background: rgba(249,247,242,0.95); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-brand { font-family: var(--font-display); font-size: 1.1rem; font-weight: 400; color: var(--text); }
+    .nav-brand em { font-style: italic; color: var(--muted); }
+    .nav-links { display: flex; gap: 3rem; list-style: none; }
+    .nav-links a { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; color: var(--muted); transition: color 0.3s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a.active { color: var(--text); }
+
+    .post-header {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 8rem 5vw 4rem;
+    }
+    .post-back {
+      font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--dim); text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;
+      margin-bottom: 3rem; transition: color 0.3s;
+    }
+    .post-back:hover { color: var(--text); }
+    .post-meta {
+      font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--dim); margin-bottom: 1rem;
+    }
+    .post-title {
+      font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 300; line-height: 1.1; letter-spacing: -0.01em; color: var(--text); margin-bottom: 0.8rem;
+    }
+    .post-divider { width: 32px; height: 1px; background: var(--text); margin: 2rem 0; }
+
+    .post-content {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 5vw 6rem;
+    }
+    .post-content p { margin-bottom: 1.8rem; font-size: 1.05rem; color: var(--muted); line-height: 1.9; }
+    .post-content p:first-of-type { font-size: 1.1rem; color: var(--text); }
+    .post-content h2 {
+      font-family: var(--font-display); font-size: 1.6rem; font-weight: 400; color: var(--text);
+      margin: 3rem 0 1.2rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
+    }
+    .post-content h3 {
+      font-family: var(--font-display); font-size: 1.25rem; font-weight: 400; color: var(--text);
+      margin: 2rem 0 0.8rem;
+    }
+    .post-content ul, .post-content ol {
+      margin-bottom: 1.8rem; padding-left: 1.5rem; color: var(--muted); font-size: 1.05rem; line-height: 1.9;
+    }
+    .post-content li { margin-bottom: 0.4rem; }
+    .post-content strong { color: var(--text); font-weight: 500; }
+    .post-content code {
+      font-family: var(--font-mono); font-size: 0.88em;
+      background: var(--bg-2); padding: 0.15em 0.4em; border-radius: 3px;
+    }
+    .post-content pre {
+      background: var(--bg-2); padding: 1.5rem; margin-bottom: 1.8rem;
+      overflow-x: auto; border: 1px solid var(--border); border-radius: 4px;
+    }
+    .post-content pre code {
+      background: none; padding: 0; font-size: 0.82rem; line-height: 1.6;
+    }
+    .post-content blockquote {
+      border-left: 2px solid var(--border); padding: 1rem 1.5rem; margin: 1.5rem 0;
+      font-style: italic; color: var(--muted); background: var(--bg-2);
+    }
+    .post-content table {
+      width: 100%; border-collapse: collapse; margin-bottom: 1.8rem; font-size: 0.92rem;
+    }
+    .post-content th {
+      font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+      text-align: left; padding: 0.8rem 1rem; border-bottom: 2px solid var(--text); color: var(--text);
+    }
+    .post-content td {
+      padding: 0.7rem 1rem; border-bottom: 1px solid var(--border); color: var(--muted); line-height: 1.6;
+    }
+    .post-content tr:hover td { background: var(--bg-2); }
+    .post-content .mermaid {
+      margin: 2rem 0; text-align: center;
+    }
+    .post-content a { color: var(--accent-2); text-decoration: underline; text-underline-offset: 0.15em; transition: color 0.3s; }
+    .post-content a:hover { color: var(--text); }
+
+    .post-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+    .post-tag { font-family: var(--font-mono); font-size: 0.52rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.6rem; border: 1px solid var(--border); color: var(--dim); }
+
+    footer { padding: 3rem 5vw; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .footer-copy { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.1em; color: var(--dim); }
+    .footer-links { display: flex; gap: 2.5rem; }
+    .footer-links a { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); text-decoration: none; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--text); }
+
+    @media (max-width: 640px) {
+      nav .nav-links { gap: 1.5rem; }
+      footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+      .post-content table { font-size: 0.8rem; }
+      .post-content th, .post-content td { padding: 0.5rem; }
+    }
+
+    /* ===== CUSTOM CURSOR ===== */
+    body { cursor: none; }
+    a, button { cursor: none; }
+    .cursor {
+      position: fixed;
+      width: 22px;
+      height: 22px;
+      border: 1px solid var(--text);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10000;
+      transform: translate(-50%, -50%);
+      opacity: 0.45;
+      transition: width 0.35s cubic-bezier(0.23,1,0.32,1),
+                  height 0.35s cubic-bezier(0.23,1,0.32,1),
+                  opacity 0.35s;
+    }
+    body:has(a:hover) .cursor,
+    body:has(button:hover) .cursor {
+      width: 38px;
+      height: 38px;
+      opacity: 0.75;
+    }
+    @media (hover: none) {
+      .cursor { display: none; }
+      body, a, button { cursor: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor"></div>
+
+  <nav>
+    <a href="https://hashbrowns-fries.github.io" class="nav-brand" style="text-decoration:none;color:inherit;">Chenhao <em>Meng</em></a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#about">About</a></li>
+      <li><a href="/#research">Research</a></li>
+      <li><a href="/#publications">Publications</a></li>
+      <li><a href="/projects/" class="active">Projects</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/life.html">Life</a></li>
+    </ul>
+  </nav>
+
+  <div class="post-header">
+    <a href="/projects/" class="post-back">← Back to Projects</a>
+    <div class="post-meta">01 — Project · Intelligence Agent</div>
+    <h1 class="post-title">Reddy — XHS Intelligence Agent</h1>
+    <div class="post-divider"></div>
+  </div>
+
+  <article class="post-content" id="prd-rendered"></article>
+
+  <script type="text/markdown" id="prd-content">
+Reddy 是一个面向小红书平台的垂直领域情报监控智能体，集成了 Auto OCR、Hermes ReAct Agent 和向量记忆检索系统。采用 **Node.js CLI（表现层）→ Python Agent（核心层）→ 外部服务（能力层）** 三层松耦合架构，通过 JSON-RPC 协议通信，内置 25 个工具模块。
+
+## 系统架构
+
+Reddy 采用清晰的三层架构设计。用户通过 Node.js CLI 输入自然语言或斜杠命令，CLI 层将请求通过 stdin/stdout JSON-RPC 传递给 Python Agent 核心层，Agent 执行 ReAct 推理循环后调度外部服务完成任务。
+
+```mermaid
+flowchart TB
+    User["用户输入\n自然语言 / 斜杠命令"]
+    subgraph CLI["Node.js CLI · 表现层"]
+        Parse["命令解析\ncli.js → agent-loop.js"]
+        Render["流式渲染\nThinking ◆ → Action ▶\n→ Observe ◀ → Answer ●"]
+    end
+    subgraph Agent["Python Agent · 核心层"]
+        ReAct["ReAct 循环\nThinking → Action → Observe\n最大 10 轮"]
+        Tools["ToolRegistry\n25 个工具"]
+        Memory["MemoryManager\n向量记忆检索"]
+        DB["SQLite\nposts · radars · tasks"]
+    end
+    subgraph Services["外部服务 · 能力层"]
+        LLM["LLM 后端\nMiniMax API\nDeepSeek"]
+        XHS["XHS Client\nAPI 优先 + CDP 回退\nxhshow 签名"]
+        OCR["Umi-OCR\nPaddleOCR 引擎"]
+    end
+
+    User --> CLI
+    Parse --> |"JSON-RPC\nstdin/stdout"| ReAct
+    ReAct --> Tools
+    ReAct --> Memory
+    Tools --> DB
+    ReAct --> Render
+    Tools --> LLM
+    Tools --> XHS
+    Tools --> OCR
+```
+
+## 核心特性
+
+### Hermes ReAct 循环
+
+智能核心 `AIAgent` 实现了标准的 **ReAct (Reasoning + Acting)** 范式，支持两种运行模式：
+
+| 模式 | 方法 | 工具调用方式 | 适用场景 |
+|------|------|-------------|---------|
+| **流式** | `run_stream()` | Anthropic 原生 `tool_use` | MiniMax API（兼容 Claude） |
+| **非流式** | `run()` | 正则解析 `action:` / `参数:` | DeepSeek 等文本模型 |
+
+流式模式通过回调 `on_event(type, data)` 实时推送阶段事件，Node.js 前端渲染为直观的状态指示：
+
+- **\[Thinking\] ◆** — LLM 正在推理
+- **\[Action\] ▶** — 解析并执行工具调用
+- **\[Observe\] ◀** — 工具返回结果
+- **\[Answer\] ●** — 生成最终回答
+
+### JSON-RPC 通信协议
+
+Node.js CLI 与 Python Backend 之间通过 **行分隔 JSON** 实现松耦合通信。Python 端将 `print()` 重定向到 stderr，保证 stdout 专用于 JSON-RPC，模块日志不会污染通信通道。
+
+支持的命令：`init`（初始化）、`run`（执行对话）、`list_tools`（列出工具）、`dispatch`（直接调度）。
+
+### Memory 向量检索系统
+
+`MemoryManager` 提供可扩展的记忆架构，每次对话中记忆全程参与：
+
+1. **Prefetch** — 用户输入 → 向量检索相关记忆 → 注入 System Prompt
+2. **Sync** — LLM 输出后 → 自动提取可记忆信息 → 写入文件
+3. **Session End** — 对话结束 → 持久化会话摘要
+
+记忆存储在 `~/.reddy/memory/` 目录下，分为四类：用户偏好（user）、反馈规则（feedback）、项目上下文（project）、外部引用（reference）。
+
+### XHS 数据获取（API 优先架构）
+
+借鉴 MediaCrawler 的 **xhshow 纯算法签名** 方案，Reddy 的数据获取采用 **API 优先 + CDP 回退** 混合策略：
+
+- **签名** — 纯 Python 算法生成 X-S / X-T / X-S-Common 请求头，无需浏览器执行 JS
+- **Cookie** — Playwright 登录一次，Cookie 自动持久化，重启后保持登录态
+- **API 优先** — 有 Cookie 时直接 httpx + 算法签名调用 REST API
+- **CDP 回退** — API 触发验证码或 Cookie 过期时，自动回退到 Chrome CDP HTML 提取
+
+## 工具注册表
+
+25 个工具模块按功能域组织：
+
+| 类别 | 工具 | 说明 |
+|------|------|------|
+| **数据** | `save_post` `search_posts` `read_note` `list_notes` | 帖子存储与检索 |
+| **雷达** | `create` `get` `list` `generate` | 情报雷达管理 |
+| **I/O** | `read_file` `list_files` | 文件读写操作 |
+| **XHS** | `fetch_xhs` `search` `login` `status` | 小红书数据采集 |
+| **OCR** | `image` `url` `batch` `status` | Umi-OCR 图文识别 |
+| **Telegram** | `start` `stop` `status` | 消息网关管理 |
+| **定时** | `schedule` `list` `delete` `stat` | Cron 定时任务 |
+
+## 技术栈
+
+| 层级 | 技术 | 说明 |
+|------|------|------|
+| **表现层** | Node.js · 零依赖 | CLI 入口，ANSI 渲染，Braille spinner |
+| **核心层** | Python · redclaw | AIAgent, ToolRegistry, MemoryManager |
+| **LLM** | MiniMax API · DeepSeek | Anthropic Messages 兼容协议 |
+| **数据采集** | httpx · xhshow · Playwright · CDP | API 优先 + 浏览器回退 |
+| **OCR** | Umi-OCR · PaddleOCR | 本地图文识别引擎 |
+| **存储** | SQLite | posts, radars, scheduled_tasks |
+| **记忆** | 向量检索 · Markdown 文件 | ~/.reddy/memory/ |
+
+## 核心流程图
+
+ReAct（Reasoning + Acting）循环是 Reddy 的智能核心。每次用户输入后，Agent 进入最多 10 轮的推理-行动-观察循环，直至生成最终回答。
+
+```mermaid
+flowchart LR
+    Input["用户输入"] --> Parse["意图解析"]
+    Parse --> Think["Thinking ◆\nLLM 推理"]
+    Think --> Action["Action ▶\n选择工具 + 参数"]
+    Action --> Call["Tool Call\n执行工具"]
+    Call --> Observe["Observe ◀\n获取结果"]
+    Observe --> Judge{"是否足够\n回答？"}
+    Judge -- "否（≤10轮）" --> Think
+    Judge -- "是" --> Answer["Answer ●\n生成回答"]
+```
+
+## 用户路径图
+
+从启动 CLI 到获得情报的完整用户旅程，涵盖登录、雷达创建、监控告警、情报查阅全流程。
+
+```mermaid
+flowchart LR
+    Start["CLI 启动\n$ reddy"] --> Login["登录 XHS\n/login"]
+    Login --> Radar["创建雷达\n/radar create"]
+    Radar --> Monitor["自动监控\nCron 定时抓取"]
+    Monitor --> Alert["收到提醒\nTelegram 推送"]
+    Alert --> Intel["查看情报\n/search 关键词"]
+    Intel --> Report["生成日报\n/radar generate"]
+    Report --> Memory["记忆沉淀\n偏好 + 上下文"]
+    Memory -.-> Monitor
+```
+
+## 功能结构图
+
+Reddy 的 25 个工具模块按功能域组织为七大分支，每个分支包含具体的工具方法。
+
+```mermaid
+mindmap
+  root((Reddy))
+    Data 数据
+      save_post
+      search_posts
+      read_note
+      list_notes
+    Radar 雷达
+      create
+      get
+      list
+      generate
+    XHS 小红书
+      fetch_xhs
+      search
+      login
+      status
+    OCR 识别
+      image
+      url
+      batch
+      status
+    Telegram 通知
+      start
+      stop
+      status
+    Cron 定时
+      schedule
+      list
+      delete
+      stat
+    Memory 记忆
+      prefetch
+      sync
+      session_end
+```
+
+## 信息架构图
+
+CLI 斜杠命令体系，用户可通过自然语言或以下命令直接调度工具。
+
+```mermaid
+mindmap
+  root((CLI Commands))
+    /login
+      XHS 扫码登录
+      Cookie 持久化
+    /fetch
+      fetch_xhs 抓取
+      read_note 阅读
+    /search
+      search_posts 搜索
+      list_notes 列表
+    /radar
+      create 创建雷达
+      list 查看雷达
+      generate 生成日报
+    /ocr
+      image 本地图片
+      url 网络图片
+      batch 批量识别
+    /schedule
+      schedule 创建任务
+      list 查看任务
+      delete 删除任务
+    /memory
+      prefetch 召回
+      sync 写入
+      session_end 持久化
+```
+
+## 状态流转图
+
+帖子从抓取到告警的完整生命周期，每个状态转换对应一个自动化处理步骤。
+
+```mermaid
+stateDiagram-v2
+    [*] --> fetched : XHS 抓取
+    fetched --> parsed : 内容解析
+    parsed --> ocr_queued : 含图片
+    parsed --> stored : 纯文本
+    ocr_queued --> ocr_done : OCR 完成
+    ocr_done --> stored : 入库存储
+    stored --> matched : 命中雷达规则
+    stored --> archived : 未命中
+    matched --> alerted : Telegram 推送
+    alerted --> [*]
+    archived --> [*]
+```
+
+## 数据模型 ER 图
+
+SQLite 数据库核心表及其关系，涵盖帖子、雷达、定时任务和记忆四大实体。
+
+```mermaid
+erDiagram
+    posts {
+        string id PK
+        string title
+        string content
+        string author
+        string url
+        string ocr_text
+        string status
+        datetime created_at
+    }
+    radars {
+        string id PK
+        string name
+        string keywords
+        string filters
+        boolean active
+        datetime created_at
+    }
+    scheduled_tasks {
+        string id PK
+        string radar_id FK
+        string cron_expr
+        string task_type
+        boolean enabled
+        datetime last_run
+    }
+    memory {
+        string id PK
+        string type
+        string content
+        string embedding
+        datetime created_at
+        datetime updated_at
+    }
+    radars ||--o{ scheduled_tasks : "触发"
+    radars ||--o{ posts : "匹配"
+    posts ||--o{ memory : "沉淀"
+```
+
+## 时序图
+
+一次典型对话的完整调用链路：从用户输入到最终回答，展示各层之间的交互时序。
+
+```mermaid
+sequenceDiagram
+    actor User as 用户
+    participant CLI as Node.js CLI
+    participant Agent as Python Agent
+    participant LLM as LLM 后端
+    participant Tool as ToolRegistry
+    participant XHS as XHS API
+
+    User->>CLI: 自然语言 / 斜杠命令
+    CLI->>Agent: JSON-RPC (stdin)
+    Agent->>Agent: 注入 Memory Context
+    Agent->>LLM: System Prompt + 用户消息
+    LLM-->>Agent: Thinking + Action
+    Agent->>Tool: 调度工具 (e.g. fetch_xhs)
+    Tool->>XHS: httpx + 算法签名
+    XHS-->>Tool: 帖子数据
+    Tool-->>Agent: Observe 结果
+    Agent->>LLM: Observe → 继续推理
+    LLM-->>Agent: Answer
+    Agent->>Agent: Memory Sync
+    Agent-->>CLI: JSON-RPC (stdout)
+    CLI-->>User: 流式渲染输出
+```
+
+## 高保真原型
+
+以下是 Reddy CLI 的典型交互界面，展示 ReAct 循环各阶段的实时渲染效果。
+
+<div style="background: #1a1a2e; border-radius: 8px; padding: 0; margin: 2rem 0; overflow: hidden; font-family: 'DM Mono', monospace; font-size: 0.78rem; line-height: 1.7; box-shadow: 0 4px 24px rgba(0,0,0,0.18);">
+  <div style="background: #16213e; padding: 0.5rem 1rem; display: flex; align-items: center; gap: 0.5rem;">
+    <span style="width: 10px; height: 10px; border-radius: 50%; background: #e74c3c; display: inline-block;"></span>
+    <span style="width: 10px; height: 10px; border-radius: 50%; background: #f39c12; display: inline-block;"></span>
+    <span style="width: 10px; height: 10px; border-radius: 50%; background: #2ecc71; display: inline-block;"></span>
+    <span style="color: #8892b0; font-size: 0.7rem; margin-left: 0.5rem;">reddy — zsh — 80×24</span>
+  </div>
+  <div style="padding: 1.2rem 1.5rem; color: #ccd6f6;">
+    <div style="color: #64ffda;">$ reddy</div>
+    <div style="color: #8892b0; margin: 0.3rem 0;">🔮 Reddy v1.0 — XHS Intelligence Agent</div>
+    <div style="color: #8892b0;">─────────────────────────────────────</div>
+    <br>
+    <div><span style="color: #64ffda;">❯ </span><span style="color: #ccd6f6;">帮我搜索最近关于 AI Agent 的小红书帖子</span></div>
+    <br>
+    <div><span style="color: #c792ea;">◆ [Thinking]</span> <span style="color: #8892b0;">分析用户意图...需要搜索小红书帖子，关键词为"AI Agent"</span></div>
+    <br>
+    <div><span style="color: #ffcb6b;">▶ [Action]</span> <span style="color: #82aaff;">search_xhs</span></div>
+    <div style="color: #8892b0; padding-left: 1.2rem;">keyword: "AI Agent"</div>
+    <div style="color: #8892b0; padding-left: 1.2rem;">sort: time_desc, limit: 10</div>
+    <br>
+    <div><span style="color: #89ddff;">◀ [Observe]</span> <span style="color: #8892b0;">找到 10 条相关帖子</span></div>
+    <br>
+    <div><span style="color: #c3e88d;">● [Answer]</span></div>
+    <div style="color: #ccd6f6; padding-left: 1.2rem;">为你找到 10 条最新 AI Agent 相关帖子：</div>
+    <div style="color: #ccd6f6; padding-left: 1.2rem;">1. <span style="color: #82aaff;">《2025 年最火的 AI Agent 框架盘点》</span> — ⭐ 2.3k</div>
+    <div style="color: #ccd6f6; padding-left: 1.2rem;">2. <span style="color: #82aaff;">《手把手教你搭建自己的 AI Agent》</span> — ⭐ 1.8k</div>
+    <div style="color: #ccd6f6; padding-left: 1.2rem;">3. <span style="color: #82aaff;">《ReAct Agent 原理解析》</span> — ⭐ 956</div>
+    <div style="color: #8892b0; padding-left: 1.2rem;">...</div>
+    <br>
+    <div style="color: #8892b0;">已自动存入本地数据库，可用 /search 检索。</div>
+    <div style="color: #64ffda; margin-top: 0.5rem;">❯ <span style="animation: blink 1s infinite; border-right: 2px solid #64ffda;">&nbsp;</span></div>
+  </div>
+</div>
+
+## 项目链接
+
+- [GitHub 仓库](https://github.com/HashBrowns-fries/Reddy)
+  </script>
+
+  <div class="post-content">
+    <div class="post-tags">
+      <span class="post-tag">Node.js</span>
+      <span class="post-tag">Python</span>
+      <span class="post-tag">ReAct Agent</span>
+      <span class="post-tag">OCR</span>
+      <span class="post-tag">JSON-RPC</span>
+      <span class="post-tag">Memory</span>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-copy">© 2026 Chenhao Meng</div>
+    <div class="footer-links">
+      <a href="https://github.com/HashBrowns-fries" target="_blank">GitHub</a>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'base',
+      themeVariables: {
+        primaryColor: '#F3F0E8',
+        primaryTextColor: '#1C1C18',
+        primaryBorderColor: '#B4B0A8',
+        lineColor: '#7A7870',
+        secondaryColor: '#EDE9DF',
+        tertiaryColor: '#F9F7F2',
+        fontFamily: "'DM Mono', monospace",
+        fontSize: '13px'
+      }
+    });
+
+    async function renderPRD() {
+      const md = document.getElementById('prd-content').textContent;
+      const renderer = new marked.Renderer();
+      const originalCode = renderer.code.bind(renderer);
+
+      renderer.code = function({ text, lang }) {
+        if (lang === 'mermaid') {
+          return '<div class="mermaid">' + text + '</div>';
+        }
+        return '<pre><code>' + (text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</code></pre>';
+      };
+
+      marked.setOptions({ renderer: renderer, breaks: false, gfm: true });
+      document.getElementById('prd-rendered').innerHTML = marked.parse(md);
+
+      await mermaid.run({ querySelector: '.mermaid' });
+    }
+
+    renderPRD();
+
+    // ── Custom cursor (ring only, smooth follow) ─────────────
+    const cursor = document.querySelector('.cursor');
+    const lerp = (a, b, t) => a + (b - a) * t;
+    let mouseX = -100, mouseY = -100;
+    let curX = -100, curY = -100;
+    document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+    document.addEventListener('mouseleave', () => { cursor.style.opacity = '0'; });
+    document.addEventListener('mouseenter', () => { cursor.style.opacity = '0.45'; });
+    function animateCursor() {
+      curX = lerp(curX, mouseX, 0.14);
+      curY = lerp(curY, mouseY, 0.14);
+      cursor.style.left = curX + 'px';
+      cursor.style.top  = curY + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lumina — Intelligent Language Learning App — Chenhao Meng</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'HanaMinA';
+      src: url('/fonts/HanaMinA.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+      unicode-range: U+4E00-9FFF, U+3400-4DBF, U+F900-FAFF, U+2F800-2FA1F, U+3000-303F, U+FF00-FFEF, U+2E80-2EFF, U+3100-312F;
+    }
+    :root {
+      --bg: #F9F7F2; --bg-2: #F3F0E8; --bg-3: #EDE9DF; --surface: #FDFCFA;
+      --text: #1C1C18; --muted: #7A7870; --dim: #B4B0A8;
+      --border: rgba(28,28,24,0.10); --accent-2: #8B6D4A;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Lora', 'HanaMinA', Georgia, serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 1rem; line-height: 1.85; }
+    ::selection { background: var(--text); color: var(--bg); }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.6rem 5vw;
+      background: rgba(249,247,242,0.95); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-brand { font-family: var(--font-display); font-size: 1.1rem; font-weight: 400; color: var(--text); }
+    .nav-brand em { font-style: italic; color: var(--muted); }
+    .nav-links { display: flex; gap: 3rem; list-style: none; }
+    .nav-links a { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; color: var(--muted); transition: color 0.3s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a.active { color: var(--text); }
+
+    .post-header {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 8rem 5vw 4rem;
+    }
+    .post-back {
+      font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--dim); text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;
+      margin-bottom: 3rem; transition: color 0.3s;
+    }
+    .post-back:hover { color: var(--text); }
+    .post-meta {
+      font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--dim); margin-bottom: 1rem;
+    }
+    .post-title {
+      font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 300; line-height: 1.1; letter-spacing: -0.01em; color: var(--text); margin-bottom: 0.8rem;
+    }
+    .post-divider { width: 32px; height: 1px; background: var(--text); margin: 2rem 0; }
+
+    .post-content {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 5vw 6rem;
+    }
+    .post-content p { margin-bottom: 1.8rem; font-size: 1.05rem; color: var(--muted); line-height: 1.9; }
+    .post-content p:first-of-type { font-size: 1.1rem; color: var(--text); }
+    .post-content h2 {
+      font-family: var(--font-display); font-size: 1.6rem; font-weight: 400; color: var(--text);
+      margin: 3rem 0 1.2rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
+    }
+    .post-content h3 {
+      font-family: var(--font-display); font-size: 1.25rem; font-weight: 400; color: var(--text);
+      margin: 2rem 0 0.8rem;
+    }
+    .post-content ul, .post-content ol {
+      margin-bottom: 1.8rem; padding-left: 1.5rem; color: var(--muted); font-size: 1.05rem; line-height: 1.9;
+    }
+    .post-content li { margin-bottom: 0.4rem; }
+    .post-content strong { color: var(--text); font-weight: 500; }
+    .post-content code {
+      font-family: var(--font-mono); font-size: 0.88em;
+      background: var(--bg-2); padding: 0.15em 0.4em; border-radius: 3px;
+    }
+    .post-content pre {
+      background: var(--bg-2); padding: 1.5rem; margin-bottom: 1.8rem;
+      overflow-x: auto; border: 1px solid var(--border); border-radius: 4px;
+    }
+    .post-content pre code {
+      background: none; padding: 0; font-size: 0.82rem; line-height: 1.6;
+    }
+    .post-content blockquote {
+      border-left: 2px solid var(--border); padding: 1rem 1.5rem; margin: 1.5rem 0;
+      font-style: italic; color: var(--muted); background: var(--bg-2);
+    }
+    .post-content table {
+      width: 100%; border-collapse: collapse; margin-bottom: 1.8rem; font-size: 0.92rem;
+    }
+    .post-content th {
+      font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+      text-align: left; padding: 0.8rem 1rem; border-bottom: 2px solid var(--text); color: var(--text);
+    }
+    .post-content td {
+      padding: 0.7rem 1rem; border-bottom: 1px solid var(--border); color: var(--muted); line-height: 1.6;
+    }
+    .post-content tr:hover td { background: var(--bg-2); }
+    .post-content .mermaid {
+      margin: 2rem 0; text-align: center;
+    }
+    .post-content a { color: var(--accent-2); text-decoration: underline; text-underline-offset: 0.15em; transition: color 0.3s; }
+    .post-content a:hover { color: var(--text); }
+
+    .post-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+    .post-tag { font-family: var(--font-mono); font-size: 0.52rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.6rem; border: 1px solid var(--border); color: var(--dim); }
+
+    footer { padding: 3rem 5vw; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .footer-copy { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.1em; color: var(--dim); }
+    .footer-links { display: flex; gap: 2.5rem; }
+    .footer-links a { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); text-decoration: none; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--text); }
+
+    @media (max-width: 640px) {
+      nav .nav-links { gap: 1.5rem; }
+      footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+      .post-content table { font-size: 0.8rem; }
+      .post-content th, .post-content td { padding: 0.5rem; }
+    }
+
+    /* ===== CUSTOM CURSOR ===== */
+    body { cursor: none; }
+    a, button { cursor: none; }
+    .cursor {
+      position: fixed;
+      width: 22px;
+      height: 22px;
+      border: 1px solid var(--text);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10000;
+      transform: translate(-50%, -50%);
+      opacity: 0.45;
+      transition: width 0.35s cubic-bezier(0.23,1,0.32,1),
+                  height 0.35s cubic-bezier(0.23,1,0.32,1),
+                  opacity 0.35s;
+    }
+    body:has(a:hover) .cursor,
+    body:has(button:hover) .cursor {
+      width: 38px;
+      height: 38px;
+      opacity: 0.75;
+    }
+    @media (hover: none) {
+      .cursor { display: none; }
+      body, a, button { cursor: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor"></div>
+
+  <nav>
+    <a href="https://hashbrowns-fries.github.io" class="nav-brand" style="text-decoration:none;color:inherit;">Chenhao <em>Meng</em></a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#about">About</a></li>
+      <li><a href="/#research">Research</a></li>
+      <li><a href="/#publications">Publications</a></li>
+      <li><a href="/projects/" class="active">Projects</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/life.html">Life</a></li>
+    </ul>
+  </nav>
+
+  <div class="post-header">
+    <a href="/projects/" class="post-back">&larr; Back to Projects</a>
+    <div class="post-meta">02 — Project &middot; Language Learning</div>
+    <h1 class="post-title">Lumina — Intelligent Language Learning App</h1>
+    <div class="post-divider"></div>
+  </div>
+
+  <article class="post-content" id="prd-rendered"></article>
+
+  <script type="text/markdown" id="prd-content">
+Lumina 是一款基于 **Tauri 2.0 + Rust** 构建的跨平台智能语言学习桌面应用。支持 **20+ 语言**词典查询，集成德语/梵语形态解析引擎、**SM-2 间隔重复**记忆算法，以及多 AI 后端（Gemini · DeepSeek · Qwen · Ollama）实现语法分析与上下文例句生成。前端采用 React + TypeScript，本地数据持久化基于 SQLite。
+
+## 系统架构
+
+Lumina 采用 **Tauri 2.0** 分层架构。React 前端通过 Tauri IPC 与 Rust 后端通信，Rust 层负责词典查询、形态分析、SRS 调度和数据持久化，外部 AI 服务提供语法解析与智能辅助。
+
+```mermaid
+flowchart TB
+    User["用户交互\n输入单词 / 复习卡片"]
+    subgraph Frontend["React + TypeScript · 前端"]
+        UI["词典面板\n释义 · 例句 · 形态"]
+        Review["复习模块\nSM-2 卡片 · 评分"]
+        Settings["设置面板\n语言 · AI · 主题"]
+    end
+    subgraph Backend["Rust · Tauri 后端"]
+        Dict["词典引擎\n20+ 语言查询"]
+        Morph["形态分析\n德语变位 · 梵语词根"]
+        SRS["SRS 调度器\nSM-2 算法"]
+        DB["SQLite\nwords · vocabulary · reviews"]
+    end
+    subgraph Services["外部服务"]
+        AI["AI 引擎\nGemini · DeepSeek\nQwen · Ollama"]
+        DictAPI["词典 API\n在线词典源"]
+    end
+
+    User --> Frontend
+    UI --> |"Tauri IPC"| Dict
+    UI --> |"Tauri IPC"| Morph
+    Review --> |"Tauri IPC"| SRS
+    Dict --> DB
+    Morph --> DB
+    SRS --> DB
+    Dict --> DictAPI
+    Morph --> AI
+    UI --> AI
+```
+
+## 核心特性
+
+### 多语言词典引擎
+
+Lumina 内置覆盖 20+ 语言的词典查询能力，支持离线与在线混合模式：
+
+| 语言类别 | 支持语言 | 特性 |
+|---------|---------|------|
+| **欧洲语言** | 英语、德语、法语、西班牙语、意大利语、葡萄牙语等 | 释义、例句、发音 |
+| **亚洲语言** | 中文、日语、韩语、越南语、泰语等 | Unicode 全覆盖 |
+| **古典语言** | 梵语（Sanskrit）、拉丁语、古希腊语 | 词根分析、形态还原 |
+
+### 形态分析引擎
+
+针对形态丰富的语言提供深度解析：
+
+- **德语** — 名词性数格（Genus/Numerus/Kasus）、动词变位（Konjugation）、形容词词尾
+- **梵语** — Devanagari / IAST 转写、词根（Dhatu）还原、Sandhi 拆分、格变化（Vibhakti）
+- **通用** — 词性标注（POS）、词频统计、词族关联
+
+### SM-2 间隔重复系统
+
+基于 SuperMemo SM-2 算法的智能复习调度，核心参数：
+
+- **Ease Factor (EF)** — 每张卡片的难度系数，根据评分动态调整（最低 1.3）
+- **Interval** — 复习间隔天数，按 EF 指数增长
+- **评分等级** — 0（完全不记得）→ 5（完美回忆），低于 3 重新学习
+- **批量复习** — 每日待复习队列，按到期时间排序
+
+### 多 AI 引擎集成
+
+支持灵活切换多种 AI 后端，提供语法解析、例句生成、上下文翻译等智能辅助：
+
+| AI 引擎 | 类型 | 适用场景 |
+|---------|------|---------|
+| **Gemini** | Cloud API | 语法深度解析、长文翻译 |
+| **DeepSeek** | Cloud API | 中文释义优化、例句生成 |
+| **Qwen** | Cloud API | 多语言语法分析 |
+| **Ollama** | 本地推理 | 离线场景、隐私敏感 |
+
+## 核心流程图
+
+用户查词到记忆巩固的完整学习闭环：输入单词后经过词典查询、形态分析、AI 辅助，最终通过间隔重复实现长期记忆。
+
+```mermaid
+flowchart LR
+    Input["输入单词"] --> Query["词典查询\n20+ 语言"]
+    Query --> Morph["形态分析\n词根 · 变位"]
+    Morph --> AI["AI 语法解析\n例句 · 上下文"]
+    AI --> Save["保存词汇\n加入生词本"]
+    Save --> SRS["间隔复习\nSM-2 调度"]
+    SRS --> Score{"评分"}
+    Score -- "< 3 重学" --> SRS
+    Score -- ">= 3 通过" --> Master["记忆巩固"]
+```
+
+## 用户路径图
+
+从启动应用到完成一轮复习的完整用户旅程，涵盖语言选择、查词、保存、复习全流程。
+
+```mermaid
+flowchart LR
+    Start["启动 App"] --> Lang["选择语言\n20+ 可选"]
+    Lang --> Input["输入单词\n或双击取词"]
+    Input --> View["查看释义\n词典 + 形态"]
+    View --> Save["保存到生词本"]
+    Save --> Review["复习卡片\nSM-2 调度"]
+    Review --> Rate["评分\n0-5 等级"]
+    Rate --> Next["下一张卡片"]
+    Next -.-> Review
+```
+
+## 功能结构图
+
+Lumina 的功能模块按领域组织为五大分支，覆盖词典、记忆、AI、古典语言和系统设置。
+
+```mermaid
+mindmap
+  root((Lumina))
+    Dictionary 词典
+      multi_lang 多语言查询
+      offline 离线词典
+      online 在线词典
+      history 查询历史
+    SRS 间隔重复
+      sm2 SM-2 算法
+      cards 复习卡片
+      scoring 评分系统
+      queue 每日队列
+      stats 学习统计
+    AI 智能辅助
+      grammar 语法解析
+      examples 例句生成
+      translate 上下文翻译
+      multi_engine 多引擎切换
+    Classical 古典语言
+      sanskrit 梵语解析
+      german 德语形态
+      latin 拉丁语
+      pos 词性标注
+    Settings 设置
+      language 界面语言
+      ai_config AI 配置
+      theme 主题外观
+      export 数据导出
+```
+
+## 信息架构图
+
+应用页面结构，每个顶级页面包含独立的功能子模块。
+
+```mermaid
+mindmap
+  root((Pages))
+    Home 首页
+      daily_words 每日单词
+      review_summary 复习概览
+      streak 学习连续天数
+    Dictionary 词典
+      search_bar 搜索栏
+      definition 释义面板
+      morphology 形态分析
+      ai_panel AI 辅助
+    Vocabulary 生词本
+      word_list 词汇列表
+      tags 标签分类
+      filter 筛选排序
+      batch_ops 批量操作
+    Review 复习
+      card_front 卡片正面
+      card_back 卡片背面
+      score_buttons 评分按钮
+      progress 进度条
+    Settings 设置
+      general 通用设置
+      ai_engines AI 引擎
+      languages 语言管理
+      data 数据管理
+```
+
+## 状态流转图
+
+单词从首次查询到完全掌握的学习状态生命周期，每次复习评分驱动状态转换。
+
+```mermaid
+stateDiagram-v2
+    [*] --> New : 首次查询
+    New --> Saved : 保存到生词本
+    Saved --> Learning : 首次复习
+    Learning --> Unfamiliar : 评分 0-2
+    Learning --> Familiar : 评分 3-4
+    Unfamiliar --> Learning : 重新学习
+    Familiar --> Mastered : 连续高分
+    Familiar --> Unfamiliar : 评分下降
+    Mastered --> Review : 到期复习
+    Review --> Mastered : 评分 >= 3
+    Review --> Unfamiliar : 评分 < 3
+    Mastered --> [*] : 永久掌握
+```
+
+## 数据模型 ER 图
+
+SQLite 数据库核心表及其关系，涵盖单词、生词本、复习记录、词典源和用户设置。
+
+```mermaid
+erDiagram
+    words {
+        string id PK
+        string text
+        string language
+        string definition
+        string morphology
+        string pronunciation
+        string examples
+        datetime created_at
+    }
+    vocabulary {
+        string id PK
+        string word_id FK
+        string tags
+        float ease_factor
+        int interval_days
+        int repetitions
+        datetime next_review
+        datetime added_at
+    }
+    review_history {
+        string id PK
+        string vocab_id FK
+        int score
+        float prev_ef
+        float new_ef
+        int prev_interval
+        int new_interval
+        datetime reviewed_at
+    }
+    dictionaries {
+        string id PK
+        string name
+        string language
+        string type
+        string source_url
+        boolean enabled
+    }
+    settings {
+        string key PK
+        string value
+        string category
+        datetime updated_at
+    }
+    words ||--o{ vocabulary : "收录"
+    vocabulary ||--o{ review_history : "复习"
+    dictionaries ||--o{ words : "查询来源"
+```
+
+## 时序图
+
+一次典型查词流程的完整调用链路：从用户输入到界面呈现，展示前后端及外部服务的交互时序。
+
+```mermaid
+sequenceDiagram
+    actor User as 用户
+    participant UI as React 前端
+    participant IPC as Tauri IPC
+    participant Rust as Rust 后端
+    participant DB as SQLite
+    participant AI as AI 引擎
+
+    User->>UI: 输入单词
+    UI->>IPC: invoke lookup
+    IPC->>Rust: 词典查询
+    Rust->>DB: 检索缓存
+    alt 缓存命中
+        DB-->>Rust: 返回缓存释义
+    else 缓存未命中
+        Rust->>Rust: 在线词典请求
+        Rust->>DB: 写入缓存
+    end
+    Rust-->>IPC: 释义 + 形态数据
+    IPC-->>UI: 渲染释义面板
+    User->>UI: 请求 AI 语法分析
+    UI->>IPC: invoke ai_analyze
+    IPC->>Rust: 构建 Prompt
+    Rust->>AI: API 请求
+    AI-->>Rust: 语法解析结果
+    Rust-->>IPC: 返回分析
+    IPC-->>UI: 渲染 AI 面板
+    User->>UI: 点击保存
+    UI->>IPC: invoke save_word
+    IPC->>Rust: 写入生词本
+    Rust->>DB: INSERT vocabulary
+    DB-->>Rust: OK
+    Rust-->>IPC: 保存成功
+    IPC-->>UI: 更新 UI 状态
+```
+
+## 高保真原型
+
+以下是 Lumina 桌面应用的典型界面，展示词典查询与 AI 辅助面板的交互效果。
+
+<div style="background: #1e1e2e; border-radius: 8px; padding: 0; margin: 2rem 0; overflow: hidden; font-family: 'DM Mono', monospace; font-size: 0.78rem; line-height: 1.7; box-shadow: 0 4px 24px rgba(0,0,0,0.18);">
+  <div style="background: #181825; padding: 0.5rem 1rem; display: flex; align-items: center; gap: 0.5rem;">
+    <span style="width: 10px; height: 10px; border-radius: 50%; background: #e74c3c; display: inline-block;"></span>
+    <span style="width: 10px; height: 10px; border-radius: 50%; background: #f39c12; display: inline-block;"></span>
+    <span style="width: 10px; height: 10px; border-radius: 50%; background: #2ecc71; display: inline-block;"></span>
+    <span style="color: #6c7086; font-size: 0.7rem; margin-left: 0.5rem;">Lumina — Dictionary</span>
+  </div>
+  <div style="display: flex; min-height: 320px;">
+    <div style="width: 180px; background: #181825; padding: 1rem 0; border-right: 1px solid #313244;">
+      <div style="padding: 0.4rem 1rem; color: #cba6f7; font-size: 0.72rem; font-weight: bold; margin-bottom: 0.5rem;">LUMINA</div>
+      <div style="padding: 0.5rem 1rem; color: #cdd6f4; background: #313244; border-left: 2px solid #cba6f7; font-size: 0.72rem;">Dictionary</div>
+      <div style="padding: 0.5rem 1rem; color: #6c7086; font-size: 0.72rem;">Vocabulary</div>
+      <div style="padding: 0.5rem 1rem; color: #6c7086; font-size: 0.72rem;">Review</div>
+      <div style="padding: 0.5rem 1rem; color: #6c7086; font-size: 0.72rem;">Settings</div>
+      <div style="margin-top: 2rem; padding: 0.6rem 1rem; border-top: 1px solid #313244;">
+        <div style="color: #6c7086; font-size: 0.62rem;">TODAY</div>
+        <div style="color: #a6e3a1; font-size: 0.72rem;">12 words reviewed</div>
+        <div style="color: #f9e2af; font-size: 0.72rem;">5 due for review</div>
+      </div>
+    </div>
+    <div style="flex: 1; padding: 1.2rem 1.5rem;">
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+        <div style="flex: 1; background: #313244; border-radius: 6px; padding: 0.5rem 0.8rem; color: #cdd6f4; font-size: 0.78rem;">
+          <span style="color: #6c7086;">Search: </span>Wanderlust
+        </div>
+        <div style="background: #cba6f7; color: #1e1e2e; padding: 0.4rem 0.8rem; border-radius: 4px; font-size: 0.7rem;">DE</div>
+      </div>
+      <div style="background: #313244; border-radius: 6px; padding: 1rem; margin-bottom: 0.8rem;">
+        <div style="color: #cdd6f4; font-size: 1rem; margin-bottom: 0.3rem;">
+          <strong style="color: #cba6f7;">Wanderlust</strong>
+          <span style="color: #6c7086; font-size: 0.72rem; margin-left: 0.5rem;">die · Substantiv · feminin</span>
+        </div>
+        <div style="color: #a6adc8; font-size: 0.82rem; margin-bottom: 0.5rem;">
+          /ˈvandɐlʊst/ — Lust am Wandern; Freude am Reisen
+        </div>
+        <div style="color: #6c7086; font-size: 0.72rem; border-top: 1px solid #45475a; padding-top: 0.5rem;">
+          <span style="color: #89b4fa;">Morphologie:</span> Wander (wandern) + Lust (desire) · Kompositum
+        </div>
+      </div>
+      <div style="background: #313244; border-radius: 6px; padding: 1rem;">
+        <div style="color: #89b4fa; font-size: 0.72rem; margin-bottom: 0.5rem;">AI Grammar Analysis (Gemini)</div>
+        <div style="color: #a6adc8; font-size: 0.78rem; line-height: 1.6;">
+          <div><span style="color: #f9e2af;">Genus:</span> Femininum (die Wanderlust)</div>
+          <div><span style="color: #f9e2af;">Plural:</span> selten verwendet (die Wanderlüste)</div>
+          <div><span style="color: #f9e2af;">Beispiel:</span> <em style="color: #cdd6f4;">Die Wanderlust trieb ihn in ferne Länder.</em></div>
+          <div style="margin-top: 0.3rem; color: #6c7086; font-size: 0.68rem;">Auch im Englischen als Lehnwort gebräuchlich.</div>
+        </div>
+      </div>
+      <div style="display: flex; gap: 0.5rem; margin-top: 0.8rem;">
+        <div style="background: #a6e3a1; color: #1e1e2e; padding: 0.4rem 1rem; border-radius: 4px; font-size: 0.7rem;">Save to Vocabulary</div>
+        <div style="background: #45475a; color: #cdd6f4; padding: 0.4rem 1rem; border-radius: 4px; font-size: 0.7rem;">More Examples</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+## 技术栈
+
+| 层级 | 技术 | 说明 |
+|------|------|------|
+| **前端** | React · TypeScript · Vite | SPA 界面，组件化词典/复习模块 |
+| **桌面框架** | Tauri 2.0 | 跨平台打包，IPC 通信 |
+| **后端** | Rust | 词典引擎、形态分析、SRS 调度 |
+| **数据库** | SQLite | words, vocabulary, review_history |
+| **AI 引擎** | Gemini · DeepSeek · Qwen · Ollama | 语法解析、例句生成、翻译 |
+| **形态分析** | Python (FFI) | 梵语 Sandhi 拆分、词根还原 |
+| **构建** | Vite · Cargo · Tauri CLI | 前端热更新 + Rust 编译 |
+
+## 项目链接
+
+- [GitHub 仓库](https://github.com/HashBrowns-fries/Lumina)
+- [下载 Release](https://github.com/HashBrowns-fries/Lumina/releases)
+  </script>
+
+  <div class="post-content">
+    <div class="post-tags">
+      <span class="post-tag">Tauri 2.0</span>
+      <span class="post-tag">Rust</span>
+      <span class="post-tag">React</span>
+      <span class="post-tag">TypeScript</span>
+      <span class="post-tag">SQLite</span>
+      <span class="post-tag">SM-2</span>
+      <span class="post-tag">AI</span>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-copy">&copy; 2026 Chenhao Meng</div>
+    <div class="footer-links">
+      <a href="https://github.com/HashBrowns-fries" target="_blank">GitHub</a>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'base',
+      themeVariables: {
+        primaryColor: '#F3F0E8',
+        primaryTextColor: '#1C1C18',
+        primaryBorderColor: '#B4B0A8',
+        lineColor: '#7A7870',
+        secondaryColor: '#EDE9DF',
+        tertiaryColor: '#F9F7F2',
+        fontFamily: "'DM Mono', monospace",
+        fontSize: '13px'
+      }
+    });
+
+    async function renderPRD() {
+      const md = document.getElementById('prd-content').textContent;
+      const renderer = new marked.Renderer();
+      const originalCode = renderer.code.bind(renderer);
+
+      renderer.code = function({ text, lang }) {
+        if (lang === 'mermaid') {
+          return '<div class="mermaid">' + text + '</div>';
+        }
+        return '<pre><code>' + (text || '').replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</code></pre>';
+      };
+
+      marked.setOptions({ renderer: renderer, breaks: false, gfm: true });
+      document.getElementById('prd-rendered').innerHTML = marked.parse(md);
+
+      await mermaid.run({ querySelector: '.mermaid' });
+    }
+
+    renderPRD();
+
+    // ── Custom cursor (ring only, smooth follow) ─────────────
+    const cursor = document.querySelector('.cursor');
+    const lerp = (a, b, t) => a + (b - a) * t;
+    let mouseX = -100, mouseY = -100;
+    let curX = -100, curY = -100;
+    document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+    document.addEventListener('mouseleave', () => { cursor.style.opacity = '0'; });
+    document.addEventListener('mouseenter', () => { cursor.style.opacity = '0.45'; });
+    function animateCursor() {
+      curX = lerp(curX, mouseX, 0.14);
+      curY = lerp(curY, mouseY, 0.14);
+      cursor.style.left = curX + 'px';
+      cursor.style.top  = curY + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+  </script>
+
+</body>
+</html>

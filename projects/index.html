@@ -242,7 +242,7 @@
 
     <div class="projects-stats">
       <div>
-        <div class="projects-stat-num">5</div>
+        <div class="projects-stat-num">6</div>
         <div class="projects-stat-label">Projects & Code</div>
       </div>
       <div>
@@ -256,18 +256,29 @@
     </div>
 
     <div class="tab-bar" id="projectsTabBar">
-      <button class="tab-btn active" data-tab="all">All <span class="tab-count">5</span></button>
-      <button class="tab-btn" data-tab="projects">Projects <span class="tab-count">2</span></button>
+      <button class="tab-btn active" data-tab="all">All <span class="tab-count">6</span></button>
+      <button class="tab-btn" data-tab="projects">Projects <span class="tab-count">3</span></button>
       <button class="tab-btn" data-tab="papers">Papers <span class="tab-count">1</span></button>
-      <button class="tab-btn" data-tab="code">Code <span class="tab-count">3</span></button>
+      <button class="tab-btn" data-tab="code">Code <span class="tab-count">4</span></button>
     </div>
 
     <div class="projects-grid" id="projectsGrid">
 
+
       <div class="project-card" data-category="projects" data-visible="true">
         <div class="project-num">01</div>
+        <h3 class="project-title">Reddy — XHS Intelligence Agent</h3>
+        <p class="project-desc">小红书情报监控智能体，Auto OCR + Hermes ReAct Agent。Node.js CLI（表现层）→ Python Agent（核心层）JSON-RPC 松耦合，25 工具 + Memory 向量检索系统。</p>
+        <div class="project-tech">
+          <span>Node.js</span><span>Python</span><span>ReAct Agent</span><span>OCR</span><span>JSON-RPC</span><span>Memory</span>
+        </div>
+        <a href="https://github.com/HashBrowns-fries/Reddy" class="project-link" target="_blank">GitHub ↗</a>
+      </div>
+
+      <div class="project-card" data-category="projects" data-visible="true">
+        <div class="project-num">02</div>
         <h3 class="project-title">Lumina — Intelligent Language Learning App</h3>
-        <p class="project-desc">Modern desktop application for language learning with intelligent dictionary, morphology analysis, and spaced repetition system. Powered by Tauri 2.0 + Rust backend, supporting German, English, Sanskrit and 20+ languages.</p>
+        <p class="project-desc">Tauri 2.0 + Rust 桌面端多语言学习应用。支持 20+ 语言、德语/梵语形态解析、SM-2 间隔重复、多 AI 引擎（Gemini · DeepSeek · Qwen · Ollama）。</p>
         <div class="project-tech">
           <span>Tauri 2.0</span><span>Rust</span><span>React</span><span>TypeScript</span><span>SQLite</span><span>Python</span>
         </div>
@@ -276,9 +287,9 @@
       </div>
 
       <div class="project-card" data-category="projects" data-visible="true">
-        <div class="project-num">02</div>
+        <div class="project-num">03</div>
         <h3 class="project-title">Canvas2Note — SJTU Course Note Pipeline</h3>
-        <p class="project-desc">上海交通大学课程录屏 → 语音转写 → AI 整理笔记全流程工具。支持课程文件下载、录播下载、直播实时转写（FunASR）、PPT 幻灯片 VLM 分析、Markdown 笔记生成、LLM 对话。</p>
+        <p class="project-desc">SJTU 全链路课程笔记自动化。Canvas API 课件下载 → 5 引擎语音转写（FunASR SenseVoice · faster-whisper · Qwen3-ASR）→ VLM PPT 视觉分析 → LLM 融合生成 Markdown。直播实时转写 + QR 监控 + Tauri 桌面应用。</p>
         <div class="project-tech">
           <span>Python</span><span>FastAPI</span><span>React</span><span>Vite</span><span>Tailwind</span><span>FunASR</span><span>Qwen3-VL</span>
         </div>
@@ -286,7 +297,7 @@
       </div>
 
       <div class="project-card" data-category="code" data-visible="true">
-        <div class="project-num">03</div>
+        <div class="project-num">04</div>
         <h3 class="project-title">LLM Judge — Chinese Grammar Evaluation System</h3>
         <p class="project-desc">评估大语言模型对中文代词指代、省略、量词逻辑等语法现象的判断能力。研究 Scaling Law、LoRA 微调与 Token Fertility。</p>
         <div class="project-tech">
@@ -296,7 +307,7 @@
       </div>
 
       <div class="project-card" data-category="code" data-visible="true">
-        <div class="project-num">04</div>
+        <div class="project-num">05</div>
         <h3 class="project-title">TibSplit — Classical Tibetan Morphological Analyzer</h3>
         <p class="project-desc">基于 BERT-CRF 的古典藏文形态学解析系统，支持细粒度 POS 标注（77 类）、格助词分析、Gemma 分词、RAG 佛典问答与 SRS 助词复习。</p>
         <div class="project-tech">
@@ -306,7 +317,7 @@
       </div>
 
       <div class="project-card" data-category="code" data-visible="true">
-        <div class="project-num">05</div>
+        <div class="project-num">06</div>
         <h3 class="project-title">Poetry Crystallization — Semantic Space in Classical Chinese Poetry</h3>
         <p class="project-desc">课程论文配套研究。核心发现：体裁形式是中国古典诗歌语义空间的第一组织力量，朝代效应是体裁效应的副产品。基于 111 万首古典诗歌语料，BERT-CCPoem + t-SNE + PERMANOVA + Louvain 社区检测。</p>
         <div class="project-tech">
